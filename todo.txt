@@ -1,0 +1,15 @@
++ cookie üzenet
++ utas menü
++ hirdetés feladás
++ hirdetés keresés
++ user menü mellett kis avatár
++ facebook reggelés
++ üzenetek keresése
++ út megjelenítése térképen
+- HERE Maps Geocoding service
++ Köztes útponthoz dátum mentés
++ Köztes út <-> template működik?
+- Adatbázis kiürítése command
+- Flash üzenetek
+- Progress
+-

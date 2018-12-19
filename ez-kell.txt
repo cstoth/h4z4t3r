@@ -1,0 +1,28 @@
+Közösségi interaktív webes kommunikációs felület. A HazaTér interaktív közösségi közlekedés-támogató rendszer segítségével az egyéni és közösségi közlekedés térségi összehangolása valósul meg, az a szolgáltatás színvonalát és az utazási élményt az utazási költségek csökkentése mellett növelve az információs csatornák innovatív használatával.
+Megvalósítandó funkciók:
+    • regisztrációs/bejelentkező felület e-mail cím és jelszó megadásával, vagy Facebook fiók használatával
+    • elfelejtett jelszó kiküldése
+    • utas/autós profil létrehozása és szerkesztése 
+    • utas profil mezői: 
+	- név,
+        ◦ e-mail cím,
+        ◦ jelszó,
+        ◦ telefonszám
+    • autós profil mezői:	
+        ◦ rendszám,
+        ◦ gyártmány,
+        ◦ típus,
+        ◦ szín,
+        ◦ évjárat,
+        ◦ maximális utaslétszám,
+        ◦ klíma (igen/nem),
+        ◦ kisállat szállítás (igen/nem),
+        ◦ csomagszállítás (igen/nem),
+        ◦ fénykép feltöltés (1 db fénykép a gépjárműről)
+    • autós út meghirdetése - indulási hely, érkezési hely, köztes állomások megadása, indulás időpontja, utasok létszáma, rendszeres utak kezelése/lementése sablonba, egyéb megjegyzés írás
+    • autós saját hirdetések kezelése - hirdetés módosítása, törlése
+    • keresés - a meghirdetett utak közti keresés különböző szűrőkkel (időpont, hely, hirdető neve)
+    • út foglalása, autós automatikus értesítése e-mailben
+    • autós utas listája adatokkal – utas neve, e-mail címe, telefonszáma
+    • útvonalak digitális térképes megjelenítése  
+    • reszponzív, mobilra optimalizált felület

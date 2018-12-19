@@ -550,7 +550,7 @@ var hiddenDate = $("#hidden-date").bootstrapMaterialDatePicker({
     //switchOnClick: true,
     time: false,
 }).on('change', function(e, d) {
-    console.log(d);
+    //console.log(d);
     var date = new Date(d);
     var year = date.getFullYear();
     var month = date.getMonth() + 1;

@@ -287,13 +287,37 @@
 
 @section('scripts')
     <script>
+        var x1 = null;
+        var y1 = null;
+        var x2 = null;
+        var y2 = null;
+
         $(function () {
-            $(window).on('resize', function(){
+            $(window).on('resize', function() {
                 $("#step-1, #step-2").connections("update");
                 $("#step-2, #step-3").connections("update");
             });
 
-            $(".datum").datepicker($.datepicker.regional["hu"]);
+            //$(".datum").datepicker($.datepicker.regional["hu"]);
+            $("#searchDate").bootstrapMaterialDatePicker({
+                format: 'YYYY.MM.DD HH:mm',
+                lang: 'hu',
+                weekStart: 1,
+                cancelText: 'Mégsem',
+                minDate: dateToday,
+                //switchOnClick: true,
+                time: false,
+            }).on('change', function(e, d) {
+                //console.log(d);
+                var date = new Date(d);
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var day = date.getDate();
+                // var hour = date.getHours();
+                // var min = date.getMinutes();
+                date = year + "." + month + "." + day;
+                $('#searchDate').val(date);
+            });
 
             $('.typeahead-start-city').typeahead({
                 source: function (query, process) {
@@ -313,6 +337,69 @@
         });
 
         var mapIndex = makeMap('mapContainerIndex', mapInitCenter);
+
+        function setSearchPoint(coord, input) {
+            geocodingService.reverseGeocode({
+                prox: '' + coord.lat + ',' + coord.lng + ',0',
+                mode: 'retrieveAddresses',
+                maxresults: 1,
+            },
+            function(result) {
+                var city = result.Response.View[0].Result[0].Location.Address.City;
+                if (input == 'start') {
+                    console.log('Kezdőpont', city, coord);
+                    $('#searchStartCity').val(city);
+                    x1 = coord.lat;
+                    y1 = coord.lng;
+                } else {
+                    console.log('Célpont', city, coord);
+                    $('#searchEndCity').val(city);
+                    x2 = coord.lat;
+                    y2 = coord.lng;
+                }
+                calcRoute(mapIndex, x1, y1, x2, y2);
+            },
+            function(error) { 
+                console.log(error.message);
+            });
+        }
+
+        mapIndex.addEventListener('contextmenu', function(e) {
+            var index_map_coord = mapIndex.screenToGeo(e.viewportX, e.viewportY);
+            //console.log(index_map_coord);
+
+            e.items.push(new H.util.ContextItem({
+                label: 'Kezdőpont innen',
+                callback: function() {
+                    setSearchPoint(index_map_coord, 'start');
+                },
+            }));
+            // e.items.push(new H.util.ContextItem({
+            //     label: 'Köztes megálló itt',
+            //     callback: function() { console.log('Megálló'); }
+            // }));
+            e.items.push(new H.util.ContextItem({
+                label: 'Célpont ide',
+                callback: function() {
+                    setSearchPoint(index_map_coord, 'end');
+                },
+            }));
+            e.items.push(H.util.ContextItem.SEPARATOR);
+            e.items.push(new H.util.ContextItem({
+                label: 'Nagyítás',
+                callback: function(evt) {
+                    mapIndex.setCenter(index_map_coord, true);
+                    mapIndex.setZoom(mapIndex.getZoom() + 1, true);
+                }
+            }));
+            e.items.push(new H.util.ContextItem({
+                label: 'Kicsinyítés',
+                callback: function() {
+                    mapIndex.setCenter(index_map_coord, true);
+                    mapIndex.setZoom(mapIndex.getZoom() - 1, true);
+                }
+            }));
+        });
 
         // Ez legyen a végén!
         $("#step-1, #step-2").connections();

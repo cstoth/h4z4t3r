@@ -40,7 +40,7 @@ $(".date").bootstrapMaterialDatePicker({
     weekStart: 1,
     cancelText: 'Mégsem',
     minDate: dateToday,
-    switchOnClick: true,
+    //switchOnClick: true,
 });
 
 swal = swal.mixin({
@@ -149,13 +149,29 @@ var svgStartPoint = new H.map.Icon('<svg xmlns="http://www.w3.org/2000/svg" xmln
     '<path d="M256,0C167.641,0,96,71.625,96,160c0,24.75,5.625,48.219,15.672,69.125C112.234,230.313,256,512,256,512l142.594-279.375   C409.719,210.844,416,186.156,416,160C416,71.625,344.375,0,256,0z M256,256c-53.016,0-96-43-96-96s42.984-96,96-96   c53,0,96,43,96,96S309,256,256,256z" fill="#91DC5A"/>' +
     '</g></svg>');
 
-var svgMidPoint = new H.map.Icon('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g>' +
+var svgMidPoint = new H.map.Icon('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_2" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g>' +
     '<path d="M256,0C167.641,0,96,71.625,96,160c0,24.75,5.625,48.219,15.672,69.125C112.234,230.313,256,512,256,512l142.594-279.375   C409.719,210.844,416,186.156,416,160C416,71.625,344.375,0,256,0z M256,256c-53.016,0-96-43-96-96s42.984-96,96-96   c53,0,96,43,96,96S309,256,256,256z" fill="#006DF0"/>' +
     '</g></svg>');
 
-var svgEndPoint = new H.map.Icon('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g>' +
+var svgEndPoint = new H.map.Icon('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_3" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g>' +
     '<path d="M256,0C167.641,0,96,71.625,96,160c0,24.75,5.625,48.219,15.672,69.125C112.234,230.313,256,512,256,512l142.594-279.375   C409.719,210.844,416,186.156,416,160C416,71.625,344.375,0,256,0z M256,256c-53.016,0-96-43-96-96s42.984-96,96-96   c53,0,96,43,96,96S309,256,256,256z" fill="#D80027"/>' +
     '</g></svg>');
+
+// var svgCircle = new H.map.Icon('<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 438.533 438.533" style="enable-background:new 0 0 438.533 438.533;" xml:space="preserve">' +
+//     '<g><path d="M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0' +
+// 	'c-39.781,0-76.47,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267' +
+// 	'c0,39.78,9.804,76.463,29.407,110.062c19.607,33.592,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407' +
+// 	's76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.596,29.403-70.284,29.403-110.062' +
+// 	'C438.533,179.485,428.732,142.795,409.133,109.203z M353.742,297.208c-13.894,23.791-32.736,42.633-56.527,56.534' +
+// 	'c-23.791,13.894-49.771,20.834-77.945,20.834c-28.167,0-54.149-6.94-77.943-20.834c-23.791-13.901-42.633-32.743-56.527-56.534' +
+// 	'c-13.897-23.791-20.843-49.772-20.843-77.941c0-28.171,6.949-54.152,20.843-77.943c13.891-23.791,32.738-42.637,56.527-56.53' +
+// 	'c23.791-13.895,49.772-20.84,77.943-20.84c28.173,0,54.154,6.945,77.945,20.84c23.791,13.894,42.634,32.739,56.527,56.53' +
+// 	'c13.895,23.791,20.838,49.772,20.838,77.943C374.58,247.436,367.637,273.417,353.742,297.208z"/></g></svg>');
+
+var svgCircle = new H.map.Icon('<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="44.238px" height="44.238px" viewBox="0 0 44.238 44.238" style="enable-background:new 0 0 44.238 44.238;" xml:space="preserve">' +
+    '<g><g><path d="M22.119,44.237C9.922,44.237,0,34.315,0,22.12C0,9.924,9.922,0.001,22.119,0.001S44.238,9.923,44.238,22.12S34.314,44.237,22.119,44.237z M22.119,1.501C10.75,1.501,1.5,10.751,1.5,22.12s9.25,20.619,20.619,20.619s20.619-9.25,20.619-20.619S33.488,1.501,22.119,1.501z"/>' +
+	'<g><path d="M31.434,22.869H12.805c-0.414,0-0.75-0.336-0.75-0.75s0.336-0.75,0.75-0.75h18.628c0.414,0,0.75,0.336,0.75,0.75S31.848,22.869,31.434,22.869z"/></g>' +
+	'<g><path d="M22.119,32.183c-0.414,0-0.75-0.336-0.75-0.75V12.806c0-0.414,0.336-0.75,0.75-0.75s0.75,0.336,0.75,0.75v18.626C22.869,31.847,22.533,32.183,22.119,32.183z"/></g></g></g></svg>');
 
 function delMapObjects(map) {
     var objects = map.getObjects();
@@ -203,6 +219,20 @@ var showCalculatedRoute = function(route, map) {
         map.setViewBounds(routeLine.getBounds(), true); // Set the map's viewport to make the whole route visible:
     }
 };
+var geocodingService = platform.getGeocodingService();
+// function findCity(x, y) {
+//     geocodingService.reverseGeocode({
+//         prox: '' + x + ',' + y + ',0',
+//         mode: 'retrieveAddresses',
+//         maxresults: 1,
+//     },
+//     function(result) {
+//         cityFound = result.Response.View[0].Result[0].Location.Address.City;
+//     },
+//     function(error) { 
+//         console.log(error.message);
+//     });
+// }
 var routingService = platform.getRoutingService();
 Number.prototype.toKM = function () {
     return Math.floor(this / 1000)  +' km';

@@ -16,8 +16,8 @@ class ModifyAdvertisesTable extends Migration
         Schema::table('advertises', function (Blueprint $table) {
             $table->unsignedInteger('start_city_id')->comment('Indulási hely');
             $table->unsignedInteger('end_city_id')->comment('Érkezési hely');
-            $table->timestamp('start_date')->comment('Indulási időpont');
-            $table->timestamp('end_date')->comment('Érkezési időpont');
+            $table->timestamp('start_date')->comment('Indulási időpont')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('end_date')->comment('Érkezési időpont')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->tinyInteger('free_seats')->comment('Szabad ülések száma')->default(0);
             $table->boolean('retour')->comment('Oda-vissza')->default(false);
             $table->string('description')->comment('Megjegyzés')->nullable();

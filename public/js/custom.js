@@ -20,13 +20,16 @@ $.datepicker.setDefaults($.datepicker.regional['hu']);
 
 var dateToday = new Date();
 console.log(dateToday);
+function pad2(number) {
+    return (number < 10 ? '0' : '') + number
+ }
 function formattedDate(date = dateToday) {
     var year = date.getFullYear();
-    var month = date.getMonth() + 1;
+    var month = (date.getMonth() + 1);
     var day = date.getDate();
     var hour = date.getHours();
     var min = date.getMinutes();
-    return year + "." + month + "." + day + " " + hour + ":" + min;
+    return "" + year + "." + pad2(month) + "." + pad2(day) + " " + pad2(hour) + ":" + pad2(min);
 }
 // $(".date").datepicker({
 //     //showButtonPanel: true,
@@ -286,3 +289,10 @@ function calcRoute(map, sx, sy, ex, ey, mps = [], div = null, highway=true) {
 }
 
 $('[data-role="tags-input"]').tagsInput();
+
+if (!Date.prototype.addMinutes) {
+    Date.prototype.addMinutes = function(m) {
+        this.setMinutes(this.getMinutes() + m);
+        return this;
+    };
+}

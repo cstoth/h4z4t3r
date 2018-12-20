@@ -3,7 +3,10 @@
 @section('title', __('labels.backend.datasets.advertise.management') . ' | ' . __('labels.backend.datasets.advertise.edit'))
 
 @section('content')
-{{ html()->modelForm($advertise, 'PATCH', route('frontend.datasets.advertise.update', $advertise))->class('form-horizontal')->attribute("autocomplete","off")->open() }}
+<!-- {{ html()->modelForm($advertise, 'PATCH', route('frontend.datasets.advertise.update', $advertise))->class('form-horizontal')->attribute("autocomplete","off")->open() }} -->
+<form method="POST" action="{{route('frontend.datasets.advertise.update', $advertise)}}" autocomplete="off" class="form-horizontal" onsubmit="return validateAdvertiseForm()">
+    <input type="hidden" name="_method" id="_method" value="PATCH">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="card">
         <div class="card-body">
             <div class="row">

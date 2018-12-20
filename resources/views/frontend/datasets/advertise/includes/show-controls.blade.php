@@ -214,14 +214,14 @@
 
     <div class="col">
         <div class="form-group row mt-4">
-            <label for="price" class="col-form-label mr-2">Úti költség</label>
+            <label for="price" class="col-form-label col-md-2 mr-2">Úti költség</label>
             <input type="number" class="form-control mr-2 col-md-1" id="price" name="price" value="{{$advertise->price}}" readonly>
             <span class="col-form-label">Ft/fő</span>
         </div>
     </div>
     <div class="col">
         <div class="form-group row mt-4">
-            <label for="hours" class="col-form-label mr-2">Út lemondása</label>
+            <label for="hours" class="col-form-label col-md-2 mr-2">Út lemondása</label>
             <input type="number" class="form-control mr-2 col-md-1" id="hours" name="hours" value="{{$advertise->hours}}" readonly>
             <span class="col-form-label mr-3">óra</span>
             <em class="col-form-label">(Megadhatja, hogy az utas az indulás előtt mennyivel mondhatja még le az utat.)</em>

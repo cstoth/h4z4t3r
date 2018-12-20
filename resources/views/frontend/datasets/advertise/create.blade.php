@@ -18,7 +18,7 @@
 
 {{ html()->form()->close() }}
 
-<form method="POST" action="{{route('frontend.advertise')}}" class="form-horizontal" autocomplete="off">
+<form method="POST" action="{{route('frontend.advertise')}}" class="form-horizontal" autocomplete="off" onsubmit="return validateAdvertiseForm()">
 {{ csrf_field() }}
 
 @include('frontend.datasets.advertise.includes.form-controls')
@@ -42,3 +42,11 @@
 </div>
 
 {{ html()->form()->close() }}
+
+@push('after-scripts')
+<script type="text/javascript">
+console.log("advertise-create-1");
+
+console.log("advertise-create-2");
+</script>
+@endpush

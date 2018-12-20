@@ -129,33 +129,6 @@
                     avatar_location.hide();
                 }
             });
-
-            // $("#profile-delete").on('click', function() {
-            //     swal({
-            //         title: "Végleges törlés.\nValóban törli a fiókját?",
-            //         showCancelButton: true,
-            //         confirmButtonText: "Törlés",
-            //         cancelButtonText: "Mégsem",
-            //         type: 'warning'
-            //     }).then((result) => {
-            //         if (result.value) {
-            //             $.ajax({
-            //                 headers: {
-            //                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //                 },
-            //                 method: 'DELETE',
-            //                 url: "profile/delete/{{ $logged_in_user->id }}",
-            //                 type: 'DELETE',
-            //                 success: function(data) {
-            //                     console.log(data);
-            //                 },
-            //                 error: function(e) {
-            //                     console.log(e);
-            //                 }
-            //             });
-            //         }
-            //     });
-            // });
         });
     </script>
 @endpush

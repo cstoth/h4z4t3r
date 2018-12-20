@@ -7,11 +7,38 @@
         .mylink:hover {
             text-decoration: underline;
         }
+        .date-error {
+            border-color: red;
+        }
+        .startDate .error-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #f27474;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 22px;
+            left: 105%;
+        }
+        .startDate .error-text::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #f27474 transparent transparent;
+        }
     </style>
 @endpush
 
 <span class="d-block p-2 bg-group text-black mt-3 mb-3">{{ __('dashboard.driver.submit-ad.1 Car Datas') }}</span>
 
+<!-- FREE_SEATS -->
 <div class="form-row">
     <div class="col-xs-12 col-md-3">
         <label for="car_id">{{ __('dashboard.driver.submit-ad.License Number') }}</label>
@@ -33,11 +60,10 @@
 </div>
 
 <span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.2 Route, Date') }}</span>
-
 <div class="row">
-
 <div class="col-xs-12 col-lg-6">
 
+<!-- START -->
 <div class="form-row">
     <div class="col-md-8">
         <label for="start_city">{{ __('dashboard.driver.submit-ad.Start Place') }}</label>
@@ -47,15 +73,17 @@
 
     <div class="col-md-4">
         <label for="start_date">{{ __('dashboard.driver.submit-ad.Start Date') }}</label>
-        <div class='input-group'>
-            <input type='text' id="start_date" name="start_date" class="form-control date" autocomplete="off" required/>
-            <span class="input-group-addon">
+        <div class='startDate'>
+            <input type='text' id="start_date" name="start_date" class="form-control date" autocomplete="off" value="{{\App\Helpers\Hazater::formatDate($advertise->start_date)}}" required/>
+            <span id="start-date-error" class="error-text">@lang("alerts.backend.advertise.dates-error")</span>
+            <!-- <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
-            </span>
+            </span> -->
         </div>
     </div>
 </div>
 
+<!-- MIDPOINTS -->
 <div class="form-row mt-2 mb-2">
     <div class="col">
         <table id="midpoints" class="col-12"><tr><th width="100%"></th><th></th></tr></table>
@@ -63,6 +91,7 @@
     </div>
 </div>
 
+<!-- END -->
 <div class="form-row">
     <div class="col-md-8">
         <label for="end_city">{{ __('dashboard.driver.submit-ad.Target Place') }}</label>
@@ -73,20 +102,22 @@
     <div class="col-md-4">
         <label for="end_date">{{ __('dashboard.driver.submit-ad.Target Date') }}</label>
         <div class='input-group'>
-            <input type='text' id="end_date" name="end_date" class="form-control date" autocomplete="off" required/>
-            <span class="input-group-addon">
+            <input type='text' id="end_date" name="end_date" class="form-control date" autocomplete="off" value="{{\App\Helpers\Hazater::formatDate($advertise->end_date)}}" required/>
+            <!-- <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
-            </span>
+            </span> -->
         </div>
     </div>
 </div>
 
+<!-- RETOUR -->
 <div class="form-row mt-2 mb-2">
     <div class="col">
         {{ html()->checkbox('retour',$advertise->retour) }} Oda-vissza út
     </div>
 </div>
 
+<!-- DESCRIPTION -->
 <div class="form-row mt-2 mb-2">
     <div class="col">
         <label for="description">Megjegyzés</label><em>&nbsp;(pl. egyéb fontos információk, indulási helyszín)</em>
@@ -96,6 +127,7 @@
 
 </div>
 
+<!-- MAP -->
 <div class="col-xs-12 col-lg-6">
     Ajánlott útvonal<span style="float:right"><input type="checkbox" id="highway" name="highway" {{$advertise->highway ? "checked" : ""}}>Autópálya</span>
     <div class="panel panel-default map-panel" id="mapContainerForm" name="mapContainerForm" style="width: 100%; height: 314px;"></div>
@@ -106,6 +138,7 @@
 
 <span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.3 Publish Ad') }}</span>
 
+<!-- PUBLISH -->
 <div class="form-row" id="radio-tab">
     <div class="col">
         <div class="form-check form-check-inline">
@@ -118,7 +151,6 @@
         </div>
     </div>
 </div>
-
 <div id="radio-tab-content" class="tab-content mt-3">
     <div id="regular-tab" class="tab-pane fade active show">
         <div class="form-row">
@@ -178,16 +210,19 @@
     </div>
 </div>
 
+<!-- PRICE -->
 <div class="col">
     <div class="form-group row mt-4">
-        <label for="price" class="col-form-label mr-2">Úti költség</label>
+        <label for="price" class="col-form-label col-md-2 mr-2">Úti költség</label>
         <input id="price" name="price" type="number" class="form-control mr-2 col-md-1" min="0" value="{{$advertise->price}}">
         <span class="col-form-label">Ft/fő</span>
     </div>
 </div>
+
+<!-- HOURS -->
 <div class="col">
     <div class="form-group row mt-4">
-        <label for="hours" class="col-form-label mr-2">Út lemondása</label>
+        <label for="hours" class="col-form-label col-md-2 mr-2">Út lemondása</label>
         <input id="hours" name="hours" type="number" class="form-control mr-2 col-md-1" min="0" value="{{$advertise->hours}}">
         <span class="col-form-label mr-3">óra</span>
         <em class="col-form-label">(Megadhatja, hogy az utas az indulás előtt mennyivel mondhatja még le az utat.)</em>
@@ -209,7 +244,6 @@ var midPoints = [];
 var dates = [];
 
 function setCityAutocomplete(control, city, city_id) {
-    //console.log(control);
     control.typeahead({
         source: function (query, process) {
             return $.get("{{ route('frontend.search.city') }}", {
@@ -239,12 +273,10 @@ $('#retour').val({!! $advertise->retour ? '1' : '0' !!});
 $('#publish-regular').click(function(){
     $('#unique-tab').removeClass("active show");
     $('#regular-tab').addClass("active show");
-    //$('#regular-tab').tab('show');
 });
 $('#publish-unique').click(function(){
     $('#regular-tab').removeClass("active show");
     $('#unique-tab').addClass("active show");
-    //$('#unique-tab').tab('show');
 });
 $('#save-template').click(function(){
     if($(this).is(':checked')) {
@@ -253,10 +285,6 @@ $('#save-template').click(function(){
         $('#sablon-save').prop('disabled', true);
     }
 });
-
-function random(max) {
-    return 1 + Math.floor(Math.random() * Math.floor(max));
-}
 
 function getCar(id) {
     for (var i = 0; i < cars.length; i++) {
@@ -267,7 +295,6 @@ function getCar(id) {
     }
     return 0;
 }
-
 function makeNumList(cnt) {
     var arr = [];
     for (var i = 1; i <= cnt; i++) {
@@ -275,7 +302,6 @@ function makeNumList(cnt) {
     }
     return arr.reverse();
 }
-
 $('#car').on('change', function(e) {
     var id = $('#car').val();
     $('#car_id').attr('value', id);
@@ -298,6 +324,42 @@ $('.typeahead-end-city').typeahead({
             return process(data);
         }).fail(function (error){console.log(error)});
     }
+});
+
+$('#start_city').on('change', function(e) {
+    console.log("startCityChange");
+    var startCity = $('#start_city').val();
+    console.log(startCity);
+    $.get("{{ route('frontend.city.query') }}", {name: startCity}, function (data) {
+        console.log(data);
+        if (data.length > 0) {
+            startCity = data[0];
+            $('#start_city_id').attr('value', startCity.id);
+            x1 = startCity.y;
+            y1 = startCity.x;
+        } else {
+            $('#start_city_id').attr('value', undefined);
+            x1 = undefined;
+            y1 = undefined;
+        }
+        callRouteCalculation();
+    }).fail(function (error){console.log(error)});
+});
+$('#end_city').on('change', function(e) {
+    var endCity = $('#end_city').val();
+    $.get("{{ route('frontend.city.query') }}", {name: endCity}, function (data) {
+        if (data.length > 0) {
+            endCity = data[0];
+            $('#end_city_id').attr('value', endCity.id);
+            x2 = endCity.y;
+            y2 = endCity.x;
+        } else {
+            $('#end_city_id').attr('value', null);
+            x2 = undefined;
+            y2 = undefined;
+        }
+        callRouteCalculation();
+    }).fail(function (error){console.log(error)});
 });
 
 function deleteMidpoint(id) {
@@ -368,42 +430,6 @@ $('#koztes-hely').on('click', function() {
     }
 });
 
-$('#start_city').on('change', function(e) {
-    console.log("startCityChange");
-    var startCity = $('#start_city').val();
-    console.log(startCity);
-    $.get("{{ route('frontend.city.query') }}", {name: startCity}, function (data) {
-        console.log(data);
-        if (data.length > 0) {
-            startCity = data[0];
-            $('#start_city_id').attr('value', startCity.id);
-            x1 = startCity.y;
-            y1 = startCity.x;
-        } else {
-            $('#start_city_id').attr('value', undefined);
-            x1 = undefined;
-            y1 = undefined;
-        }
-        callRouteCalculation();
-    }).fail(function (error){console.log(error)});
-});
-$('#end_city').on('change', function(e) {
-    var endCity = $('#end_city').val();
-    $.get("{{ route('frontend.city.query') }}", {name: endCity}, function (data) {
-        if (data.length > 0) {
-            endCity = data[0];
-            $('#end_city_id').attr('value', endCity.id);
-            x2 = endCity.y;
-            y2 = endCity.x;
-        } else {
-            $('#end_city_id').attr('value', null);
-            x2 = undefined;
-            y2 = undefined;
-        }
-        callRouteCalculation();
-    }).fail(function (error){console.log(error)});
-});
-
 function getTemplate(id) {
     for (var i = 0; i < templates.length; i++) {
         var template = templates[i];
@@ -435,8 +461,6 @@ function initDays() {
     checkButtons(days);
 }
 function checkButtons(days = null) {
-    //console.log("checkButtons");
-
     var cnt = 0;
     if ($('#publish-regular').is(":checked")) {
         for (var i = 0; i < 8; i++) {
@@ -575,19 +599,53 @@ $('#highway:checkbox').change(function (e) {
 
 callRouteCalculation();
 
+//var start_date;
 $('#start_date').on('change', function(e) {
-    var date = $('#start_date').val();
-    $('#end_date').bootstrapMaterialDatePicker('setMinDate', date);
+    var date1 = $('#start_date').val();
+    $('#end_date').bootstrapMaterialDatePicker('setMinDate', date1);
+    checkDates();
+});
+$('#end_date').on('change', function(e) {
     var date2 = $('#end_date').val();
+    $('#start_date').bootstrapMaterialDatePicker('setMaxDate', date2);
 });
-// $('#start_city_id').on('change', function(e) {
-// });
 
+function initDates() {
+    var date1 = $('#start_date').val();
+    var date2 = $('#end_date').val();
+    if (date2 <= date1) {
+        $('#end_date').val(formattedDate(new Date(date1).addMinutes(1)));
+    }
+}
+function checkDates() {
+    $('#start_date').removeClass("date-error");
+    $('#start-date-error').css('visibility', 'hidden');
+    var date1 = $('#start_date').val();
+    var date2 = $('#end_date').val();
+    if (date2 <= date1) {
+        $('#start_date').addClass("date-error");
+        $('#start-date-error').css('visibility', 'visible');
+        return false;
+    }
+    return true;
+}
 $(function() {
-    $('#start_date').val("{{ \App\Helpers\Hazater::formatDate($advertise->start_date) }}");
-    $('#end_date').val("{{ \App\Helpers\Hazater::formatDate($advertise->end_date) }}");
+    // $('#start_date').val("{{ \App\Helpers\Hazater::formatDate($advertise->start_date) }}");
+    // $('#end_date').val("{{ \App\Helpers\Hazater::formatDate($advertise->end_date) }}");
     initDays();
+    initDates();
+    checkDates();
 });
+
+function validateAdvertiseForm() {
+    console.log("validate form ");
+    var ret = checkDates();
+    setTimeout(function() {
+        console.log("timer");
+        $('button[type="submit"]').removeAttr('disabled');
+    }, 1000);
+    return ret;
+}
 
 console.log("advertise-form-2");
 

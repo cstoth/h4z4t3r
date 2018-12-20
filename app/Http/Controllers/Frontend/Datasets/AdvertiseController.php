@@ -163,7 +163,7 @@ class AdvertiseController extends Controller
         //dd($request);
 
         if ($request['start_date'] >= $request['end_date']) {
-            return redirect()->route('frontend.datasets.advertise.edit', $advertise)->withFlashDanger("Az érkezés későbbre kell essen mint az indulás!");
+            return redirect()->route('frontend.datasets.advertise.edit', $advertise)->withFlashDanger(__("alerts.backend.advertise.dates-error"));
         }
         if (($request['publish_options'] == 'unique') && ($request['dates'] == null)) {
             return redirect()->route('frontend.datasets.advertise.edit', $advertise)->withFlashDanger("Egyedi gyakoriságú útnál meg kell adni legalább egy dátumot!");

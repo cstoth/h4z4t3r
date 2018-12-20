@@ -163,7 +163,7 @@ class AdvertiseController extends Controller
         $start_date = Input::get('start_date');
         $end_date = Input::get('end_date');
         if ($start_date >= $end_date) {
-            return $this->redirTab(1)->withFlashDanger("Az érkezés későbbre kell essen mint az indulás!");
+            return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.dates-error"));
         }
 
         $publish_options = Input::get('publish_options');

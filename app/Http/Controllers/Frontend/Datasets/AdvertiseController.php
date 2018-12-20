@@ -128,6 +128,8 @@ class AdvertiseController extends Controller
      */
     public function edit(AdvertiseManageRequest $request, Advertise $advertise)
     {
+        if (!Auth::user()) return redirect()->route('frontend.auth.login')->withFlashInfo('A munkamenete lejárt, jelentkezzen be ismét!');
+
         $advertises = Advertise::whereRaw('user_id='.Auth::user()->id.' AND template IS NULL');
         $passangers = Passanger::whereRaw('advertise_id IN (SELECT id FROM advertises WHERE user_id='.Auth::user()->id.')');
         $templates = Advertise::whereRaw('user_id='.Auth::user()->id.' AND template IS NOT NULL');

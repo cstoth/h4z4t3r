@@ -608,6 +608,7 @@ $('#start_date').on('change', function(e) {
 $('#end_date').on('change', function(e) {
     var date2 = $('#end_date').val();
     $('#start_date').bootstrapMaterialDatePicker('setMaxDate', date2);
+    checkDates();
 });
 
 function initDates() {

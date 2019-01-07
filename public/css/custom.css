@@ -37,7 +37,7 @@ body {
     padding: 20px;
     background: url('../img/frontend/infoblokk_kedv_final_CMYK_ESZA.png') no-repeat bottom right;
 }
-@media (max-width: 576px) {
+@media (max-width: 1485px) {
     .footer-bg {
         padding-bottom: 240px;
     }

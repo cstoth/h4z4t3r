@@ -113,6 +113,7 @@ return [
     'uploaded'             => 'A(z) :attribute feltöltése sikertelen.',
     'url'                  => 'A(z) :attribute érvénytelen link.',
     'uuid'                 => 'The :attribute must be a valid UUID.',
+    'phone'                => 'A telefonszám nem megfelelő!',
 
     /*
     |--------------------------------------------------------------------------

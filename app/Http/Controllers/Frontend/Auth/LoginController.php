@@ -174,8 +174,7 @@ class LoginController extends Controller
             'password' => 'required|string',
 
             // new rules here
-            //'g-recaptcha-response' => 'required|captcha',
-            'g-recaptcha-response' => ['required_if:captcha_status,true', new CaptchaRule()],
+            //'g-recaptcha-response' => ['required_if:captcha_status,true', new CaptchaRule()],
         ]);
     }
 }

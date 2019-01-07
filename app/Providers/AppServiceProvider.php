@@ -65,12 +65,12 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('strong_password', function ($attribute, $value, $parameters, $validator) {
             // Contain at least one uppercase/lowercase letters, one number and one special char
             return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/', (string)$value);
-        }, 'A jelszónak min. 8 karakterből kell állnia és tartalmazzon legalább egy kisbetűt, nagybetűt és speciális karaktert!');
+        }, __('auth.password_rules'));
 
         Validator::extend('phone_number', function ($attribute, $value, $parameters, $validator) {
             // Contain at least one uppercase/lowercase letters, one number and one special char
             return preg_match('/^((?:\+?3|0)6)(?:-|\()?(\d{1,2})(?:-|\))?(\d{3})-?(\d{3,4})$/', (string)$value);
-        }, 'A telefonszám nem megfelelő!');
+        }, __('validation.phone'));
 
         date_default_timezone_set('Europe/Budapest');
     }

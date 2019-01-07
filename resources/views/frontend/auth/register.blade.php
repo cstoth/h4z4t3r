@@ -127,7 +127,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group text-left text-muted">
-                                    <em>A moblszám formátuma: +36301234567</em>
+                                    <em>A mobilszám formátuma: +36301234567</em>
                                 </div><!--form-group-->
                             </div><!--col-->
                         </div><!--row-->
@@ -161,7 +161,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group text-left text-muted">
-                                    <em>A jelszónak min. 8 karakterből kell állnia és tartalmazzon legalább egy kisbetűt, nagybetűt és speciális karaktert!</em>
+                                    <em>{{__('auth.password_rules')}}</em>
                                 </div><!--form-group-->
                             </div><!--col-->
                         </div><!--row-->

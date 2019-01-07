@@ -60,7 +60,7 @@
                             </div><!--col-->
                         </div><!--row-->
 
-                        @if(config('access.captcha.registration'))
+                        @if(config('access.captcha.login'))
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">

@@ -10,6 +10,10 @@ return [
          * Whether the registration captcha is on or off
          */
         'registration' => env('REGISTRATION_CAPTCHA_STATUS', true),
+        /*
+         * Whether the registration captcha is on or off
+         */
+        'login' => env('LOGIN_CAPTCHA_STATUS', false),
     ],
 
     /*

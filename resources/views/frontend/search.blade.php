@@ -213,7 +213,7 @@
                 <div class="col-xs-12 col-md-2">{{ $result->user->full_name }}<br>{!! $result->car_label !!}</div>
             </div>
         @empty
-            <em>Pontosítsa a keresési feltételeket!</em>
+            <em>{{ __("strings.frontend.no_results_found")}}</em>
         @endforelse
 
         @if ($results)

@@ -223,19 +223,6 @@ var showCalculatedRoute = function(route, map) {
     }
 };
 var geocodingService = platform.getGeocodingService();
-// function findCity(x, y) {
-//     geocodingService.reverseGeocode({
-//         prox: '' + x + ',' + y + ',0',
-//         mode: 'retrieveAddresses',
-//         maxresults: 1,
-//     },
-//     function(result) {
-//         cityFound = result.Response.View[0].Result[0].Location.Address.City;
-//     },
-//     function(error) { 
-//         console.log(error.message);
-//     });
-// }
 var routingService = platform.getRoutingService();
 Number.prototype.toKM = function () {
     return Math.floor(this / 1000)  +' km';

@@ -179,5 +179,6 @@ return [
         ],
 
         'welcome_to' => 'Üdvözli a(z) :place',
+        'no_results_found' => 'Nincs a keresésnek megfelelő találat!',
     ],
 ];

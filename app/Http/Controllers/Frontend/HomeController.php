@@ -123,9 +123,11 @@ class HomeController extends Controller
             $res = $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
         }
         if (isset($name) && !empty($name)) {
-            $res = $res->whereRaw("user_id IN (SELECT id FROM users WHERE lower(CONCAT(first_name,' ',last_name)) LIKE lower(?))", ["%{$name}%"]);
+            $res = $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
         }
         $res = $res->orderBy('start_date');
+        //dd($res->toSql());
+        //dd($res->getBindings());
         //\Log::info('SEARCH '.$res->toSql()); //.' '.$res->getBindings());
 
         $response = $res->paginate(25);
@@ -175,6 +177,15 @@ class HomeController extends Controller
         $data = City::select("name")
             ->where("name", "LIKE", "%{$request->input('query')}%")
             ->get();
+        return response()->json($data);
+    }
+
+    /**
+     *
+     */
+    public function typeaheadName(Request $request) {
+        $sql = "SELECT CONCAT(first_name,' ',last_name) as name FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER('%{$request->input('query')}%')";
+        $data = DB::select(DB::raw($sql));
         return response()->json($data);
     }
 

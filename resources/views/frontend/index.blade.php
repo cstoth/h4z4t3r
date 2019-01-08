@@ -178,7 +178,7 @@
                     </div>
                 </div>
                 <div class="input-group mr-2 mb-2">
-                    <input id="searchName" name="searchName" class="form-control" type="text" placeholder="Név" value="{{isset($search)?$search['name']:''}}" autocomplete="off">
+                    <input id="searchName" name="searchName" class="form-control typeahead typeahead-name" data-provide="typeahead" type="text" placeholder="Név" value="{{isset($search)?$search['name']:''}}" autocomplete="anyrandomstring">
                     <div class="input-group-append">
                         <div class="input-group-text"><i class="fa fa-user"></i></div>
                     </div>
@@ -332,6 +332,16 @@
                     return $.get("{{ route('frontend.search.city') }}", {query: query}, function (data) {
                         return process(data);
                     }).fail(function (error){console.log(error)});
+                }
+            });
+
+            $('.typeahead-name').typeahead({
+                source: function (query, process) {
+                    if ((''+query).length >= 2) {
+                        return $.get("{{ route('frontend.search.name') }}", {query: query}, function (data) {
+                            return process(data);
+                        }).fail(function (error){console.log(error)});
+                    }    
                 }
             });
         });

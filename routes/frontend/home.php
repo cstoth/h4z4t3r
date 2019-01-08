@@ -17,6 +17,7 @@ use App\Http\Controllers\ReserveController;
  */
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('search/city', [HomeController::class, 'typeaheadCity'])->name('search.city');
+Route::get('search/name', [HomeController::class, 'typeaheadName'])->name('search.name');
 Route::get('search/advertise', [HomeController::class, 'searchAdvertise'])->name('search.advertise');
 Route::get('search', [HomeController::class, 'search'])->name('search');
 Route::post('find', [HomeController::class, 'findPost'])->name('find');

@@ -41,7 +41,7 @@
         @endif
     </head>
     <body>
-        <div class="corner-ribbon top-left sticky red shadow"><strong>{{ "TESZT v.12.19" }}</strong></div>
+        <div class="corner-ribbon top-left sticky red shadow"><strong>{{ "TESZT v.01.08" }}</strong></div>
         @include('cookieConsent::index')
         <div id="app">
             @include('includes.partials.logged-in-as')

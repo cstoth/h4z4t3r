@@ -17,7 +17,7 @@
 
 <div class="form-group row">
     {{ html()->label(__('validation.attributes.backend.datasets.car.license'))
-        ->class('col-md-2 form-control-label')
+        ->class('col-md-2 form-control-label required')
         ->for('license') }}
 
     <div class="col-md-2">
@@ -35,7 +35,7 @@
 
 <div class="form-group row">
     {{ html()->label(__('validation.attributes.backend.datasets.car.brand'))
-        ->class('col-md-2 form-control-label')
+        ->class('col-md-2 form-control-label required')
         ->for('brand') }}
 
     <div class="col-md-6">
@@ -49,7 +49,7 @@
 
 <div class="form-group row">
     {{ html()->label(__('validation.attributes.backend.datasets.car.type'))
-        ->class('col-md-2 form-control-label')
+        ->class('col-md-2 form-control-label required')
         ->for('type') }}
 
     <div class="col-md-6">
@@ -63,7 +63,7 @@
 
 <div class="form-group row">
     {{ html()->label(__('validation.attributes.backend.datasets.car.color'))
-        ->class('col-md-2 form-control-label')
+        ->class('col-md-2 form-control-label required')
         ->for('color') }}
 
     <div class="col-md-4">
@@ -76,7 +76,7 @@
 
 <div class="form-group row">
     {{ html()->label(__('validation.attributes.backend.datasets.car.year'))
-        ->class('col-md-2 form-control-label')
+        ->class('col-md-2 form-control-label required')
         ->for('year') }}
 
     <div class="col-md-2">
@@ -92,7 +92,7 @@
 
 <div class="form-group row">
     {{ html()->label(__('validation.attributes.backend.datasets.car.seats'))
-        ->class('col-md-2 form-control-label')
+        ->class('col-md-2 form-control-label required')
         ->for('seats') }}
 
     <div class="col-md-2">

@@ -133,6 +133,9 @@ return [
         'g-recaptcha-response' => [
             'required_if' => 'Nem mentél át a robot teszten, próbáld meg újra!',
         ],
+        'avatar_location' => [
+            'max' => 'A feltöltött fájl mérete nem lehet több, mint 1024 KB!',
+        ]
     ],
 
     /*

@@ -25,6 +25,8 @@
 
 @include('frontend.datasets.advertise.includes.form-controls')
 
+<hr />
+
 <div class="form-row mt-3">
     <div class="col-xs-12 col-lg-3">
         <div class="form-check form-check-inline">
@@ -33,7 +35,7 @@
         </div>
     </div>
     <div class="col-xs-12 col-lg-6">
-        <input class="form-control" type="text" id="template" name="template" placeholder="{{ __('dashboard.driver.submit-ad.Template placeholder') }}">
+        <input class="form-control" type="text" id="template" name="template" readonly placeholder="{{ __('dashboard.driver.submit-ad.Template placeholder') }}">
     </div>
 </div>
 
@@ -48,6 +50,11 @@
 @push('after-scripts')
 <script type="text/javascript">
 console.log("advertise-create-1");
+
+$('#save-as-template').click(function() {
+    var checked = $('#save-as-template').prop("checked");
+    $('#template').prop("readonly", !checked);
+});
 
 console.log("advertise-create-2");
 </script>

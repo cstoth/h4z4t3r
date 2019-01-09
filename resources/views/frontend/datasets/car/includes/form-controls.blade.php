@@ -70,7 +70,8 @@
         {{ html()->text('color')
             ->class('form-control')
             ->placeholder(__('validation.attributes.backend.datasets.car.color'))
-            ->attribute('maxlength', 100) }}
+            ->attribute('maxlength', 100)
+            ->required() }}
     </div><!--col-->
 </div><!--form-group-->
 
@@ -86,7 +87,8 @@
             ->attribute('max', 2999)
             ->class('form-control')
             ->placeholder(__('validation.attributes.backend.datasets.car.year'))
-            ->attribute('maxlength', 4) }}
+            ->attribute('maxlength', 4)
+            ->required() }}
     </div><!--col-->
 </div><!--form-group-->
 

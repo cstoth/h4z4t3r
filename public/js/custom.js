@@ -145,6 +145,12 @@ function makeMap(elementId, center) {
     );
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     var ui = H.ui.UI.createDefault(map, defaultLayers); // , 'hu-HU'); //TODO use default language
+    // $('div[title="Choose view"]').prop("title", "Térképek");
+    // $('div[title="Zoom in"]').prop("title", "Nagyítás");
+    // $('div[title="Zoom out"]').prop("title", "Kicsinyítés");
+    // $('div[title="Change to miles"]').prop("title", "Váltás mérföldre");
+    // $('div[title="Change to km"]').prop("title", "Váltás km-re");
+    //console.log($('div[title="Choose view"]'));
     return map;
 }
 

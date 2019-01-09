@@ -92,7 +92,7 @@
 
     <span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.3 Publish Ad') }}</span>
 
-    <div class="form-row" id="radio-tab">
+    <!-- <div class="form-row" id="radio-tab">
         <div class="col">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="publish_options" id="publish-regular" value="regular" {{($advertise->regular?'checked':'')}} disabled>
@@ -103,7 +103,7 @@
                 <label class="form-check-label" for="unique">{{ __('dashboard.driver.submit-ad.Unique Route') }}</label>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div id="radio-tab-content" class="tab-content mt-3">
         <div id="regular-tab" class="tab-pane fade active show">
@@ -153,7 +153,7 @@
             </div>
 
         </div>
-        <div id="unique-tab" class="tab-pane fade">
+        <!-- <div id="unique-tab" class="tab-pane fade">
             <div class="form-row">
                 <div class="col-md-2">
                     <table id="dates" class="col-12">
@@ -166,6 +166,24 @@
                     </table>
                 </div>
             </div>
+        </div> -->
+    </div>
+
+    <hr />
+
+    <div class="col">
+        <div class="form-group row mt-4">
+            <label for="price" class="col-form-label col-md-2 mr-2">Úti költség</label>
+            <input type="number" class="form-control mr-2 col-md-1" id="price" name="price" value="{{$advertise->price}}" readonly>
+            <span class="col-form-label">Ft/fő</span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group row mt-4">
+            <label for="hours" class="col-form-label col-md-2 mr-2">Út lemondása</label>
+            <input type="number" class="form-control mr-2 col-md-1" id="hours" name="hours" value="{{$advertise->hours}}" readonly>
+            <span class="col-form-label mr-3">óra</span>
+            <em class="col-form-label">(Megadhatja, hogy az utas az indulás előtt mennyivel mondhatja még le az utat.)</em>
         </div>
     </div>
 
@@ -205,22 +223,6 @@
             </div>
         </div>
     @endif
-
-    <div class="col">
-        <div class="form-group row mt-4">
-            <label for="price" class="col-form-label col-md-2 mr-2">Úti költség</label>
-            <input type="number" class="form-control mr-2 col-md-1" id="price" name="price" value="{{$advertise->price}}" readonly>
-            <span class="col-form-label">Ft/fő</span>
-        </div>
-    </div>
-    <div class="col">
-        <div class="form-group row mt-4">
-            <label for="hours" class="col-form-label col-md-2 mr-2">Út lemondása</label>
-            <input type="number" class="form-control mr-2 col-md-1" id="hours" name="hours" value="{{$advertise->hours}}" readonly>
-            <span class="col-form-label mr-3">óra</span>
-            <em class="col-form-label">(Megadhatja, hogy az utas az indulás előtt mennyivel mondhatja még le az utat.)</em>
-        </div>
-    </div>
 </div>
 
 @push('after-scripts')
@@ -229,11 +231,11 @@
 console.log("advertise-show-1");
 
 var regular_options = "{{ $regular_options }}";
-console.log(regular_options);
-if (regular_options == "unique") {
-    $('#unique-tab').addClass('active show');
-    $('#regular-tab').removeClass('active show');
-}
+// console.log(regular_options);
+// if (regular_options == "unique") {
+//     $('#unique-tab').addClass('active show');
+//     $('#regular-tab').removeClass('active show');
+// }
 
 function initDays() {
     console.log("initDays");

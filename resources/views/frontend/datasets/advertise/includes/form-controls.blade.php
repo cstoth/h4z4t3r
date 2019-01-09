@@ -132,7 +132,7 @@
 <span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.3 Publish Ad') }}</span>
 
 <!-- PUBLISH -->
-<div class="form-row" id="radio-tab">
+<!-- <div class="form-row" id="radio-tab">
     <div class="col">
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="publish_options" id="publish-regular" value="regular" checked>
@@ -143,7 +143,7 @@
             <label class="form-check-label" for="unique">{{ __('dashboard.driver.submit-ad.Unique Route') }}</label>
         </div>
     </div>
-</div>
+</div> -->
 <div id="radio-tab-content" class="tab-content mt-3">
     <div id="regular-tab" class="tab-pane fade active show">
         <div class="form-row">
@@ -192,7 +192,7 @@
         </div>
 
     </div>
-    <div id="unique-tab" class="tab-pane fade">
+    <!-- <div id="unique-tab" class="tab-pane fade">
         <div class="form-row">
             <div class="col-md-3">
                 <table id="dates" class="col-12"><tr><th width="100%"></th><th></th></tr></table>
@@ -200,8 +200,10 @@
                 <input type="text" style="width:0px;border:none;" id="hidden-date">
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
+
+<hr />
 
 <!-- PRICE -->
 <div class="col">
@@ -607,7 +609,10 @@ function initDates() {
     var date1 = $('#start_date').val();
     var date2 = $('#end_date').val();
     if (date2 <= date1) {
-        $('#end_date').val(formattedDate(new Date(date1).addMinutes(1)));
+        //$('#end_date').val(formattedDate(new Date(date1).addMinutes(1)));
+        var d1 = moment(date1.split('.').join('-')).add(1, 'minutes').toDate();
+        //console.log(d1);
+        $('#end_date').val(formattedDate(d1));
     }
 }
 function checkDates() {

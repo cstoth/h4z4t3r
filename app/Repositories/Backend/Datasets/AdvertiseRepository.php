@@ -107,10 +107,14 @@ class AdvertiseRepository extends BaseRepository
                 }
             }
 
-            $regular = isset($data['regular']) && $data['regular'] == '1' ? 1 : 0;
-            if ($data['publish_options'] == 'unique') {
-                $regular = null;
+            $regular = 1; //isset($data['regular']) && $data['regular'] == '1' ? 1 : 0;
+            $publish_options = 'regular';
+            if (isset($data['publish_options'])) {
+                $publish_options = $data['publish_options'];
             }
+            // if ($data['publish_options'] == 'unique') {
+            //     $regular = null;
+            // }
 
             if ($model->update([
                 'user_id'       => Auth::user()->id, // TODO vizsgálat: van-e user_id az users-ben?
@@ -144,19 +148,19 @@ class AdvertiseRepository extends BaseRepository
                 }
 
                 Date::where('advertise_id', $model->id)->delete();
-                if ($data['publish_options'] == 'unique') {
-                    if (isset($data['dates'])) {
-                        $i = 0;
-                        foreach ($data['dates'] as $date) {
-                            $d = array(
-                                'advertise_id' => $model->id,
-                                //'order' => $i++,
-                                'date' => $date,
-                            );
-                            Date::insert($d);
-                        }
-                    }
-                }
+                // if ($publish_options == 'unique') {
+                //     if (isset($data['dates'])) {
+                //         $i = 0;
+                //         foreach ($data['dates'] as $date) {
+                //             $d = array(
+                //                 'advertise_id' => $model->id,
+                //                 //'order' => $i++,
+                //                 'date' => $date,
+                //             );
+                //             Date::insert($d);
+                //         }
+                //     }
+                // }
 
                 return $model;
             }

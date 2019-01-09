@@ -69,7 +69,7 @@
         <script src="//js.api.here.com/v3/3.0/mapsjs-core.js"       type="text/javascript" charset="utf-8"></script>
         <script src="//js.api.here.com/v3/3.0/mapsjs-service.js"    type="text/javascript" charset="utf-8"></script>
         <script src="//js.api.here.com/v3/3.0/mapsjs-ui.js"         type="text/javascript" charset="utf-8"></script>
-        <script src="//js.api.here.com/v3/3.0/mapsjs-pano.js"       type="text/javascript" charset="utf-8"></script>
+        <!-- <script src="//js.api.here.com/v3/3.0/mapsjs-pano.js"       type="text/javascript" charset="utf-8"></script> -->
         <script src="//js.api.here.com/v3/3.0/mapsjs-mapevents.js"  type="text/javascript" charset="utf-8"></script>
         <!-- script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script-->
         {!! script('js/jquery.connections.js') !!}

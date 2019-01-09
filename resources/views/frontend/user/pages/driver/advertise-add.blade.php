@@ -86,12 +86,6 @@
 
     <div class="form-row mt-2 mb-2">
         <div class="col">
-            {{ html()->checkbox('retour') }} Oda-vissza út
-        </div>
-    </div>
-
-    <div class="form-row mt-2 mb-2">
-        <div class="col">
             <label for="description">Megjegyzés</label>
             {{ html()->textarea('description')->class("form-control") }}
         </div>

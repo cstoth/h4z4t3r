@@ -185,7 +185,7 @@ class AdvertiseController extends Controller
             'start_date'    => Input::get('start_date'),
             'end_city_id'   => City::getCityByName(Input::get('end_city')),
             'end_date'      => Input::get('end_date'),
-            'retour'        => Input::get('retour') ? (Input::get('retour') ? 1 : 0) : 0,
+            //'retour'        => Input::get('retour') ? (Input::get('retour') ? 1 : 0) : 0,
             'description'   => Input::get('description'),
             //'template'      => $template, //direkt
             'regular'       => $regular,

@@ -77,12 +77,6 @@
 
             <div class="form-row mt-2 mb-2">
                 <div class="col">
-                    {{ html()->checkbox('retour', $advertise->retour, 1)->disabled() }} Oda-vissza út
-                </div>
-            </div>
-
-            <div class="form-row mt-2 mb-2">
-                <div class="col">
                     <label for="description">Megjegyzés</label><em>&nbsp;(pl. egyéb fontos információk, indulási helyszín)</em>
                     {{ html()->textarea('description', $advertise->description)->class("form-control")->attribute('readonly', 'readonly')->style('resize:none;') }}
                 </div>

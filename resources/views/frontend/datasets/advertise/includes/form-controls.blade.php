@@ -110,13 +110,6 @@
     </div>
 </div>
 
-<!-- RETOUR -->
-<div class="form-row mt-2 mb-2">
-    <div class="col">
-        {{ html()->checkbox('retour',$advertise->retour) }} Oda-vissza út
-    </div>
-</div>
-
 <!-- DESCRIPTION -->
 <div class="form-row mt-2 mb-2">
     <div class="col">
@@ -269,7 +262,6 @@ function setCityAutocomplete(control, city, city_id) {
     });
 }
 
-$('#retour').val({!! $advertise->retour ? '1' : '0' !!});
 $('#publish-regular').click(function(){
     $('#unique-tab').removeClass("active show");
     $('#regular-tab').addClass("active show");

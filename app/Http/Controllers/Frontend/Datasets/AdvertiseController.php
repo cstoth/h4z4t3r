@@ -181,7 +181,7 @@ class AdvertiseController extends Controller
             'start_date',
             'end_date',
             'free_seats',
-            'retour',
+            //'retour',
             'description',
             'midpoints',
             'price',

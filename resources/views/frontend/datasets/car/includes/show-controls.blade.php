@@ -82,7 +82,7 @@
                     <th>@lang('labels.general.table.created_at')</th>
                     <td>
                         @if($car->created_at)
-                            {{ timezone()->convertToLocal($car->created_at) }}
+                            {{ \App\Helpers\Hazater::formatDate($car->created_at) }}
                         @else
                             N/A
                         @endif
@@ -93,7 +93,7 @@
                     <th>@lang('labels.general.table.updated_at')</th>
                     <td>
                         @if($car->updated_at)
-                            {{ timezone()->convertToLocal($car->updated_at) }}
+                            {{ \App\Helpers\Hazater::formatDate($car->updated_at) }}
                         @else
                             N/A
                         @endif

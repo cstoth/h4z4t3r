@@ -58,6 +58,7 @@ class HunterCheck extends Command
             $user = User::find($hunter->user_id);
             if (($advertise->template == null)
                 //TODO: Ide majd valami sokkal jobb vizsgálat kell!
+                && ($advertise->user_id != $hunter->user_id)
                 && ($advertise->status == Advertise::ACTIVE)
                 && ($advertise->start_city_id == $hunter->start_city_id)
                 && ($advertise->end_city_id == $hunter->end_city_id)

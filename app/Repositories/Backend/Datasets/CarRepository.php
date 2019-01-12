@@ -84,6 +84,12 @@ class CarRepository extends BaseRepository
             }
         }
 
+        $sql = "SELECT MIN(free_seats) FROM advertises WHERE template IS NULL AND status=1 AND start_date>CURRENT_TIMESTAMP AND car_id={$model->id}";
+        $min_seats = DB::select(DB::raw($sql));
+        if ($data['seats'] < $min_seats) {
+            throw new GeneralException('A szabad ülések száma nem lehet kevesebb mint az aktuális helyfoglalások száma!');
+        }
+
         return DB::transaction(function () use ($model, $data, $image, $image2) {
             if ($model->update([
                 'user_id'   => $data['user_id'],  // TODO vizsgálat: van-e user_id az users-ben?

@@ -7,7 +7,7 @@
 
                 <div>
                     <input type="radio" name="avatar_type" value="gravatar" {{ $logged_in_user->avatar_type == 'gravatar' ? 'checked' : '' }} /> {{ __('validation.attributes.frontend.Gravatar') }}
-                    <input type="radio" name="avatar_type" value="storage" {{ $logged_in_user->avatar_type == 'storage' ? 'checked' : '' }} /> {{ __('validation.attributes.frontend.Upload') }}
+                    <input type="radio" name="avatar_type" value="storage" class="ml-3" {{ $logged_in_user->avatar_type == 'storage' ? 'checked' : '' }} /> {{ __('validation.attributes.frontend.Upload') }}
 
                     @foreach($logged_in_user->providers as $provider)
                         @if(strlen($provider->avatar))
@@ -17,9 +17,12 @@
                 </div>
             </div><!--form-group-->
 
-            <div class="form-group hidden" id="avatar_location">
-                {{ html()->file('avatar_location')->class('form-control') }}
-            </div><!--form-group-->
+            <div class="form-row">
+                <div class="form-group hidden" id="avatar_location">
+                    {{ html()->file('avatar_location')->class('form-control') }}
+                </div><!--form-group-->
+                <i class="ml-3" style="margin-top: 0.5rem;">Képméret: max. 1024 KB</i>
+            </div>
         </div><!--col-->
         <div class="col-md-6">
             <!-- <div class="row" id="avatar_image"> -->

@@ -15,7 +15,7 @@ return [
 
     'failed'        => 'Hibás felhasználónév vagy jelszó!',
     'general_error' => 'Ehhez a művelethez nem rendelkezik megfelelő jogosultsággal.',
-    'password_rules' => 'Jelszava legalább 8 karakter hosszú legyen, tartalmazzon legalább egy kisbetűt, nagybetűt és számot!',
+    'password_rules' => 'Jelszava minimum 8 karakter hosszú legyen, tartalmazzon legalább egy kisbetűt, nagybetűt, számot és speciális karaktert.',
     'password_used' => 'A jelszónak különbözie kell az előzőtől.',
     'socialite'     => [
         'unacceptable' => ':provider nem támogatja a bejelentkezést.',

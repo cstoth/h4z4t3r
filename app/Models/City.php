@@ -91,6 +91,12 @@ class City extends Model
 
     public static function getCityByName($name) {
         $city = City::select("id")->where("name", "=", "{$name}")->first();
+        if (!$city) {
+            $city = City::select("id")->where("name", "like", "{$name}%")->first();
+            if (!$city) {
+                $city = City::select("id")->where("name", "like", "%{$name}%")->first();
+            }
+        }
         return $city['id'];
     }
 

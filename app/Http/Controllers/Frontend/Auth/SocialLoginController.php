@@ -64,6 +64,11 @@ class SocialLoginController extends Controller
             return $this->getAuthorizationFirst($provider);
         }
 
+        if ($request->has('error')) {
+            $error_message = $provider . " hibakód:" . $request->error_code . " (" . $request->error . ")";
+            return redirect()->route(home_route())->withFlashDanger($error_message);
+        }
+
         // Create the user if this is a new social account or find the one that is already there.
         try {
             $user = $this->userRepository->findOrCreateProvider($this->getProviderUser($provider), $provider);

@@ -30,20 +30,17 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col">
-                        <a href="{{ route('frontend.user.driver.menu') }}" class="btn btn-info">{{__('buttons.general.return')}}</a>
-                        {{-- <a href="{{ URL::previous() }}" class="btn btn-info">{{__('buttons.general.return')}}</a> --}}
+                        <a href="{{ route('frontend.find') }}" class="btn btn-info">{{__('buttons.general.return')}}</a>
                     </div><!--col-->
 
                     <div class="col text-right">
-                        {{-- <a href="{{route('frontend.user.reserve.store')}}" class="btn btn-primary">Helyfoglalás</a> --}}
                         @if ($reserved)
                             {{ html()->form('GET', route('frontend.user.advertise.resign'))->class('form-horizontal resign-form')->open() }}
-                            {{-- <form id="resign-form" method="GET" action="{{route('frontend.user.advertise.resign')}}" class="form-horizontal"> --}}
                                 <input type="hidden" name="advertise_id" value="{{$advertise->id}}">
                                 <button type="submit" class="btn btn-danger">Visszamondás</button>
                             {{ html()->form()->close() }}
                         @else
-                            @if ((!Auth::user() || Auth::user()->id != $advertise->user->id) && ($advertise->free_seats > 0))
+                            @if ((!Auth::user() || Auth::user()->id != $advertise->user->id) && ($advertise->free_seats > 0) && ($advertise->status == 1))
                                 {{ html()->form('POST', route('frontend.user.reserve.store'))->class('form-horizontal')->open() }}
                                     <input type="hidden" name="advertise_id" value="{{$advertise->id}}">
                                     <button type="submit" class="btn btn-success">Helyfoglalás</button>

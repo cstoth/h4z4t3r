@@ -88,14 +88,14 @@ class HomeController extends Controller
         } else {
             $start_city = $search['start_city'] ?? "";
         }
-        $start_city_id = City::getCityByName($start_city);
+        $start_city_id = City::getCityByName($start_city, true);
 
         if (Input::has('searchEndCity')) {
             $end_city = $request->input('searchEndCity');
         } else {
             $end_city = $search['end_city'] ?? "";
         }
-        $end_city_id = City::getCityByName($end_city);
+        $end_city_id = City::getCityByName($end_city, true);
 
         $date = str_replace('.', '-', $request->input('searchDate'));
         $name = $request->input('searchName');
@@ -126,6 +126,7 @@ class HomeController extends Controller
             $res = $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
         }
         $res = $res->orderBy('start_date');
+        
         //dd($res->toSql());
         //dd($res->getBindings());
         //\Log::info('SEARCH '.$res->toSql()); //.' '.$res->getBindings());

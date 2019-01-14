@@ -69,7 +69,7 @@
             <div class="col-md-4">
                 <label for="start_date">{{ __('dashboard.driver.submit-ad.Start Date') }}</label>
                 <div class='input-group'>
-                    <input type='text' id="start_date" name="start_date" value="{{date('Y.m.d H:i')}}" class="form-control datum" readonly/>
+                    <input type='text' id="start_date" name="start_date" value="{{\App\Helpers\Hazater::formatDate($advertise->start_date)}}" class="form-control datum" readonly/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -96,7 +96,7 @@
             <div class="col-md-4">
                 <label for="end_date">{{ __('dashboard.driver.submit-ad.Target Date') }}</label>
                 <div class='input-group'>
-                    <input type='text' id="end_date" name="end_date" value="{{date('Y.m.d H:i')}}" class="form-control datum" readonly/>
+                    <input type='text' id="end_date" name="end_date" value="{{\App\Helpers\Hazater::formatDate($advertise->end_date)}}" class="form-control datum" readonly/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -133,7 +133,7 @@
         <label for="hours" class="col-form-label col-md-2 mr-2">Út lemondása</label>
         <input type="number" class="form-control mr-2 col-md-1" id="hours" name="hours" value="{{$advertise->hours}}" readonly>
         <span class="col-form-label mr-3">óra</span>
-        <em class="col-form-label">(Megadhatja, hogy az utas az indulás előtt mennyivel mondhatja még le az utat.)</em>
+        <em class="col-form-label">(Ennyivel az utazás előtt mondhatja le az utat.)</em>
     </div>
 </div>
 

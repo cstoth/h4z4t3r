@@ -88,13 +88,16 @@ class City extends Model
 
     // TODO if (Request::is('backend/*'))
 
-
-    public static function getCityByName($name) {
+    public static function getCityByName($name, $exact = false) {
         $city = City::select("id")->where("name", "=", "{$name}")->first();
         if (!$city) {
-            $city = City::select("id")->where("name", "like", "{$name}%")->first();
-            if (!$city) {
-                $city = City::select("id")->where("name", "like", "%{$name}%")->first();
+            if ($exact) {
+                return null;
+            } else {
+                $city = City::select("id")->where("name", "like", "{$name}%")->first();
+                if (!$city) {
+                    $city = City::select("id")->where("name", "like", "%{$name}%")->first();
+                }
             }
         }
         return $city['id'];

@@ -367,3 +367,6 @@ th.action_buttons {
     background-image: url('../img/frontend/fblogo-hover.png');
     cursor:pointer;
 }
+.outline {
+    -webkit-text-stroke: 1px black;
+}

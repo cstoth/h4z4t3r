@@ -41,7 +41,10 @@
         @endif
     </head>
     <body>
-        <div class="corner-ribbon top-left sticky red shadow"><strong>{{ "TESZT v.01.14" }}</strong></div>
+        @if(App\Helpers\Hazater::isLocal() || strpos(url()->current(), 'teszt') !== false)
+            <div class="corner-ribbon top-left sticky red shadow"><strong>{{ "TESZT v.01.14" }}</strong></div>
+        @endif
+
         @include('cookieConsent::index')
         <div id="app">
             @include('includes.partials.logged-in-as')

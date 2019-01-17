@@ -136,6 +136,18 @@ return [
             'email_body_title' => 'A HazaTér rendszerben megnézheti a helyfoglalását.',
             'subject' => 'Helyfoglalást adott fel egy hirdetésre.',
         ],
+
+        'driver' => [
+            'email_body_title' => 'A HazaTér rendszerben lezárhatja az hirdetését.',
+            'email_body' => 'Ide kattintva zárja le a hirdetést.',
+            'subject' => 'Hirdetés befejezése.',
+        ],
+
+        'passanger' => [
+            'email_body_title' => 'A HazaTér rendszerben lezárhatja az utazását.',
+            'email_body' => 'Ide kattintva zárja le az utazását.',
+            'subject' => 'Utazás befejezése.',
+        ],
     ],
 
     'frontend' => [

@@ -28,8 +28,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //TODO: pucoló eljárás (Car, Advertise(template), stb.)
+        $schedule->command('advertise:listen')->everyFiveMinutes();
+        $schedule->command('email:send')->everyFiveMinutes();
         $schedule->command('hunter:check')->daily(); //everyFiveMinutes();
+        $schedule->command('system:clean')->daily(); // pucoló eljárás (Car, Advertise(template), stb.)
     }
 
     /**

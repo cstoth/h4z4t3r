@@ -213,6 +213,14 @@ class AdvertiseController extends Controller
     }
 
     /**
+     * 
+     */
+    public function close(Advertise $advertise) {
+        $advertise->status = Advertise::CLOSED;
+        $advertise->save();
+    }
+
+    /**
      * @param AdvertiseManageRequest $request
      * @param Advertise             $advertise
      *

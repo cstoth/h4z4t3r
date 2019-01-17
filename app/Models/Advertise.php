@@ -10,10 +10,12 @@ use App\Helpers\Hazater;
 
 class Advertise extends Model
 {
-    public const INACTIVE = 0;
-    public const ACTIVE = 1;
-    public const DELETABLE = 2;
-    public const OUTDATED = 3;
+    public const INACTIVE   = 0;
+    public const ACTIVE     = 1;
+    public const DELETABLE  = 2;
+    public const PROGRESS   = 3;
+    public const FINISHED   = 4;
+    public const CLOSED     = 5;
 
     /**
      * The attributes that are mass assignable.

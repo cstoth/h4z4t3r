@@ -78,6 +78,7 @@ Route::group([
             Route::get('/', [AdvertiseController::class, 'show'])->name('advertise.show');
             Route::get('edit', [AdvertiseController::class, 'edit'])->name('advertise.edit');
             Route::get('copy', [AdvertiseController::class, 'copy'])->name('advertise.copy');
+            Route::get('close', [AdvertiseController::class, 'close'])->name('advertise.close');
             Route::patch('/', [AdvertiseController::class, 'update'])->name('advertise.update');
             Route::delete('/', [AdvertiseController::class, 'destroy'])->name('advertise.destroy');
         });

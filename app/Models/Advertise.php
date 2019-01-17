@@ -254,57 +254,6 @@ class Advertise extends Model
         }
     }
 
-
-    // /**
-    //  * @return string
-    //  */
-    // public function getShowButtonAttribute()
-    // {
-    //     return '<a href="'.route('frontend.datasets.advertise.show', $this).'" data-toggle="tooltip" data-placement="top" title="'.__('buttons.general.crud.view').'" class="btn btn-info"><i class="fas fa-eye"></i></a>';
-    // }
-
-    // /**
-    //  * @return string
-    //  */
-    // public function getEditButtonAttribute()
-    // {
-    //     return '<a href="'.route('frontend.datasets.advertise.edit', $this).'" class="btn btn-primary"><i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="'.__('buttons.general.crud.edit').'"></i></a>';
-    // }
-
-    // /**
-    //  * @return string
-    //  */
-    // public function getDeleteButtonAttribute()
-    // {
-    //     return '<a href="'.route('frontend.datasets.advertise.destroy', $this).'"
-	// 		 data-method="delete"
-	// 		 data-trans-button-cancel="'.__('buttons.general.cancel').'"
-	// 		 data-trans-button-confirm="'.__('buttons.general.crud.delete').'"
-	// 		 data-trans-title="'.__('strings.backend.general.are_you_sure').'"
-	// 		 class="btn btn-danger"><i class="fas fa-trash" data-toggle="tooltip" data-placement="top" title="'.__('buttons.general.crud.delete').'"></i></a> ';
-    // }
-
-    // /**
-    //  * @return string
-    //  */
-    // public function getActionButtonsAttribute()
-    // {
-    //     return '<div class="btn-group btn-group-sm" role="group" aria-label="'.__('labels.backend.access.users.user_actions').'">
-	// 		  '.$this->edit_button.'
-	// 		  '.$this->delete_button.'
-	// 		</div>';
-    // }
-
-
-
-
-
-
-
-
-
-
-
     /**
      * @return string
      */
@@ -336,6 +285,20 @@ class Advertise extends Model
     /**
      * @return string
      */
+    public function getCopyButtonAttribute()
+    {
+        return '<a href="'.route('frontend.datasets.advertise.copy', $this).'"
+            id="advertise-copy-'.$this->id.'"
+            data-key="'.$this->id.'"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="'.__('buttons.general.crud.copy').'"
+            class="btn btn-info"><i class="fas fa-copy"></i></a>';
+    }
+
+    /**
+     * @return string
+     */
     public function getDeleteButtonAttribute()
     {
         if ($this->user_id == auth()->id()) {
@@ -360,6 +323,7 @@ class Advertise extends Model
         return '<div id="advertise-buttons" class="btn-group" role="group" aria-label="'.__('labels.backend.access.users.user_actions').'">
             '.$this->show_button.'
             '.$this->edit_button.'
+            '.$this->copy_button.'
             '.$this->delete_button.'
 		</div>';
     }

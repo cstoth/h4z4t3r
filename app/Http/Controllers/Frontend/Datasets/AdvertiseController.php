@@ -73,27 +73,6 @@ class AdvertiseController extends Controller
      */
     public function store(AdvertiseStoreRequest $request)
     {
-        //dd($advertise);
-
-        // $this->repository->create($request->only(
-        //     'user_id',
-        //     'car_id',
-        //     'template',
-        //     'regular',
-        //     'start_city',
-        //     'end_city',
-        //     'start_date',
-        //     'end_date',
-        //     'free_seats',
-        //     'retour',
-        //     'description',
-        //     'price',
-        //     'hours',
-        //     'status',
-        //     'highway',
-        //     'dates'
-        // ));
-
         return redirect()->route('frontend.user.driver.menu')->withFlashSuccess(__('alerts.backend.advertise.created'));
     }
 
@@ -151,6 +130,35 @@ class AdvertiseController extends Controller
             'dates' => $dates->get(),
             'regular_options' => $regular_options,
         ]);
+    }
+
+    private function copyMidPoints(Advertise $from, Advertise $to) {
+        $midpoints = Midpoint::where('advertise_id', $from->id)->get();
+        foreach ($midpoints as $midpoint) {
+            $mp = $midpoint->replicate();
+            $mp->advertise_id = $to->id;
+            // $mp = new Midpoint();
+            // $mp->advertise_id = $to->id;
+            // $mp->city_id = $midpoint->city_id;
+            // $mp->order = $midpoint->order;
+            $mp->save();
+        }
+    }
+
+    /**
+     * @param AdvertiseManageRequest $request
+     * @param Advertise             $advertise
+     *
+     * @return mixed
+     */
+    public function copy(AdvertiseManageRequest $request, Advertise $advertise)
+    {
+        $copied = $advertise->replicate();
+        $copied->start_date = null;
+        $copied->end_date = null;
+        $copied->save();
+        $this->copyMidPoints($advertise, $copied);
+        return $this->edit($request, $copied);
     }
 
     /**

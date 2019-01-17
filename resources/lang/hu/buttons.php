@@ -49,6 +49,7 @@ return [
             'edit'   => 'Szerkeszt',
             'update' => 'Módosít',
             'view'   => 'Mutat',
+            'copy'   => 'Másol',
         ],
 
         'save' => 'Mentés',

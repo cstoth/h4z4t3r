@@ -61,162 +61,85 @@
 
 <span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.2 Route, Date') }}</span>
 <div class="row">
-<div class="col-xs-12 col-lg-6">
+    <div class="col-xs-12 col-lg-6">
 
-<!-- START -->
-<div class="form-row">
-    <div class="col-md-8">
-        <label for="start_city">{{ __('dashboard.driver.submit-ad.Start Place') }}</label>
-        <input type="hidden" id="start_city_id" name="start_city_id" value="{{$advertise->start_city_id}}">
-        <input class="form-control typeahead typeahead-start-city" id="start_city" name="start_city" value="{{$advertise->start_city_label}}" placeholder="{{ __('dashboard.driver.submit-ad.Start Place') }}" type="text" autocomplete="off" required>
-    </div>
-
-    <div class="col-md-4">
-        <label for="start_date">{{ __('dashboard.driver.submit-ad.Start Date') }}</label>
-        <div class='startDate'>
-            <input type='text' id="start_date" name="start_date" class="form-control date" autocomplete="off" value="{{\App\Helpers\Hazater::formatDate($advertise->start_date)}}" required/>
-            <span id="start-date-error" class="error-text">@lang("alerts.backend.advertise.dates-error")</span>
-            <!-- <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span> -->
-        </div>
-    </div>
-</div>
-
-<!-- MIDPOINTS -->
-<div class="form-row mt-2 mb-2">
-    <div class="col">
-        <table id="midpoints" class="col-12"><tr><th width="100%"></th><th></th></tr></table>
-        <a id="koztes-hely" href="#">{{ __('dashboard.driver.submit-ad.Add Midpoint') }}</a>
-    </div>
-</div>
-
-<!-- END -->
-<div class="form-row">
-    <div class="col-md-8">
-        <label for="end_city">{{ __('dashboard.driver.submit-ad.Target Place') }}</label>
-        <input type="hidden" id="end_city_id" name="end_city_id" value="{{$advertise->end_city_id}}">
-        <input class="form-control typeahead typeahead-end-city" id="end_city" name="end_city" value="{{$advertise->end_city_label}}" placeholder="{{ __('dashboard.driver.submit-ad.Target Place') }}" type="text" autocomplete="off" required>
-    </div>
-
-    <div class="col-md-4">
-        <label for="end_date">{{ __('dashboard.driver.submit-ad.Target Date') }}</label>
-        <div class='input-group'>
-            <input type='text' id="end_date" name="end_date" class="form-control date" autocomplete="off" value="{{\App\Helpers\Hazater::formatDate($advertise->end_date)}}" required/>
-            <!-- <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span> -->
-        </div>
-    </div>
-</div>
-
-<!-- DESCRIPTION -->
-<div class="form-row mt-2 mb-2">
-    <div class="col">
-        <label for="description">Megjegyzés</label><em>&nbsp;(pl. egyéb fontos információk, indulási helyszín)</em>
-        {{ html()->textarea('description',$advertise->description)->class("form-control") }}
-    </div>
-</div>
-
-</div>
-
-<!-- MAP -->
-<div class="col-xs-12 col-lg-6">
-    Ajánlott útvonal<span style="float:right"><input type="checkbox" id="highway" name="highway" {{$advertise->highway ? "checked" : ""}}>Autópálya</span>
-    <div class="panel panel-default map-panel" id="mapContainerForm" name="mapContainerForm" style="width: 100%; height: 314px;"></div>
-    <div id="route-summary"></div>
-</div>
-
-</div>
-
-<span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.3 Publish Ad') }}</span>
-
-<!-- PUBLISH -->
-<!-- <div class="form-row" id="radio-tab">
-    <div class="col">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="publish_options" id="publish-regular" value="regular" checked>
-            <label class="form-check-label" for="regular">{{ __('dashboard.driver.submit-ad.Regular Route') }}</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="publish_options" id="publish-unique" value="unique">
-            <label class="form-check-label" for="unique">{{ __('dashboard.driver.submit-ad.Unique Route') }}</label>
-        </div>
-    </div>
-</div> -->
-<div id="radio-tab-content" class="tab-content mt-3">
-    <div id="regular-tab" class="tab-pane fade active show">
+        <!-- START -->
         <div class="form-row">
+            <div class="col-md-8">
+                <label for="start_city">{{ __('dashboard.driver.submit-ad.Start Place') }}</label>
+                <input type="hidden" id="start_city_id" name="start_city_id" value="{{$advertise->start_city_id}}">
+                <input class="form-control typeahead typeahead-start-city" id="start_city" name="start_city" value="{{$advertise->start_city_label}}" placeholder="{{ __('dashboard.driver.submit-ad.Start Place') }}" type="text" autocomplete="off" required>
+            </div>
+
+            <div class="col-md-4">
+                <label for="start_date">{{ __('dashboard.driver.submit-ad.Start Date') }}</label>
+                <div class='startDate'>
+                    <input type='text' id="start_date" name="start_date" class="form-control date" autocomplete="off" value="{{\App\Helpers\Hazater::formatDate($advertise->start_date)}}" required/>
+                    <span id="start-date-error" class="error-text">@lang("alerts.backend.advertise.dates-error")</span>
+                    <!-- <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- MIDPOINTS -->
+        <div class="form-row mt-2 mb-2">
             <div class="col">
-                <label>{{ __('dashboard.driver.submit-ad.Regular Description') }}</label>
+                <table id="midpoints" class="col-12"><tr><th width="100%"></th><th></th></tr></table>
+                <a id="koztes-hely" href="#">{{ __('dashboard.driver.submit-ad.Add Midpoint') }}</a>
             </div>
         </div>
 
-        <input type="hidden" id="regular" name="regular" value="{{ $advertise->regular }}">
-
+        <!-- END -->
         <div class="form-row">
+            <div class="col-md-8">
+                <label for="end_city">{{ __('dashboard.driver.submit-ad.Target Place') }}</label>
+                <input type="hidden" id="end_city_id" name="end_city_id" value="{{$advertise->end_city_id}}">
+                <input class="form-control typeahead typeahead-end-city" id="end_city" name="end_city" value="{{$advertise->end_city_label}}" placeholder="{{ __('dashboard.driver.submit-ad.Target Place') }}" type="text" autocomplete="off" required>
+            </div>
+
+            <div class="col-md-4">
+                <label for="end_date">{{ __('dashboard.driver.submit-ad.Target Date') }}</label>
+                <div class='input-group'>
+                    <input type='text' id="end_date" name="end_date" class="form-control date" autocomplete="off" value="{{\App\Helpers\Hazater::formatDate($advertise->end_date)}}" required/>
+                    <!-- <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="form-row mt-2 mb-2">
             <div class="col">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="day_0" name="day_0">
-                    <label class="form-check-label" for="day_0">{{ __('dashboard.driver.submit-ad.All Days') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="day_1" name="day_1">
-                    <label class="form-check-label" for="day_1">{{ __('dashboard.driver.submit-ad.Monday') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="day_2" name="day_2">
-                    <label class="form-check-label" for="day_2">{{ __('dashboard.driver.submit-ad.Tuesday') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="day_3" name="day_3">
-                    <label class="form-check-label" for="day_3">{{ __('dashboard.driver.submit-ad.Wednesday') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="day_4" name="day_4">
-                    <label class="form-check-label" for="day_4">{{ __('dashboard.driver.submit-ad.Thursday') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="day_5" name="day_5">
-                    <label class="form-check-label" for="day_5">{{ __('dashboard.driver.submit-ad.Friday') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="day_6" name="day_6">
-                    <label class="form-check-label" for="day_6">{{ __('dashboard.driver.submit-ad.Saturday') }}</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="day_7" name="day_7">
-                    <label class="form-check-label" for="day_7">{{ __('dashboard.driver.submit-ad.Sunday') }}</label>
-                </div>
+                <label for="description">Megjegyzés</label><em>&nbsp;(pl. egyéb fontos információk, indulási helyszín)</em>
+                {{ html()->textarea('description',$advertise->description)->class("form-control") }}
             </div>
         </div>
 
     </div>
-    <!-- <div id="unique-tab" class="tab-pane fade">
-        <div class="form-row">
-            <div class="col-md-3">
-                <table id="dates" class="col-12"><tr><th width="100%"></th><th></th></tr></table>
-                <label class="mylink mt-2" for="hidden-date">{{ __('dashboard.driver.submit-ad.Add Date') }}</label>
-                <input type="text" style="width:0px;border:none;" id="hidden-date">
-            </div>
-        </div>
-    </div> -->
+
+    <!-- MAP -->
+    <div class="col-xs-12 col-lg-6">
+        Ajánlott útvonal<span style="float:right"><input type="checkbox" id="highway" name="highway" {{$advertise->highway ? "checked" : ""}}>Autópálya</span>
+        <div class="panel panel-default map-panel" id="mapContainerForm" name="mapContainerForm" style="width: 100%; height: 314px;"></div>
+        <div id="route-summary"></div>
+    </div>
+
 </div>
 
-<hr />
-
-<!-- PRICE -->
-<div class="col">
-    <div class="form-group row mt-4">
+<span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.3 Others') }}</span>
+<div class="form-col"> <!-- PRICE -->
+    <div class="form-group form-row mt-1">
         <label for="price" class="col-form-label col-md-2 mr-2">Úti költség</label>
         <input id="price" name="price" type="number" class="form-control mr-2 col-md-1" min="0" value="{{$advertise->price}}">
         <span class="col-form-label">Ft/fő</span>
     </div>
 </div>
 
-<!-- HOURS -->
-<div class="col">
-    <div class="form-group row mt-4">
+<div class="form-col"><!-- HOURS -->
+    <div class="form-group form-row mt-1">
         <label for="hours" class="col-form-label col-md-2 mr-2">Út lemondása</label>
         <input id="hours" name="hours" type="number" class="form-control mr-2 col-md-1" min="0" value="{{$advertise->hours}}">
         <span class="col-form-label mr-3">óra</span>

@@ -101,7 +101,7 @@
 
     </div>
 
-    <span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.3 Publish Ad') }}</span>
+    <span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.3 Others') }}</span>
 
     <div class="form-row" id="radio-tab">
         <div class="col">

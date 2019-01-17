@@ -26,7 +26,7 @@ return [
             'Target Time'           => 'Időpont',
             'Two-way route'         => 'Oda-vissza út',
             'Remarks'               => 'Megjegyzés',
-            '3 Publish Ad'          => '3. Mikor utazom?',
+            '3 Others'          => '3. Egyéb információk',
             'Regular Route'         => 'Rendszeres út',
             'Regular Description'   => 'Ha rendszeresen utazik itt tudja megadni, hogy mely napokon jelenjen meg automatikusan a hirdetése.',
             'All Days'              => 'Minden nap',

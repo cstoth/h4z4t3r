@@ -114,10 +114,18 @@ class HomeController extends Controller
         $res = $res->whereNotNull('start_date');
         $res = $res->whereNotNull('end_date');
         if (isset($start_city_id)) {
-            $res = $res->where('start_city_id', $start_city_id);
+            if ($start_city_id == 3183) { // Budapest
+                $res = $res->whereIn('start_city_id', array(3183, 393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415));
+            } else {
+                $res = $res->where('start_city_id', $start_city_id);
+            }
         }
         if (isset($end_city_id)) {
-            $res = $res->where('end_city_id', $end_city_id);
+            if ($end_city_id == 3183) { // Budapest
+                $res = $res->whereIn('end_city_id', array(3183, 393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415));
+            } else {
+                $res = $res->where('end_city_id', $end_city_id);
+            }
         }
         if (isset($date) && !empty($date)) {
             $res = $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
@@ -126,7 +134,7 @@ class HomeController extends Controller
             $res = $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
         }
         $res = $res->orderBy('start_date');
-        
+
         //dd($res->toSql());
         //dd($res->getBindings());
         //\Log::info('SEARCH '.$res->toSql()); //.' '.$res->getBindings());

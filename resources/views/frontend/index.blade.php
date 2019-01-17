@@ -151,10 +151,10 @@
     <!-- SEARCH -->
     <div class="search-panel">
         <div class="form-row pt-5 pb-5 flex-row justify-content-center text-white">
-            <h1><strong><i>HazaTér</i></strong></h1>
+            <h1 class="outline"><strong><i>HazaTér</i></strong></h1>
         </div>
         <div class="form-row mt-1 mb-5 flex-row justify-content-center text-white">
-            <h4 class="text-center">„Lépés-Váltás az Észak-Hegyháton - közös utakon”</h4>
+            <h4 class="text-center outline">„Lépés-Váltás az Észak-Hegyháton - közös utakon”</h4>
         </div>
 
         <form id="searchForm" method="POST" action="{{ route('frontend.find') }}" class="form-inline search-form flex-row justify-content-center" autocomplete="off">
@@ -341,7 +341,7 @@
                         return $.get("{{ route('frontend.search.name') }}", {query: query}, function (data) {
                             return process(data);
                         }).fail(function (error){console.log(error)});
-                    }    
+                    }
                 }
             });
         });
@@ -369,7 +369,7 @@
                 }
                 calcRoute(mapIndex, x1, y1, x2, y2);
             },
-            function(error) { 
+            function(error) {
                 console.log(error.message);
             });
         }

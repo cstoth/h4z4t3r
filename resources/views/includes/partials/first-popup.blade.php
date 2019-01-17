@@ -1,4 +1,4 @@
-@if(1==1)
+@if(1==0)
     <style>
         .swal2-popup .swal2-close {
             float: right;
@@ -30,9 +30,7 @@
         }
         if (!getCookie("hazater_popup_seen")) {
             swal({
-                //title: 'TESZT ÜZEMMÓD',
-                //type: 'info',
-                html: 
+                html:
                 '<strong>TESZT ÜZEMMÓD</strong><br><br>' +
                 '<p align="left"><b>Kedves Felhasználó!</b><br><br>' +
                 'A HazaTér interaktív közösségi közlekedés-támogató rendszer jelenleg tesztüzem alatt működik.<br><br>' +
@@ -48,7 +46,6 @@
                 confirmButtonAriaLabel: 'Thumbs up, great!',
             }).then((result) => {
                 if (result.value) {
-                    console.log("OK");
                     document.cookie="hazater_popup_seen=true;expires=Wed, 18 Dec 2020 12:00:00 GMT";
                 }
             });

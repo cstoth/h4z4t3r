@@ -87,7 +87,7 @@
         <div class="form-row mt-2 mb-2">
             <div class="col">
                 <table id="midpoints" class="col-12"><tr><th width="100%"></th><th></th></tr></table>
-                <a id="koztes-hely" href="#">{{ __('dashboard.driver.submit-ad.Add Midpoint') }}</a>
+                <a id="koztes-hely" class="disabled-link" href="#">{{ __('dashboard.driver.submit-ad.Add Midpoint') }}</a>
             </div>
         </div>
 
@@ -509,6 +509,13 @@ var hiddenDate = $("#hidden-date").bootstrapMaterialDatePicker({
 
 function callRouteCalculation() {
     calcRoute(mapAdvertiseForm, x1, y1, x2, y2, midPoints, $('#route-summary'), $("#highway").is(':checked'));
+    var startCity = $('#start_city_id').attr('value');
+    var endCity = $('#end_city_id').attr('value');
+    if (startCity && endCity) {
+        $("#koztes-hely").removeClass("disabled-link");
+    } else {
+        $("#koztes-hely").addClass("disabled-link");
+    }
 }
 $('#highway:checkbox').change(function (e) {
     callRouteCalculation();

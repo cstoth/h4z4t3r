@@ -376,3 +376,8 @@ th.action_buttons {
 .outline {
     -webkit-text-stroke: 1px black;
 }
+.disabled-link {
+    pointer-events: none;
+    cursor: default;
+    color: gray;
+}

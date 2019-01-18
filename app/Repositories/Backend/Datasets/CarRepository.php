@@ -6,6 +6,7 @@ use App\Models\Car;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
+use App\Models\Advertise;
 //use App\Events\Backend\Datasets\Car\CarCreated;
 //use App\Events\Backend\Datasets\Car\CarUpdated;
 
@@ -84,10 +85,18 @@ class CarRepository extends BaseRepository
             }
         }
 
-        $sql = "SELECT MIN(free_seats) FROM advertises WHERE template IS NULL AND status=1 AND start_date>CURRENT_TIMESTAMP AND car_id={$model->id}";
-        $min_seats = DB::select(DB::raw($sql));
-        if ($data['seats'] < $min_seats) {
-            throw new GeneralException('A szabad ülések száma nem lehet kevesebb mint az aktuális helyfoglalások száma!');
+        // $sql = "SELECT MIN(free_seats) FROM advertises WHERE template IS NULL AND status=1 AND start_date>CURRENT_TIMESTAMP AND car_id={$model->id}";
+        // $min_seats = DB::select(DB::raw($sql))->first();
+        $min_seats = Advertise::whereNull('template')
+            ->where('status', Advertise::ACTIVE)
+            ->where('start_date', '>', DB::raw('CURRENT_TIMESTAMP'))
+            ->where('car_id', $model->id)
+            ->min('free_seats');
+        //dd($min_seats);
+        if($min_seats && $min_seats != null) {
+            if ($data['seats'] < $min_seats) {
+                throw new GeneralException('A szabad ülések száma nem lehet kevesebb mint az aktuális helyfoglalások száma!');
+            }
         }
 
         return DB::transaction(function () use ($model, $data, $image, $image2) {
@@ -112,7 +121,7 @@ class CarRepository extends BaseRepository
                     $model['image2'] = $this->storeImage($image2);
                     $model->save();
                 }
-    
+
                 // TODO event(new CarUpdated($model));
                 return $model;
             }

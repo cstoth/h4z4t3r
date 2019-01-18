@@ -90,63 +90,85 @@ return [
         'contact' => [
             'email_body_title' => 'Új üzenete érkezett a HazaTér rendszer kapcsolat űrlapján keresztül:',
             'subject' => 'Egy új :app_name kapcsolat űrlapja érkezett!',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'hunter' => [
             'email_body_title' => 'Új üzenete érkezett a HazaTér rendszer hirdetésfigyelőjén keresztül:',
             'subject' => 'Egy új :app_name hirdetésfigyelő értesítése érkezett!',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'advertise' => [
             'email_body_title' => 'A HazaTér rendszerben megnézheti az aktuális hirdetést.',
             'subject' => 'Módosították az egyik hirdetést, amire helyet foglalt.',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'meadvertise' => [
             'email_body_title' => 'A HazaTér rendszerben megnézheti az aktuális hirdetést.',
             'subject' => 'Módosította az egyik hirdetését.',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'delete' => [
             'email_body_title' => 'A HazaTér rendszerben megnézheti a törlésre került hirdetést.\nItt vonja vissza a helyfoglalását!',
             'subject' => 'Törölték az egyik hirdetést, amire helyet foglalt.',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'medelete' => [
             'email_body_title' => 'A HazaTér rendszerben Törölte az egyik hirdetését.\nItt feladthat új utat!',
             'subject' => 'Törölte az egyik hirdetését.',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'cancel' => [
             'email_body_title' => 'A HazaTér rendszerben megnézheti a hirdetést.',
             'subject' => 'Visszavonták az egyik hirdetéséhez tartozó helyfoglalást.',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'mecancel' => [
             'email_body_title' => 'A HazaTér rendszerben megnézheti a hirdetést.',
             'subject' => 'Visszavonta az egyik helyfoglalását.',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'reserve' => [
             'email_body_title' => 'A HazaTér rendszerben megnézheti az utasai listáját.',
             'subject' => 'Helyfoglalást adtak fel az egyik hirdetésére.',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'mereserve' => [
             'email_body_title' => 'A HazaTér rendszerben megnézheti a helyfoglalását.',
             'subject' => 'Helyfoglalást adott fel egy hirdetésre.',
+            'email_body' => '',
+            'email_button' => '',
         ],
 
         'driver' => [
             'email_body_title' => 'A HazaTér rendszerben lezárhatja az hirdetését.',
-            'email_body' => 'Ide kattintva zárja le a hirdetést.',
-            'subject' => 'Hirdetés befejezése.',
+            'subject' => 'Hirdetés lezárása.',
+            'email_body' => 'Ezt a levelet azért kapta mert, az egyik utazása befejeződött.',
+            'email_button' => 'Hirdetés lezárása',
         ],
 
         'passanger' => [
             'email_body_title' => 'A HazaTér rendszerben lezárhatja az utazását.',
-            'email_body' => 'Ide kattintva zárja le az utazását.',
             'subject' => 'Utazás befejezése.',
+            'email_body' => 'Ezt a levelet azért kapta mert, az egyik utazása befejeződött.',
+            'email_button' => 'Utazás lezárása',
         ],
     ],
 

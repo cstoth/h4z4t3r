@@ -135,11 +135,17 @@ class HomeController extends Controller
         }
         $res = $res->orderBy('start_date');
 
+        //dd($res);
         //dd($res->toSql());
         //dd($res->getBindings());
         //\Log::info('SEARCH '.$res->toSql()); //.' '.$res->getBindings());
 
         $response = $res->paginate(25);
+
+        //dd($response);
+
+        //https://route.api.here.com/routing/7.2/calculateroute.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled
+        $rest = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=".getenv('HERE_APP_ID')."&app_code=".getenv('HERE_APP_CODE')."&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled";
 
         return view('frontend.search')->withResults($response)->withSearch($search);
         //return redirect()->route('frontend.search')->withResults($response)->withSearch($search);

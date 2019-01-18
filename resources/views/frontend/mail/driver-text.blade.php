@@ -1,4 +1,5 @@
-@lang('strings.emails.driver.email_body_title')
+HazaTér
 
-Használja ezt a linket a hirdetés lezárásához:
-{{ route('frontend.datasets.advertise.close', $advertise->id) }}
+@lang('strings.emails.driver.email_body')
+
+@lang('strings.emails.driver.email_button'): {{ route('frontend.datasets.advertise.close', $advertise->id) }}

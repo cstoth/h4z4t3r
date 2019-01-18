@@ -110,6 +110,7 @@ return [
                 'create'     => 'Feladás',
                 'edit'       => 'Szerkesztés',
                 'show'       => 'Megtekintés',
+                'close'      => 'Lezárás',
 
                 'table' => [
                     'from_user_id' => 'Feladó',

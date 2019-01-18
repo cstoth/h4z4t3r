@@ -218,6 +218,7 @@ class AdvertiseController extends Controller
     public function close(Advertise $advertise) {
         $advertise->status = Advertise::CLOSED;
         $advertise->save();
+        return view('frontend.datasets.advertise.close');
     }
 
     /**

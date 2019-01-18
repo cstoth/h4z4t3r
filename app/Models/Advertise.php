@@ -228,9 +228,9 @@ class Advertise extends Model
         return $this->free_seats;
     }
 
-    protected $statusLabels = ['inaktív', 'aktív', 'törölt', 'lejárt'];
+    protected $statusLabels = ['inaktív', 'aktív', 'törlendő', 'folyamatban', 'lejárt', 'lezárt', 'törölt'];
 
-    protected $statusColors = ['badge-secondary', 'badge-success', 'badge-danger', 'badge-dark'];
+    protected $statusColors = ['badge-secondary', 'badge-success', 'badge-warning', 'badge-primary', 'badge-warning', 'badge-dark', 'badge-danger'];
 
     /**
      *

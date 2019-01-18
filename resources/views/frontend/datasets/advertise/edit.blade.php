@@ -34,8 +34,9 @@
                 </div><!--col-->
 
                 <div class="col text-right">
-                    {{-- form_submit(__('buttons.general.crud.update')) --}}
-                    <button id="advertise-update" type="submit" class="btn btn-success pull-right">{{__('buttons.general.crud.update')}}</button>
+                    @if($advertise->isEditable())
+                        <button id="advertise-update" type="submit" class="btn btn-success pull-right">{{__('buttons.general.crud.update')}}</button>
+                    @endif
                 </div><!--col-->
             </div><!--row-->
         </div><!--card-footer-->

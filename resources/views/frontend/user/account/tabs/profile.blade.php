@@ -34,9 +34,6 @@
         </div><!--form-group-->
     </div><!--col-->
     <div class="col text-right">
-        {{-- <form id="delete-form" method="DELETE" action="{{ route('frontend.user.profile.delete', $logged_in_user) }}"><button type="submit" class="btn btn-danger">Profil törlése</button></form> --}}
-        {{-- <a id="profile-delete" class="btn btn-danger">Profil törlése</a> --}}
-
         <a href="{{route('frontend.user.profile.delete', $logged_in_user)}}"
         title="{{__('buttons.general.crud.delete')}}"
         data-key="{{$logged_in_user->id}}"

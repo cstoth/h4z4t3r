@@ -135,6 +135,12 @@ thead {
 .table tbody tr:hover {
     background-color: #ADC8D2; /* #7DAAB9 */
 }
+.table tbody tr .btn-group {
+    visibility: hidden;
+}
+.table tbody tr:hover .btn-group {
+    visibility: visible;
+}
 .table tbody tr {
     background-color: white;
 }

@@ -101,16 +101,6 @@
                 {{ form_submit(__('labels.general.buttons.update')) }}
             </div><!--form-group-->
         </div><!--col-->
-        {{-- <div class="col text-right">
-            <a href="{{route('frontend.user.profile.delete', $logged_in_user)}}"
-            title="{{__('buttons.general.crud.delete')}}"
-            data-key="{{$logged_in_user->id}}"
-            data-method="delete"
-            data-trans-button-cancel="{{__('buttons.general.cancel')}}"
-            data-trans-button-confirm="{{__('buttons.general.crud.delete')}}"
-            data-trans-title="{{__('strings.backend.general.are_you_sure')}}"
-            class="btn btn-danger">Profil törlése</a>
-        </div><!--col--> --}}
     </div><!--row-->
 {{ html()->closeModelForm() }}
 

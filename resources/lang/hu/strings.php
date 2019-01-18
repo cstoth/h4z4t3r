@@ -32,6 +32,7 @@ return [
         'general' => [
             'all_rights_reserved' => 'Minden jog fenntartva.',
             'are_you_sure'        => 'Biztos benne, hogy törli ezt az elemet?',
+            'not_deletable'       => 'A hirdetés nem törölhető!',
             'boilerplate_link'    => 'Laravel 5 Boilerplate',
             'continue'            => 'Folytatás',
             'member_since'        => 'Tagság ettől',

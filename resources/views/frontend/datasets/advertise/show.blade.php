@@ -34,7 +34,7 @@
                 </div><!--col-->
 
                 <div class="col text-right">
-                    @if(Auth::user() && (Auth::user()->id == $advertise->user_id))
+                    @if(Auth::user() && (Auth::user()->id == $advertise->user_id) && ($advertise->isEditable()))
                         <a href="{{route('frontend.datasets.advertise.edit',$advertise)}}" class="btn btn-success">{{__('buttons.general.crud.edit')}}</a>
                     @endif
                 </div><!--col-->

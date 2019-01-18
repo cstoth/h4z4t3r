@@ -235,19 +235,34 @@ class Advertise extends Model
     /**
      *
      */
-    public function getStatusLabelAttribute()
-    {
+    public function getStatusLabelAttribute() {
         return '<span class="badge '.$this->statusColors[$this->status].'">'.$this->statusLabels[$this->status].'</span>';
     }
 
     /**
      * @return bool
      */
-    public function isTemplate()
-    {
+    public function isTemplate() {
         return isset($this->template);
     }
 
+    /**
+     * @return bool
+     */
+    public function isEditable() {
+        return $this->status == Advertise::INACTIVE || $this->status == Advertise::ACTIVE || $this->status == Advertise::DELETABLE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeletable() {
+        return $this->status == Advertise::INACTIVE || $this->status == Advertise::ACTIVE || $this->status == Advertise::DELETABLE;
+    }
+
+    /**
+     * 
+     */
     public function getBoolItem($bool) {
         if ($bool) {
             return '<span class="badge badge-success" style="cursor:pointer">'.__('labels.general.yes').'</span>';
@@ -259,8 +274,7 @@ class Advertise extends Model
     /**
      * @return string
      */
-    public function getShowButtonAttribute()
-    {
+    public function getShowButtonAttribute() {
         return '<a href="'.route('frontend.datasets.advertise.show', $this).'"
             id="advertise-show-'.$this->id.'"
             data-key="'.$this->id.'"
@@ -273,22 +287,24 @@ class Advertise extends Model
     /**
      * @return string
      */
-    public function getEditButtonAttribute()
-    {
-        return '<a href="'.route('frontend.datasets.advertise.edit', $this).'"
-            id="advertise-edit-'.$this->id.'"
-            data-key="'.$this->id.'"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="'.__('buttons.general.crud.edit').'"
-            class="btn btn-success"><i class="fas fa-edit"></i></a>';
+    public function getEditButtonAttribute() {
+        if ($this->isEditable()) {
+            return '<a href="'.route('frontend.datasets.advertise.edit', $this).'"
+                id="advertise-edit-'.$this->id.'"
+                data-key="'.$this->id.'"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="'.__('buttons.general.crud.edit').'"
+                class="btn btn-success"><i class="fas fa-edit"></i></a>';
+        }
+        
+        return '';
     }
 
     /**
      * @return string
      */
-    public function getCopyButtonAttribute()
-    {
+    public function getCopyButtonAttribute() {
         return '<a href="'.route('frontend.datasets.advertise.copy', $this).'"
             id="advertise-copy-'.$this->id.'"
             data-key="'.$this->id.'"
@@ -301,17 +317,18 @@ class Advertise extends Model
     /**
      * @return string
      */
-    public function getDeleteButtonAttribute()
-    {
+    public function getDeleteButtonAttribute() {
         if ($this->user_id == auth()->id()) {
-            return '<a href="'.route('frontend.advertise.delete', $this).'"
-                title="'.__('buttons.general.crud.delete').'"
-                data-key="'.$this->id.'"
-                data-method="delete"
-                data-trans-button-cancel="'.__('buttons.general.cancel').'"
-                data-trans-button-confirm="'.__('buttons.general.crud.delete').'"
-                data-trans-title="'.__('strings.backend.general.are_you_sure').'"
-                class="btn btn-danger"><i class="fas fa-trash"></i></a> ';
+            if ($this->isDeletable()) {
+                return '<a href="'.route('frontend.advertise.delete', $this).'"
+                    title="'.__('buttons.general.crud.delete').'"
+                    data-key="'.$this->id.'"
+                    data-method="delete"
+                    data-trans-button-cancel="'.__('buttons.general.cancel').'"
+                    data-trans-button-confirm="'.__('buttons.general.crud.delete').'"
+                    data-trans-title="'.__('strings.backend.general.are_you_sure').'"
+                    class="btn btn-danger"><i class="fas fa-trash"></i></a> ';
+            }
         }
 
         return '';
@@ -320,8 +337,7 @@ class Advertise extends Model
     /**
      * @return string
      */
-    public function getActionButtonsAttribute()
-    {
+    public function getActionButtonsAttribute() {
         return '<div id="advertise-buttons" class="btn-group" role="group" aria-label="'.__('labels.backend.access.users.user_actions').'">
             '.$this->show_button.'
             '.$this->edit_button.'

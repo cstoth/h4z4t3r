@@ -7,7 +7,15 @@
 	color: white;
 	font-family: Helvetica;
 	text-align: center;
-	vertical-align: middle,
+	vertical-align: middle;
+}
+.title h1 a:link {
+	text-decoration: none;
+	color: white;
+}
+.title h1 a:visited {
+	text-decoration: none;
+	color: white;
 }
 .content {
 	widht: 100%;
@@ -34,5 +42,8 @@
 }
 </style>
 <div class="title">
-	<h1>HazaTér</h1>
+	<h1><a href="{{ route('frontend.index') }}">HazaTér</a></h1>
 </div>
+<div class="content">
+	<h3 style="text-align:left">Kedves HazaTér felhasználó!</h3>
+	<br>

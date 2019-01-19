@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Frontend;
 
 use Illuminate\Http\Request;
 use Illuminate\Bus\Queueable;
@@ -11,9 +11,9 @@ use App\Models\Advertise;
 use App\Helpers\Hazater;
 
 /**
- * Class SendPassanger.
+ * Class SendUpdate.
  */
-class SendPassanger extends Mailable
+class SendUpdate extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,15 +28,16 @@ class SendPassanger extends Mailable
     public $advertise;
 
     /**
-     * SendPassanger constructor.
+     * SendUpdate constructor.
      *
      * @param User $user
      * @param Advertise $advertise
      */
-    public function __construct(Advertise $_advertise, User $_user)
+    public function __construct(User $_user, Advertise $_advertise)
     {
-        $this->advertise = $_advertise;
         $this->user = $_user;
+        $this->advertise = $_advertise;
+        //dd($this->advertise);
     }
 
     /**
@@ -47,9 +48,9 @@ class SendPassanger extends Mailable
     public function build()
     {
         return $this->to($this->user->email, $this->user->full_name)
-            ->view('frontend.mail.passanger')
-            ->text('frontend.mail.passanger-text')
-            ->subject(__('strings.emails.passanger.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
+            ->view('frontend.mail.update')
+            //->text('frontend.mail.advertise-text')
+            ->subject(__('mails.update.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->replyTo($this->user->email, $this->user->full_name);
     }

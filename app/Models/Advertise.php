@@ -263,6 +263,13 @@ class Advertise extends Model
     /**
      * 
      */
+    public function getReservesAttribute() {
+        return Reserve::where('advertise_id', $this->id)->get();
+    }
+
+    /**
+     * 
+     */
     public function getBoolItem($bool) {
         if ($bool) {
             return '<span class="badge badge-success" style="cursor:pointer">'.__('labels.general.yes').'</span>';

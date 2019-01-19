@@ -49,8 +49,8 @@ class SendMeDelete extends Mailable
     {
         return $this->to($this->user->email, $this->user->full_name)
             ->view('frontend.mail.medelete')
-            ->text('frontend.mail.medelete-text')
-            ->subject(__('strings.emails.medelete.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
+            //->text('frontend.mail.medelete-text')
+            ->subject(__('mails.medelete.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->replyTo($this->user->email, $this->user->full_name);
     }

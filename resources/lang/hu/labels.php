@@ -111,6 +111,7 @@ return [
                 'edit'       => 'Szerkesztés',
                 'show'       => 'Megtekintés',
                 'close'      => 'Lezárás',
+                'rate'       => 'Értékelés',
 
                 'table' => [
                     'from_user_id' => 'Feladó',

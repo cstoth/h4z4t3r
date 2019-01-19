@@ -20,13 +20,14 @@ use App\Repositories\Backend\Datasets\AdvertiseRepository;
 use App\Models\Passanger;
 use App\Helpers\Hazater;
 use App\Models\Midpoint;
-use App\Mail\Frontend\SendAdvertise;
+use App\Mail\Frontend\SendUpdate;
 use App\Models\Reserve;
-use App\Mail\Frontend\SendMeAdvertise;
+use App\Mail\Frontend\SendMeUpdate;
 use App\Models\Date;
 use App\Models\Hunter;
 use App\Console\Commands\HunterCheck;
 use App\Models\City;
+use App\Models\Rate;
 
 use App\Mail\Frontend\SendCancel;
 use App\Mail\Frontend\SendMeCancel;
@@ -71,17 +72,6 @@ class AdvertiseController extends Controller {
         $cars = Car::where('user_id', Auth::user()->id)->get();
         return view('frontend.datasets.advertise.create')->withCars($cars);
     }
-
-    // /**
-    //  * @param AdvertiseStoreRequest $request
-    //  *
-    //  * @return mixed
-    //  * @throws \App\Exceptions\GeneralException
-    //  */
-    // public function store(AdvertiseStoreRequest $request)
-    // {
-    //     return redirect()->route('frontend.user.driver.menu')->withFlashSuccess(__('alerts.backend.advertise.created'));
-    // }
 
     /**
      * @param AdvertiseManageRequest $request
@@ -205,10 +195,10 @@ class AdvertiseController extends Controller {
 
         //TODO: mail!
         \Log::info('A hirdetés ('.$advertise->id.') módosult ' . Hazater::routeLabel($advertise->id));
-        Mail::send(new SendMeAdvertise($advertise->user, $advertise));
+        Mail::send(new SendMeUpdate($advertise->user, $advertise));
         $reserves = Reserve::where('advertise_id', $advertise->id)->get();
         foreach ($reserves as $reserve) {
-            Mail::send(new SendAdvertise($reserve->user, $advertise));
+            Mail::send(new SendUpdate($reserve->user, $advertise));
         }
         HunterCheck::checkAdvertise($advertise); //A módosult hirdetés megfelel egy hirdetés vadásznak?
 
@@ -218,10 +208,53 @@ class AdvertiseController extends Controller {
     /**
      * 
      */
-    public function close(Advertise $advertise) {
+    public function updateUserRate($user_id) {
+        DB::raw("update users u SET u.rate=COALESCE((SELECT avg(r.rate) FROM rates r WHERE r.user_id=u.id), 0) WHERE u.id=" . $user_id);
+    }
+
+    /**
+     * 
+     */
+    public function storeRate($user_id, $advertise_id, $rate) {
+        $model = new Rate();
+        $model->user_id = $user_id;
+        $model->advertise_id = $advertise_id;
+        $model->rate = intval($rate);
+        $model->comment = "teszt";
+        $model->save();
+
+        $this->updateUserRate($user_id);
+    }
+
+    /**
+     * 
+     */
+    public function close(AdvertiseManageRequest $request, Advertise $advertise) {
+        $prefix = "rating-";
+        //dd($request->request);
+
+        // TODO értékelés
+        foreach ($request->request->keys() as $key) {
+            if (substr($key, 0, strlen($prefix)) == $prefix) {
+                $value = $request[$key];
+                $uid = ltrim($key, $prefix);
+                $this->storeRate($uid, $advertise->id, $value);
+            }
+        }
+
         $advertise->status = Advertise::CLOSED;
         $advertise->save();
-        return view('frontend.datasets.advertise.close');
+
+        return $this->redirTab(2)->withFlashSuccess(__("alerts.backend.advertise.closed"));
+    }
+
+    /**
+     * 
+     */
+    public function rate(Advertise $advertise) {
+        if (!Auth::user()) return redirect()->route('frontend.auth.login')->withFlashInfo('A munkamenete lejárt, jelentkezzen be ismét!');
+
+        return view('frontend.datasets.advertise.rate')->withAdvertise($advertise);
     }
 
     /**

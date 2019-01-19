@@ -18,6 +18,7 @@ return [
             'created' => 'Hirdetés sikeresen létrehozva.',
             'deleted' => 'Hirdetés sikeresen törölve.',
             'updated' => 'Hirdetés sikeresen módosítva.',
+            'closed' => 'Hirdetés sikeresen lezárva.',
             'dates-error' => 'Az indulás korábbra kell essen mint az érkezés!',
         ],
 

@@ -38,7 +38,7 @@ class SendContact extends Mailable
     {
         return $this->to('lepesvaltas@alsomocslad.hu', 'HazaTér')
             ->view('frontend.mail.contact')
-            ->text('frontend.mail.contact-text')
+            //->text('frontend.mail.contact-text')
             ->subject(__('strings.emails.contact.subject', ['app_name' => app_name()]))
             //->from($this->request->email, $this->request->name)
             ->from(config('mail.from.address'), config('mail.from.name'))

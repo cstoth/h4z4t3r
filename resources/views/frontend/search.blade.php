@@ -202,15 +202,18 @@
                 @endphp
             @endif
 
+            <!-- RESULT -->
             <div class="row box pl-3 pr-3" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">
                 <div class="col-xs-12 col-md-9">{!! $result->dates_label !!}<br>{!! $result->cities_label !!}</div>
                 <div class="col-xs-12 col-md-1">{!! $result->free_seats !!} hely</div>
-                <!-- <div class="col-xs-12 col-md-1">
-                    @if($result->user->picture)
-                    <img src="{{ $result->user->picture }}" class="img-avatar" height="48px">
-                    @endif
-                </div> -->
-                <div class="col-xs-12 col-md-2">{{ $result->user->full_name }}<br>{!! $result->car_label !!}</div>
+                @if(1==2)
+                    <div class="col-xs-12 col-md-1">
+                        @if($result->user->picture)
+                        <img src="{{ $result->user->picture }}" class="img-avatar" height="48px">
+                        @endif
+                    </div>
+                @endif
+                <div class="col-xs-12 col-md-2">{{ $result->user->rated_name }}<br>{!! $result->car_label !!}</div>
             </div>
         @empty
             <em>{{ __("strings.frontend.no_results_found")}}</em>

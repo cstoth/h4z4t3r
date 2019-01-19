@@ -49,8 +49,8 @@ class SendReserve extends Mailable
     {
         return $this->to($this->user->email, $this->user->full_name)
             ->view('frontend.mail.reserve')
-            ->text('frontend.mail.reserve-text')
-            ->subject(__('strings.emails.reserve.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
+            //->text('frontend.mail.reserve-text')
+            ->subject(__('mails.reserve.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->replyTo($this->user->email, $this->user->full_name);
     }

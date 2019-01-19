@@ -50,6 +50,7 @@ return [
             'update' => 'Módosít',
             'view'   => 'Mutat',
             'copy'   => 'Másol',
+            'save'   => 'Mentés',
             'not_deletable' => 'Nem törölhető!',
         ],
 

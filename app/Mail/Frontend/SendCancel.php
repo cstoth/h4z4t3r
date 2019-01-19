@@ -49,8 +49,8 @@ class SendCancel extends Mailable
     {
         return $this->to($this->user->email, $this->user->full_name)
             ->view('frontend.mail.cancel')
-            ->text('frontend.mail.cancel-text')
-            ->subject(__('strings.emails.cancel.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
+            //->text('frontend.mail.cancel-text')
+            ->subject(__('mails.cancel.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->replyTo($this->user->email, $this->user->full_name);
     }

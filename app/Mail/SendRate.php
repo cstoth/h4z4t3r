@@ -11,9 +11,9 @@ use App\Models\Advertise;
 use App\Helpers\Hazater;
 
 /**
- * Class SendDriver.
+ * Class SendRate.
  */
-class SendDriver extends Mailable
+class SendRate extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,15 +28,15 @@ class SendDriver extends Mailable
     public $advertise;
 
     /**
-     * SendDriver constructor.
+     * SendRate constructor.
      *
      * @param User $user
      * @param Advertise $advertise
      */
-    public function __construct(Advertise $_advertise)
+    public function __construct(User $_user, Advertise $_advertise)
     {
+        $this->user = $_user;
         $this->advertise = $_advertise;
-        $this->user = $this->advertise->user;
     }
 
     /**
@@ -47,9 +47,9 @@ class SendDriver extends Mailable
     public function build()
     {
         return $this->to($this->user->email, $this->user->full_name)
-            ->view('frontend.mail.driver')
-            ->text('frontend.mail.driver-text')
-            ->subject(__('strings.emails.driver.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
+            ->view('frontend.mail.rate')
+            //->text('frontend.mail.driver-text')
+            ->subject(__('mails.rate.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->replyTo($this->user->email, $this->user->full_name);
     }

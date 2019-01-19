@@ -48,7 +48,7 @@ class SendHunter extends Mailable
     {
         return $this->to($this->user->email, $this->user->full_name)
             ->view('frontend.mail.hunter')
-            ->text('frontend.mail.hunter-text')
+            //->text('frontend.mail.hunter-text')
             ->subject(__('strings.emails.hunter.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->replyTo($this->user->email, $this->user->full_name);

@@ -12,8 +12,7 @@ use App\Models\Auth\User;
 use App\Models\Advertise;
 use App\Models\Passanger;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use App\Mail\SendDriver;
-use App\Mail\SendPassanger;
+use App\Mail\SendRate;
 use App\Models\Reserve;
 
 class EmailSend extends Command
@@ -49,10 +48,10 @@ class EmailSend extends Command
         $advertise->status = Advertise::FINISHED;
         $advertise->save();
         
-        Mail::send(new SendDriver($advertise));
+        Mail::send(new SendRate($advertise->user, $advertise));
         $reserves = Reserve::where('advertise_id', $advertise->id)->get();
         foreach ($reserves as $reserve) {
-            Mail::send(new SendPassanger($advertise, $reserve->user));
+            Mail::send(new SendRate($reserve->user, $advertise));
         }        
     }
 
@@ -61,8 +60,7 @@ class EmailSend extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
+    public function handle() {
         \Log::info($this->signature . " started");
 
         $output = new ConsoleOutput();

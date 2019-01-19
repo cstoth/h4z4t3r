@@ -216,4 +216,12 @@ return [
         'welcome_to' => 'Üdvözli a(z) :place',
         'no_results_found' => 'Nincs a keresésnek megfelelő találat!',
     ],
+
+    'rating' => [
+        '1' => 'Ájjáj',
+        '2' => 'Szódával elmegy',
+        '3' => 'Alap',
+        '4' => 'Jó',
+        '5' => 'Kiváló',
+    ],
 ];

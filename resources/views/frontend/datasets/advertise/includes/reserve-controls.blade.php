@@ -3,9 +3,28 @@
         <span class="d-block p-2 bg-group text-black mt-3 mb-3">Sofőr adatai</span>
         <div class="form-row">
             <div class="col-md-6 justify-content-center align-items-center text-center">
-                <a href="#" alt="Sofőr felhasználói adatai">
-                    <img src="{{ $advertise->user->picture }}" class="user-profile-image"/>
-                </a>
+                <div class="form-row justify-content-center align-items-center text-center">
+                    @php $rating = $advertise->user->rate; @endphp
+                    @foreach(range(1,5) as $i)
+                        <span class="fa-stack" style="width:1em">
+                            <i class="far fa-star fa-stack-1x"></i>
+                            @if($rating >0)
+                                @if($rating >0.5)
+                                    <i class="fas fa-star fa-stack-1x"></i>
+                                @else
+                                    <i class="fas fa-star-half fa-stack-1x"></i>
+                                @endif
+                            @endif
+                            @php $rating--; @endphp
+                        </span>
+                    @endforeach
+                    &nbsp;({{$advertise->user->rate}})
+                </div>
+                <div class="form-row justify-content-center align-items-center text-center">
+                    <a href="#" alt="Sofőr felhasználói adatai">
+                        <img src="{{ $advertise->user->picture }}" class="user-profile-image"/>
+                    </a>
+                </div>
             </div>
             <div class="col-md-6">
                 <label for="user_name">{{ __('labels.frontend.user.profile.name') }}</label>
@@ -55,7 +74,7 @@
     </div>
 </div>
 
-<span class="d-block p-2 bg-group text-black mt-3 mb-3">Út adatai</span>
+<span class="d-block p-2 bg-group text-black mt-3 mb-3">{{ __('dashboard.driver.submit-ad.2 Route, Date') }}</span>
 
 <div class="form-row">
 
@@ -120,6 +139,8 @@
     </div>
 
 </div>
+
+<span class="d-block p-2 bg-group text-black mt-3 mb-3">{{ __('dashboard.driver.submit-ad.3 Others') }}</span>
 
 <div class="col">
     <div class="form-group row mt-4">

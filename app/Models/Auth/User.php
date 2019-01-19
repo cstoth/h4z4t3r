@@ -49,6 +49,7 @@ class User extends Authenticatable
         'last_login_at',
         'last_login_ip',
         'phone',
+        'rate',
     ];
 
     /**
@@ -79,4 +80,10 @@ class User extends Authenticatable
         'confirmed' => 'boolean',
     ];
 
+    /**
+     * 
+     */
+    public function getRatedNameAttribute() {
+        return $this->full_name . " ★(" . $this->rate . ")";
+    }
 }

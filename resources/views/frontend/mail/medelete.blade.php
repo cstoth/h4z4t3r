@@ -1,3 +1,8 @@
-<p>@lang('strings.emails.medelete.email_body_title')</p>
+@include('frontend.includes.mail-header')
 
-<a href="{{ route('frontend.user.advertise.add') }}">Ugrás új hirdetés feladására.</a>
+<p style="text-align:justify">@lang('mails.medelete.upper')</p><br>
+<a class="button" href="{{ route('frontend.datasets.advertise.create') }}">@lang('mails.medelete.button')</a>
+<p style="font-size:1em">@lang('mails.medelete.lower')</p><br>
+
+@include('frontend.includes.mail-footer')
+

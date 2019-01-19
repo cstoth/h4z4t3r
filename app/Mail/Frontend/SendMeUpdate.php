@@ -11,9 +11,9 @@ use App\Models\Advertise;
 use App\Helpers\Hazater;
 
 /**
- * Class SendMeAdvertise.
+ * Class SendMeUpdate.
  */
-class SendMeAdvertise extends Mailable
+class SendMeUpdate extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,7 +28,7 @@ class SendMeAdvertise extends Mailable
     public $advertise;
 
     /**
-     * SendMeAdvertise constructor.
+     * SendMeUpdate constructor.
      *
      * @param User $user
      * @param Advertise $advertise
@@ -48,9 +48,9 @@ class SendMeAdvertise extends Mailable
     public function build()
     {
         return $this->to($this->user->email, $this->user->full_name)
-            ->view('frontend.mail.meadvertise')
-            ->text('frontend.mail.meadvertise-text')
-            ->subject(__('strings.emails.meadvertise.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
+            ->view('frontend.mail.meupdate')
+            //->text('frontend.mail.meadvertise-text')
+            ->subject(__('mails.meupdate.subject', ['app_name' => app_name(), 'route_label' => Hazater::routeLabel($this->advertise->id)]))
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->replyTo($this->user->email, $this->user->full_name);
     }

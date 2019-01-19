@@ -39,20 +39,3 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
      */
     include_route_files(__DIR__.'/backend/');
 });
-
-//Route::resource('reserve', 'ReserveController', ['except' => []]);
-// Route::controllers([
-//     'reserve'   => 'ReserveController',
-// ]);
-
-//Route::resource('reserve', 'ReserveController');
-// Route::get('reserve', function(Builder $builder) {
-// });
-
-// Route::get('{view}', function ($view) {
-//     if (view()->exists($view)) {
-//         return view($view);
-//     }
-
-//     return app()->abort(404, 'Page not found!');
-// });

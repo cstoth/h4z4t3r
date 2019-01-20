@@ -10,25 +10,23 @@ use App\Models\Advertise;
 use \Datetime;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Hazater;
 
 /**
  * Class HomeController.
  */
-class HomeController extends Controller
-{
+class HomeController extends Controller {
     /**
      * @return \Illuminate\View\View
      */
-    public function index()
-    {
+    public function index() {
         return view('frontend.index');
     }
 
     /**
      * @return \Illuminate\View\View
      */
-    public function search(Request $request)
-    {
+    public function search(Request $request) {
         //return $this->find($request);
         session_start();
         if (isset($_SESSION['SEARCH'])) {
@@ -50,24 +48,101 @@ class HomeController extends Controller
     /**
      * @return \Illuminate\View\View
      */
-    public function findGet(Request $request)
-    {
-        return $this->innerFind($request);
+    public function findGet(Request $request) {
+        return $this->doFind($request);
     }
 
     /**
      *
      */
-    public function findPost(Request $request)
-    {
-        return $this->innerFind($request);
+    public function findPost(Request $request) {
+        return $this->doFind($request);
+    }
+
+    /**
+     * 
+     */
+    private function budapest_hack($res, $city_id, $city_id_name, $not = false) {
+        if (isset($city_id)) {
+            $ids = array($city_id);
+            if ($city_id == 3183) { // Budapest
+                array_push($ids, 393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415);
+            }
+            if ($not) {
+                return $res->whereNotIn($city_id_name.'_city_id', $ids);
+            } else {
+                return $res->whereIn($city_id_name.'_city_id', $ids);
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * 
+     */
+    private function getInputCity($request, $name, $default) {
+        if (Input::has($name)) {
+            return $request->input($name);
+        } else {
+            return $search['start_city'] ?? "";
+        }
+    }
+
+    /**
+     * 
+     */
+    public function queryAdvertises($start_city_id, $end_city_id, $date, $name, $type = 0) {
+        $res = Advertise::whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'));
+        $res = $res->whereNotNull('start_date');
+        $res = $res->whereNotNull('end_date');
+
+        // if ($limit > 0) {
+        //     $res = $res->take($limit);
+        // }
+
+        $res = $this->budapest_hack($res, $start_city_id, 'start');
+        $res = $this->budapest_hack($res, $end_city_id, 'end');
+
+        if (isset($date) && !empty($date)) {
+            $res = $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+        }
+
+        if (isset($name) && !empty($name)) {
+            $res = $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
+        }
+
+        return $res->orderBy('start_date');
+    }
+
+    /**
+     * 
+     */
+    public function queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, $type = 1) {
+        $route = Hazater::queryRoute($start_city_id, $end_city_id, 'fastest');
+        //dd($route);
+
+        $res = Advertise::whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'));
+        $res = $res->whereNotNull('start_date');
+        $res = $res->whereNotNull('end_date');
+
+        $res = $this->budapest_hack($res, $start_city_id, 'start', ($type == 1));
+        $res = $this->budapest_hack($res, $end_city_id, 'end', ($type == 2));
+
+        if (isset($date) && !empty($date)) {
+            $res = $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+        }
+
+        if (isset($name) && !empty($name)) {
+            $res = $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
+        }
+
+        return $res->orderBy('start_date');
     }
 
     /**
      * @return \Illuminate\View\View
      */
-    public function innerFind(Request $request)
-    {
+    private function doFind(Request $request) {
         //dd($request);
         session_start();
         if (isset($_SESSION['SEARCH'])) {
@@ -83,20 +158,10 @@ class HomeController extends Controller
             ];
         }
 
-        if (Input::has('searchStartCity')) {
-            $start_city = $request->input('searchStartCity');
-        } else {
-            $start_city = $search['start_city'] ?? "";
-        }
+        $start_city = $this->getInputCity($request, 'searchStartCity', $search['start_city'] ?? "");
         $start_city_id = City::getCityByName($start_city, true);
-
-        if (Input::has('searchEndCity')) {
-            $end_city = $request->input('searchEndCity');
-        } else {
-            $end_city = $search['end_city'] ?? "";
-        }
+        $end_city = $this->getInputCity($request, 'searchEndCity', $search['end_city'] ?? "");
         $end_city_id = City::getCityByName($end_city, true);
-
         $date = str_replace('.', '-', $request->input('searchDate'));
         $name = $request->input('searchName');
 
@@ -110,76 +175,41 @@ class HomeController extends Controller
         ];
         $_SESSION['SEARCH'] = $search;
 
-        $res = Advertise::whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'));
-        $res = $res->whereNotNull('start_date');
-        $res = $res->whereNotNull('end_date');
-        if (isset($start_city_id)) {
-            if ($start_city_id == 3183) { // Budapest
-                $res = $res->whereIn('start_city_id', array(3183, 393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415));
-            } else {
-                $res = $res->where('start_city_id', $start_city_id);
-            }
-        }
-        if (isset($end_city_id)) {
-            if ($end_city_id == 3183) { // Budapest
-                $res = $res->whereIn('end_city_id', array(3183, 393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415));
-            } else {
-                $res = $res->where('end_city_id', $end_city_id);
-            }
-        }
-        if (isset($date) && !empty($date)) {
-            $res = $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
-        }
-        if (isset($name) && !empty($name)) {
-            $res = $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
-        }
-        $res = $res->orderBy('start_date');
-
-        //dd($res);
-        //dd($res->toSql());
-        //dd($res->getBindings());
-        //\Log::info('SEARCH '.$res->toSql()); //.' '.$res->getBindings());
-
-        $response = $res->paginate(25);
+        $response = $this->queryAdvertises($start_city_id, $end_city_id, $date, $name)->paginate(25);
+        $response1 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 1)->paginate(25);
+        $response2 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 2)->paginate(25);
 
         //dd($response);
 
-        //https://route.api.here.com/routing/7.2/calculateroute.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled
-        $rest = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=".getenv('HERE_APP_ID')."&app_code=".getenv('HERE_APP_CODE')."&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled";
-
-        return view('frontend.search')->withResults($response)->withSearch($search);
+        return view('frontend.search')->withSearch($search)->withResults($response)->withResults1($response1)->withResults2($response2);
         //return redirect()->route('frontend.search')->withResults($response)->withSearch($search);
     }
 
     /**
      * @return \Illuminate\View\View
      */
-    public function howitworks()
-    {
+    public function howitworks() {
         return view('frontend.howitworks');
     }
 
     /**
      * @return \Illuminate\View\View
      */
-    public function terms()
-    {
+    public function terms() {
         return view('frontend.terms');
     }
 
     /**
      * @return \Illuminate\View\View
      */
-    public function dataprotection()
-    {
+    public function dataprotection() {
         return view('frontend.dataprotection');
     }
 
     /**
      * @return \Illuminate\View\View
      */
-    public function userList()
-    {
+    public function userList() {
         // TODO unset key from array
         return User::all();
         //return User::all('id', 'full_name');

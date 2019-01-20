@@ -8,14 +8,16 @@ use App\Models\Car;
 use App\Models\Advertise;
 use App\Helpers\Hazater;
 
-class Advertise extends Model
-{
+class Advertise extends Model {
     public const INACTIVE   = 0;
     public const ACTIVE     = 1;
     public const DELETABLE  = 2;
     public const PROGRESS   = 3;
     public const FINISHED   = 4;
     public const CLOSED     = 5;
+
+    private $pre_route = null;
+    private $post_route = null;
 
     /**
      * The attributes that are mass assignable.
@@ -63,10 +65,21 @@ class Advertise extends Model
     protected $dates = [];
 
     /**
+     * 
+     */
+    protected $attributes = [
+        'pre_route',
+        'post_route'
+    ];
+
+    /**
      * The dynamic attributes from mutators that should be returned with the user object.
      * @var array
      */
-    protected $appends = []; // 'full_name'
+    protected $appends = [
+        'pre_route',
+        'post_route'
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -83,16 +96,14 @@ class Advertise extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
      * @return string
      */
-    public function getUserLabelAttribute()
-    {
+    public function getUserLabelAttribute() {
         return $this->user->full_name;
     }
 
@@ -101,16 +112,14 @@ class Advertise extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function car()
-    {
+    public function car() {
         return $this->belongsTo(Car::class, 'car_id');
     }
 
     /**
      * @return string
      */
-    public function getCarLabelAttribute()
-    {
+    public function getCarLabelAttribute() {
         return isset($this->car) ? $this->car->name : "";
     }
 
@@ -119,16 +128,14 @@ class Advertise extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function startCity()
-    {
+    public function startCity() {
         return $this->belongsTo(City::class, 'start_city_id');
     }
 
     /**
      * @return string
      */
-    public function getStartCityLabelAttribute()
-    {
+    public function getStartCityLabelAttribute() {
         return isset($this->startCity) ? $this->startCity->name : "";
     }
 
@@ -137,24 +144,21 @@ class Advertise extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function endCity()
-    {
+    public function endCity() {
         return $this->belongsTo(City::class, 'end_city_id');
     }
 
     /**
      * @return string
      */
-    public function getEndCityLabelAttribute()
-    {
+    public function getEndCityLabelAttribute() {
         return isset($this->endCity) ? $this->endCity->name : "";
     }
 
     /**
      *
      */
-    public function getFromToLabelAttribute()
-    {
+    public function getFromToLabelAttribute() {
         $route = $this->getStartCityLabelAttribute();
         $midpoints = Midpoint::where('advertise_id', $this->id)->orderBy('order')->get();
         $i = 0;
@@ -198,24 +202,21 @@ class Advertise extends Model
     /**
      *
      */
-    public function getDatesLabelAttribute()
-    {
+    public function getDatesLabelAttribute() {
         return $this->starting_date . " -> " . $this->ending_date;
     }
 
     /**
      *
      */
-    public function getRouteLabelAttribute()
-    {
+    public function getRouteLabelAttribute() {
         return $this->getFromToLabelAttribute() . " " . $this->starting_date;
     }
 
     /**
      *
      */
-    public function getCitiesLabelAttribute()
-    {
+    public function getCitiesLabelAttribute() {
         //return $this->start_city_label . " -> " . $this->end_city_label;
         return $this->getFromToLabelAttribute();
     }
@@ -223,8 +224,7 @@ class Advertise extends Model
     /**
      *
      */
-    public function getSeatsLabelAttribute()
-    {
+    public function getSeatsLabelAttribute() {
         return $this->free_seats;
     }
 
@@ -353,4 +353,31 @@ class Advertise extends Model
 		</div>';
     }
 
+    /**
+     * 
+     */
+    public function getPreRouteAttribute() {
+        return $this->pre_route;
+    }
+
+    /**
+     * 
+     */
+    public function setPreRouteAttribute($value) {
+        $this->pre_route = $value;
+    }
+
+    /**
+     * 
+     */
+    public function getPostRouteAttribute() {
+        return $this->post_route;
+    }
+
+    /**
+     * 
+     */
+    public function setPostRouteAttribute($value) {
+        $this->post_route = $value;
+    }
 }

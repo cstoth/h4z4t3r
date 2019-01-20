@@ -52,7 +52,7 @@
     <div class="col-xs-12 col-md-3">
         <label for="free_seats">{{ __('dashboard.driver.submit-ad.Free Seats') }}</label>
         <select class="form-control" id="free_seats" name="free_seats" placeholder="{{ __('dashboard.driver.submit-ad.Free Seats') }}" required>
-            @for($i = $advertise->user->cars[0]->seats; $i > 0 ; $i--)
+            @for($i = $advertise->user->cars[0]->seats; $i >= 0 ; $i--)
                 <option {{$advertise->free_seats==$i?'selected':''}}>{{$i}}</option>
             @endfor
         </select>

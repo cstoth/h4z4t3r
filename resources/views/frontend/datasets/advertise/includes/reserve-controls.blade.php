@@ -6,7 +6,7 @@
                 <div class="form-row justify-content-center align-items-center text-center">
                     @php $rating = $advertise->user->rate; @endphp
                     @foreach(range(1,5) as $i)
-                        <span class="fa-stack" style="width:1em">
+                        <span class="fa-stack" style="width:1em;color:#f2b600">
                             <i class="far fa-star fa-stack-1x"></i>
                             @if($rating >0)
                                 @if($rating >0.5)

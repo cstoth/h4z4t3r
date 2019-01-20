@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Class ProfileController.
  */
-class ProfileController extends Controller
-{
+class ProfileController extends Controller {
     /**
      * @var UserRepository
      */
@@ -28,8 +27,7 @@ class ProfileController extends Controller
      *
      * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $userRepository)
-    {
+    public function __construct(UserRepository $userRepository) {
         $this->userRepository = $userRepository;
     }
 
@@ -39,8 +37,7 @@ class ProfileController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function update(UpdateProfileRequest $request)
-    {
+    public function update(UpdateProfileRequest $request) {
         $output = $this->userRepository->update(
             $request->user()->id,
             $request->only('first_name', 'last_name', 'email', 'avatar_type', 'avatar_location', 'phone'),
@@ -60,8 +57,7 @@ class ProfileController extends Controller
     /**
      *
      */
-    public function delete(DeleteProfileRequest $request)
-    {
+    public function delete(DeleteProfileRequest $request) {
         $user = $request->user();
         $cnt = Advertise::where('status', Advertise::ACTIVE)->whereNull('template')->where('user_id', $user->id)->count();
         if ($cnt > 0) {
@@ -78,5 +74,5 @@ class ProfileController extends Controller
         DB::delete('delete from social_accounts where user_id not in (select id from users)');
         auth()->logout();
         return redirect()->route('frontend.index')->withFlashInfo('Profilja sikeresen törölve!');
-}
+    }
 }

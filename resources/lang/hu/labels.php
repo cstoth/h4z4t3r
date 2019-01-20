@@ -289,6 +289,7 @@ return [
                 'email'              => 'E-mail',
                 'last_updated'       => 'Módosítva',
                 'name'               => 'Név',
+                'rate'               => 'Értékelés',
                 'first_name'         => 'Vezetéknév',
                 'last_name'          => 'Keresztnév',
                 'update_information' => 'Szerkesztés',

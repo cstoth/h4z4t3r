@@ -118,7 +118,7 @@ class HomeController extends Controller {
      * 
      */
     public function queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, $type = 1) {
-        $route = Hazater::queryRoute($start_city_id, $end_city_id, 'fastest');
+        //$route = Hazater::queryRoute($start_city_id, $end_city_id, 'fastest');
         //dd($route);
 
         $res = Advertise::whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'));

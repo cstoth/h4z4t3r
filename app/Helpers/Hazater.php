@@ -73,8 +73,9 @@ class Hazater {
             $rest = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=".getenv('HERE_APP_ID')."&app_code=".getenv('HERE_APP_CODE')."&".$from."&".$to."&mode=".$mode.";publicTransport&combineChange=true";
             $response = file_get_contents($rest);
             $response = json_decode($response);
+            return $response;
         }
 
-        return $response;
+        return null;
     }
 }

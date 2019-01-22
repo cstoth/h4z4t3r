@@ -19,21 +19,26 @@
                     <span class="badge badge-dark">lezárt</span>
                 </div><!--col-->
             </div><!--row-->
-
             <hr />
 
             <div class="row mt-4">
                 <div class="col">
                 @if(Auth::user()->id == $advertise->user_id)
                     <!-- Sofőr értéklei az utasait -->
-                    <input type="hidden" name="_mode" value="driver">
                     @foreach($advertise->reserves as $reserve)
-                        @include('frontend.datasets.advertise.includes.driver-rate')
+                        @include('frontend.datasets.advertise.includes.user-rate', ['uid' => $reserve->user_id, 'name' => $reserve->user->full_name])
                     @endforeach
+                     
+                    <!-- if(\App\Helpers\Hazater::isDriverRated($advertise->id))
+                        <i>Köszönjük, hogy már értékelt!</i>
+                    endif -->
                 @else
                     <!-- Utas értékeli a sofőrt -->
-                    <input type="hidden" name="_mode" value="passanger">
-                    @include('frontend.datasets.advertise.includes.passanger-rate')
+                    @include('frontend.datasets.advertise.includes.user-rate', ['uid' => $advertise->user_id, 'name' => $advertise->user->full_name])
+
+                    <!-- if(\App\Helpers\Hazater::isUserRated($advertise->id))
+                        <i>Köszönjük, hogy már értékelt!</i>
+                    endif -->
                 @endif
                 </div><!--col-->
             </div><!--row-->
@@ -46,7 +51,9 @@
                 </div><!--col-->
 
                 <div class="col text-right">
+                    @if(!\App\Helpers\Hazater::isRated($advertise->id))
                     <button id="rate-save" type="submit" class="btn btn-success pull-right">{{__('buttons.general.crud.save')}}</button>
+                    @endif
                 </div><!--col-->                
             </div><!--row-->
         </div><!--card-footer-->

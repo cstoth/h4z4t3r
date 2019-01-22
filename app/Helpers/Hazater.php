@@ -5,6 +5,8 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\DB;
 use App\Models\Advertise;
 use App\Models\City;
+use App\Models\Rate;
+use App\Models\Reserve;
 
 class Hazater {
     public static function now($format = "Y.m.d H:i:s") {
@@ -77,5 +79,30 @@ class Hazater {
         }
 
         return null;
+    }
+
+    /**
+     * 
+     */
+    public static function isUserNotRated($advertise_id, $user_id) {
+        $cnt = Rate::where('user_id', $user_id)->where('advertise_id', $advertise_id)->count();
+        return ($cnt == 0);
+    }
+
+    /**
+     * 
+     */
+    public static function getUserRate($advertise_id, $user_id) {
+        $rate = Rate::where('user_id', $user_id)->where('advertise_id', $advertise_id)->value('rate');
+        return $rate;
+    }
+
+    /**
+     * 
+     */
+    public static function isRated($advertise_id) {
+        $cntRate = Rate::where('advertise_id', $advertise_id)->count();
+        $cntPassanger = Reserve::where('advertise_id', $advertise_id)->count();
+        return $cntRate == ($cntPassanger + 1);
     }
 }

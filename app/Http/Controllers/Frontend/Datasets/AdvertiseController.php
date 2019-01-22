@@ -33,6 +33,7 @@ use App\Mail\Frontend\SendCancel;
 use App\Mail\Frontend\SendMeCancel;
 use App\Mail\Frontend\SendDelete;
 use App\Mail\Frontend\SendMeDelete;
+use App\Models\Auth\User;
 
 /**
  * Class AdvertiseController.
@@ -209,7 +210,10 @@ class AdvertiseController extends Controller {
      * 
      */
     public function updateUserRate($user_id) {
-        DB::raw("update users u SET u.rate=COALESCE((SELECT avg(r.rate) FROM rates r WHERE r.user_id=u.id), 0) WHERE u.id=" . $user_id);
+        $rate = Rate::where('user_id', $user_id)->avg('rate');
+        $user = User::find($user_id);
+        $user->rate = $rate;
+        $user->save();
     }
 
     /**
@@ -220,7 +224,7 @@ class AdvertiseController extends Controller {
         $model->user_id = $user_id;
         $model->advertise_id = $advertise_id;
         $model->rate = intval($rate);
-        $model->comment = "teszt";
+        $model->comment = "";
         $model->save();
 
         $this->updateUserRate($user_id);
@@ -245,7 +249,8 @@ class AdvertiseController extends Controller {
         $advertise->status = Advertise::CLOSED;
         $advertise->save();
 
-        return $this->redirTab(2)->withFlashSuccess(__("alerts.backend.advertise.closed"));
+        //return $this->redirTab(2)->withFlashSuccess(__("alerts.backend.advertise.closed"));
+        return redirect()->route('frontend.user.passanger.menu')->withFlashSuccess(__("alerts.backend.advertise.closed"));
     }
 
     /**
@@ -253,7 +258,6 @@ class AdvertiseController extends Controller {
      */
     public function rate(Advertise $advertise) {
         if (!Auth::user()) return redirect()->route('frontend.auth.login')->withFlashInfo('A munkamenete lejárt, jelentkezzen be ismét!');
-
         return view('frontend.datasets.advertise.rate')->withAdvertise($advertise);
     }
 

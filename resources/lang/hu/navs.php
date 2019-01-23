@@ -39,6 +39,10 @@ return [
             'change_password' => 'Jelszó megváltoztatása',
             'my_information'  => 'Adatok rólam',
             'profile'         => 'Adatlap',
+            'menu' => [
+                'driver' => 'Autós menü',
+                'passanger' => 'Utas menü',
+            ]
         ],
     ],
 ];

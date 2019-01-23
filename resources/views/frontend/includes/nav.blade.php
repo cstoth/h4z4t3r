@@ -55,6 +55,8 @@
                             <a href="{{ route('admin.dashboard') }}" class="dropdown-item"><i class="fa fa-home"></i> @lang('navs.frontend.user.administration')</a>
                         @endcan
 
+                        <a href="{{ route('frontend.user.driver.menu') }}" class="dropdown-item"><i class="fa fa-car"></i> @lang('navs.frontend.user.menu.driver')</a>
+                        <a href="{{ route('frontend.user.passanger.menu') }}" class="dropdown-item"><i class="fa fa-suitcase"></i> @lang('navs.frontend.user.menu.passanger')</a>
                         <a href="{{ route('frontend.user.account') }}" class="dropdown-item {{ active_class(Active::checkRoute('frontend.user.account')) }}"><i class="fa fa-user"></i> @lang('navs.frontend.user.account')</a>
                         <a href="{{ route('frontend.auth.logout') }}" class="dropdown-item"><i class="fas fa-lock"></i> @lang('navs.general.logout')</a>
                     </div>

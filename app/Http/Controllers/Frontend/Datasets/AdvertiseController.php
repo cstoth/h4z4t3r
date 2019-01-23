@@ -158,6 +158,21 @@ class AdvertiseController extends Controller {
     }
 
     /**
+     * 
+     */
+    public function isCarFree($car_id, $start_date, $end_date) {
+        //whereRaw('(start_date>=$start_date OR end_date<=$end_date)');
+        $cnt = Advertise::whereIn('status', [Advertise::ACTIVE, Advertise::PROGRESS])
+            ->where('car_id', $car_id)
+            ->whereBetween('start_date', [$start_date, $end_date])
+            ->orWhereBetween('end_date', [$start_date, $end_date]);
+        //dd($cnt);
+        $cnt = $cnt->count();
+        //dd($cnt);
+        return $cnt == 0;
+    }
+
+    /**
      * @param AdvertiseUpdateRequest $request
      * @param Advertise             $advertise
      *
@@ -166,9 +181,17 @@ class AdvertiseController extends Controller {
      */
     public function update(AdvertiseUpdateRequest $request, Advertise $advertise) {
         //dd($request);
-        if ($request['start_date'] >= $request['end_date']) {
+        $start_date = Input::get('start_date');
+        $end_date = Input::get('end_date');
+        if ($start_date >= $end_date) {
             return redirect()->route('frontend.datasets.advertise.edit', $advertise)->withFlashDanger(__("alerts.backend.advertise.dates-error"));
         }
+
+        $car_id = Input::get('car_id');
+        if (!$this->isCarFree($car_id, $start_date, $end_date)) {
+            return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.carnotfree-error"));
+        }
+
         if (($request['publish_options'] == 'unique') && ($request['dates'] == null)) {
             return redirect()->route('frontend.datasets.advertise.edit', $advertise)->withFlashDanger("Egyedi gyakoriságú útnál meg kell adni legalább egy dátumot!");
         }
@@ -194,7 +217,6 @@ class AdvertiseController extends Controller {
             'dates'
         ));
 
-        //TODO: mail!
         \Log::info('A hirdetés ('.$advertise->id.') módosult ' . Hazater::routeLabel($advertise->id));
         Mail::send(new SendMeUpdate($advertise->user, $advertise));
         $reserves = Reserve::where('advertise_id', $advertise->id)->get();
@@ -410,6 +432,11 @@ class AdvertiseController extends Controller {
         $end_date = Input::get('end_date');
         if ($start_date >= $end_date) {
             return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.dates-error"));
+        }
+
+        $car_id = Input::get('car_id');
+        if (!$this->isCarFree($car_id, $start_date, $end_date)) {
+            return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.carnotfree-error"));
         }
 
         $publish_options = Input::get('publish_options');

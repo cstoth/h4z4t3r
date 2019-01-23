@@ -20,6 +20,7 @@ return [
             'updated' => 'Hirdetés sikeresen módosítva.',
             'closed' => 'Hirdetés sikeresen lezárva.',
             'dates-error' => 'Az indulás korábbra kell essen mint az érkezés!',
+            'carnotfree-error' => 'A kiválasztott gépjármű az adott időpontban másik úton lesz!',
         ],
 
         'car' => [

@@ -53,7 +53,7 @@
             </div>
             <div class="col-md-6">
                 <label for="car_seats">{{ __('dashboard.driver.submit-ad.Free Seats') }}</label>
-                <input type="number" id="car_seats" name="car_seats" value="{!!$advertise->car->seats!!}" class="form-control" readonly>
+                <input type="number" id="car_seats" name="car_seats" value="{!!$advertise->free_seats!!}" class="form-control" readonly>
                 <label for="car_type">{{ __('validation.attributes.backend.datasets.car.type') }}</label>
                 <input type="text" id="car_type" name="car_type" value="{{$advertise->car->type}}" class="form-control" readonly>
             </div>

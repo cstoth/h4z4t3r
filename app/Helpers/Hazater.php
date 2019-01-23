@@ -105,4 +105,11 @@ class Hazater {
         $cntPassanger = Reserve::where('advertise_id', $advertise_id)->count();
         return $cntRate == ($cntPassanger + 1);
     }
+
+    /**
+     * 
+     */
+    public static function getQueries($builder) {
+        return vsprintf(str_replace('?', '%s', str_replace('?', "'?'", $builder->toSql())), $builder->getBindings());
+    }    
 }

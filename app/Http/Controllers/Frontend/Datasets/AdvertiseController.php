@@ -160,15 +160,16 @@ class AdvertiseController extends Controller {
     /**
      * 
      */
-    public function isCarFree($car_id, $start_date, $end_date) {
-        //whereRaw('(start_date>=$start_date OR end_date<=$end_date)');
-        $cnt = Advertise::whereIn('status', [Advertise::ACTIVE, Advertise::PROGRESS])
+    public function isCarFree($id, $car_id, $start_date, $end_date) {
+        $cnt = Advertise::where(function($query) use($start_date, $end_date) {
+            $query->whereBetween('start_date', [$start_date, $end_date]);
+            $query->orWhereBetween('end_date', [$start_date, $end_date]);
+        });
+        $cnt->whereIn('status', [Advertise::ACTIVE, Advertise::PROGRESS])
             ->where('car_id', $car_id)
-            ->whereBetween('start_date', [$start_date, $end_date])
-            ->orWhereBetween('end_date', [$start_date, $end_date]);
-        //dd($cnt);
+            ->whereNotIn('id', [$id]);
+        //dd(Hazater::getQueries($cnt));
         $cnt = $cnt->count();
-        //dd($cnt);
         return $cnt == 0;
     }
 
@@ -188,7 +189,7 @@ class AdvertiseController extends Controller {
         }
 
         $car_id = Input::get('car_id');
-        if (!$this->isCarFree($car_id, $start_date, $end_date)) {
+        if (!$this->isCarFree($advertise->id, $car_id, $start_date, $end_date)) {
             return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.carnotfree-error"));
         }
 
@@ -435,7 +436,7 @@ class AdvertiseController extends Controller {
         }
 
         $car_id = Input::get('car_id');
-        if (!$this->isCarFree($car_id, $start_date, $end_date)) {
+        if (!$this->isCarFree(0, $car_id, $start_date, $end_date)) {
             return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.carnotfree-error"));
         }
 

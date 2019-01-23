@@ -42,17 +42,23 @@ class EmailSend extends Command
     }
 
     /**
-     * 
+     *
      */
     public function sendMail(Advertise $advertise) {
         $advertise->status = Advertise::FINISHED;
         $advertise->save();
-        
-        Mail::send(new SendRate($advertise->user, $advertise));
-        $reserves = Reserve::where('advertise_id', $advertise->id)->get();
-        foreach ($reserves as $reserve) {
-            Mail::send(new SendRate($reserve->user, $advertise));
-        }        
+
+        $cnt = Reserve::where('advertise_id', $advertise->id)->count();
+        if ($cnt > 0) {
+            Mail::send(new SendRate($advertise->user, $advertise));
+            $reserves = Reserve::where('advertise_id', $advertise->id)->get();
+            foreach ($reserves as $reserve) {
+                Mail::send(new SendRate($reserve->user, $advertise));
+            }
+        } else {
+            $advertise->status = Advertise::CLOSED;
+            $advertise->save();
+        }
     }
 
     /**

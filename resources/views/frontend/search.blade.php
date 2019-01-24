@@ -204,7 +204,7 @@
 
             <!-- RESULT -->
             <div class="row box pl-3 pr-3" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">
-                <div class="col-xs-12 col-md-9">{!! $result->dates_label !!}<br>{!! $result->cities_label !!}</div>
+                <div class="col-xs-12 col-md-9">{!! $result->dates_label !!}&nbsp;<i>({!! $result->highway_label !!})</i><br>{!! $result->cities_label !!}</div>
                 <div class="col-xs-12 col-md-1">{!! $result->free_seats !!} hely</div>
                 @if(1==2)
                     <div class="col-xs-12 col-md-1">
@@ -250,7 +250,7 @@
                         return $.get("{{ route('frontend.search.name') }}", {query: query}, function (data) {
                             return process(data);
                         }).fail(function (error){console.log(error)});
-                    }    
+                    }
                 }
             });
             //$('#searchButton').click();

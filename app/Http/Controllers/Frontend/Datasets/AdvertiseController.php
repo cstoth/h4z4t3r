@@ -158,7 +158,7 @@ class AdvertiseController extends Controller {
     }
 
     /**
-     * 
+     *
      */
     public function isCarFree($id, $car_id, $start_date, $end_date) {
         $cnt = Advertise::where(function($query) use($start_date, $end_date) {
@@ -230,7 +230,7 @@ class AdvertiseController extends Controller {
     }
 
     /**
-     * 
+     *
      */
     public function updateUserRate($user_id) {
         $rate = Rate::where('user_id', $user_id)->avg('rate');
@@ -240,7 +240,7 @@ class AdvertiseController extends Controller {
     }
 
     /**
-     * 
+     *
      */
     public function storeRate($user_id, $advertise_id, $rate) {
         $model = new Rate();
@@ -254,7 +254,7 @@ class AdvertiseController extends Controller {
     }
 
     /**
-     * 
+     *
      */
     public function close(AdvertiseManageRequest $request, Advertise $advertise) {
         $prefix = "rating-";
@@ -277,7 +277,7 @@ class AdvertiseController extends Controller {
     }
 
     /**
-     * 
+     *
      */
     public function rate(Advertise $advertise) {
         if (!Auth::user()) return redirect()->route('frontend.auth.login')->withFlashInfo('A munkamenete lejárt, jelentkezzen be ismét!');

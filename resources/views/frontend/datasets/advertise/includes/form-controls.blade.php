@@ -508,6 +508,7 @@ var hiddenDate = $("#hidden-date").bootstrapMaterialDatePicker({
 });
 
 function callRouteCalculation() {
+    console.log("callRouteCalculation");
     calcRoute(mapAdvertiseForm, x1, y1, x2, y2, midPoints, $('#route-summary'), $("#highway").is(':checked'));
     var startCity = $('#start_city_id').attr('value');
     var endCity = $('#end_city_id').attr('value');

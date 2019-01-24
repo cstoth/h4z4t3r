@@ -134,6 +134,7 @@ class AdvertiseRepository extends BaseRepository
                 'highway'       => isset($data['highway']) ? ($data['highway'] == 'on' ? 1 : 0) : 0,
             ])) {
                 // TODO event(new AdvertiseUpdated($model));
+                //dd($data);
                 Midpoint::where('advertise_id', $model->id)->delete();
                 if (isset($data['midpoints'])) {
                     $i = 0;

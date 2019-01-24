@@ -65,7 +65,7 @@ class Advertise extends Model {
     protected $dates = [];
 
     /**
-     * 
+     *
      */
     protected $attributes = [
         'pre_route',
@@ -224,6 +224,13 @@ class Advertise extends Model {
     /**
      *
      */
+    public function getHighwayLabelAttribute() {
+        return $this->highway ? 'Autópályán megyek' : 'Nem autópályán megyek';
+    }
+
+    /**
+     *
+     */
     public function getSeatsLabelAttribute() {
         return $this->free_seats;
     }
@@ -261,14 +268,14 @@ class Advertise extends Model {
     }
 
     /**
-     * 
+     *
      */
     public function getReservesAttribute() {
         return Reserve::where('advertise_id', $this->id)->get();
     }
 
     /**
-     * 
+     *
      */
     public function getBoolItem($bool) {
         if ($bool) {
@@ -304,7 +311,7 @@ class Advertise extends Model {
                 title="'.__('buttons.general.crud.edit').'"
                 class="btn btn-success"><i class="fas fa-edit"></i></a>';
         }
-        
+
         return '';
     }
 
@@ -354,28 +361,28 @@ class Advertise extends Model {
     }
 
     /**
-     * 
+     *
      */
     public function getPreRouteAttribute() {
         return $this->pre_route;
     }
 
     /**
-     * 
+     *
      */
     public function setPreRouteAttribute($value) {
         $this->pre_route = $value;
     }
 
     /**
-     * 
+     *
      */
     public function getPostRouteAttribute() {
         return $this->post_route;
     }
 
     /**
-     * 
+     *
      */
     public function setPostRouteAttribute($value) {
         $this->post_route = $value;

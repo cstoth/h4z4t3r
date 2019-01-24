@@ -145,19 +145,15 @@ function helpControl(ui) {
         el.style.color = "white";
     };
 
-    //Also a button that opens the overlay panel on click
-    // and closes on next click
+    //Also a button that opens the overlay panel on click and closes on next click
     var helpButton = new H.ui.base.PushButton({
-        label: "?",
+        label: "&nbsp;&nbsp;?&nbsp;&nbsp;",
         onStateChange: function(evt) {
             //OK, button state changed... if it's currently down
             if (helpButton.getState() == "down") { //or: H.ui.base.Button.State.DOWN)
-                //Make sure the panel is positioned right
                 helpPanel.pointToControl(helpControl);
-                //... and open
                 helpPanel.setState("open"); //or: H.ui.base.OverlayPanel.OPEN
-            } else {
-                //... or close when button is not down
+            } else { //... or close when button is not down
                 helpPanel.setState("closed"); //or: H.ui.base.OverlayPanel.CLOSED
             }
         }
@@ -165,15 +161,15 @@ function helpControl(ui) {
     //Add the button and the panel to the control
     helpControl.addChild(helpButton);
     helpControl.addChild(helpPanel);
-    //Set the position of the control in the UI's layout
-    helpControl.setAlignment("top-right");
 
-    //And tadaah
+    helpControl.setAlignment("top-right"); //Set the position of the control in the UI's layout
+
     ui.addControl("helpControl", helpControl);
 }
 
 /* make Map element */
 function makeMap(elementId, center) {
+    //console.log(elementId);
     var map = new H.Map(
         document.getElementById(elementId),
         defaultLayers.normal.map, {
@@ -190,7 +186,9 @@ function makeMap(elementId, center) {
     // $('div[title="Change to miles"]').prop("title", "Váltás mérföldre");
     // $('div[title="Change to km"]').prop("title", "Váltás km-re");
     //console.log($('div[title="Choose view"]'));
-    helpControl(ui);
+    if (elementId == "mapContainerIndex") {
+        helpControl(ui);
+    }
     return map;
 }
 

@@ -7,6 +7,6 @@
 <p><strong>Indulás:</strong> {{ $advertise->start_date_label }}</p>
 <p><strong>Érkezés:</strong> {{ $advertise->end_date_label }}</p>
 
-<a href="{{ route('frontend.advertise.reserve', $advertise->id) }}"><img src="{{ asset('img/frontend/email/' . __('mails.hunter.image')) }}" alt="@lang('mails.hunter.button')"></a><br>
+<a href="{{ route('frontend.advertise.reserve', $advertise->id) }}"><img src="{{ $message->embed(asset('img/frontend/email/' . __('mails.hunter.image'))) }}" alt="@lang('mails.hunter.button')"></a><br>
 
 @include('frontend.includes.mail-footer')

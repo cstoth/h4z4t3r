@@ -27,7 +27,7 @@ return [
 
     'new-password' => [
         'subject'   => 'Új jelszó generálás',
-        'upper'     => 'Ezt a levelet azért kapta mert a felhasználói fiókjához új jelszó generálási kérelem érkezett.',
+        'upper'     => 'Ezt a levelet azért kapta, mert a felhasználói fiókjához új jelszó generálási kérelem érkezett.',
         'button'    => 'Új jelszó generálás',
         'image'     => 'uj_jelszo_generalas.png',
         'lower'     => 'Ha nem Ön kezdeményezte az új jelszó generálását, akkor nincsen más teendője.',
@@ -35,7 +35,7 @@ return [
 
     'reserve' => [
         'subject'   => 'Helyfoglalást adtak fel az egyik hirdetésére.',
-        'upper'     => 'Ezt a levelet azért kapta mert, mert helyfoglalást adtak fel az egyik hirdetésére:',
+        'upper'     => 'Ezt a levelet azért kapta, mert helyfoglalást adtak fel az egyik hirdetésére:',
         'button'    => 'Ugrás a hirdetésre',
         'image'     => 'ugras_a_hirdetesre.png',
         'lower'     => '<p style="font-size:1em">Ha nem az Ön meghirdetett útjára történt a helyfoglalás, akkor nincsen más teendője.</p>',
@@ -43,7 +43,7 @@ return [
 
     'mereserve' => [
         'subject'   => 'Helyfoglalást adott fel egy hirdetésre.',
-        'upper'     => 'Ezt a levelet azért kapta mert, mert Ön helyet foglalt az egyik útra a HazaTér rendszerében:',
+        'upper'     => 'Ezt a levelet azért kapta, mert Ön helyet foglalt az egyik útra a HazaTér rendszerében:',
         'button'    => 'Ugrás a hirdetésre',
         'image'     => 'ugras_a_hirdetesre.png',
         'lower'     => 'Ha nem az Ön meghirdetett útjára történt a helyfoglalás, akkor nincsen más teendője.',

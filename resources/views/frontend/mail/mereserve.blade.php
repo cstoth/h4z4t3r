@@ -1,7 +1,7 @@
 @include('frontend.includes.mail-header')
 
 <p style="text-align:justify">@lang('mails.mereserve.upper')</p><br>
-<a class="button" href="{{ route('frontend.advertise.reserve', $advertise->id) }}">@lang('mails.mereserve.button')</a>
+<a href="{{ route('frontend.advertise.reserve', $advertise->id) }}"><img src="{{ asset('img/frontend/email/' . __('mails.mereserve.image')) }}" alt="@lang('mails.mereserve.button')"></a><br>
 <p style="font-size:1em">@lang('mails.mereserve.lower')</p><br>
 
 @include('frontend.includes.mail-footer')

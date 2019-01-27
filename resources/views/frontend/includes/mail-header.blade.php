@@ -1,12 +1,16 @@
 <style>
+.centered {
+   display: block;
+   margin: auto auto;
+}
 .title {
 	widht: 100%;
+	text-align: center;
 	height: 5em;
 	line-height: 5em;
 	background: #3097D1;
 	color: white;
 	font-family: Helvetica;
-	text-align: center;
 	vertical-align: middle;
 }
 .title h1 a:link {
@@ -42,7 +46,7 @@
 }
 </style>
 <div class="title">
-	<h1><a href="{{ route('frontend.index') }}">HazaTér</a></h1>
+	<a class="centered" href="{{ route('frontend.index') }}"><img class="centered" src="{{ asset('img/frontend/email/header.jpg') }}" alt="HazaTér"></a>
 </div>
 <div class="content">
 	<h3 style="text-align:left">Kedves HazaTér felhasználó!</h3>

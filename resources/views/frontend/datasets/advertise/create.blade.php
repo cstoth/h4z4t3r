@@ -27,7 +27,7 @@
 
 <hr />
 
-<div class="form-row mt-3">
+{{-- <div class="form-row mt-3">
     <div class="col-xs-12 col-lg-3">
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" id="save-as-template" name="save-as-template">
@@ -37,7 +37,7 @@
     <div class="col-xs-12 col-lg-6">
         <input class="form-control" type="text" id="template" name="template" readonly placeholder="{{ __('dashboard.driver.submit-ad.Template placeholder') }}">
     </div>
-</div>
+</div> --}}
 
 <div class="form-row">
     <div class="col text-center mt-5">

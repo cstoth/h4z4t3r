@@ -75,16 +75,25 @@
                 </div>
             </div>
 
+            <!-- DESCRIPTION -->
             <div class="form-row mt-2 mb-2">
                 <div class="col">
                     <label for="description">Megjegyzés</label><em>&nbsp;(pl. egyéb fontos információk, indulási helyszín)</em>
                     {{ html()->textarea('description', $advertise->description)->class("form-control")->attribute('readonly', 'readonly')->style('resize:none;') }}
                 </div>
             </div>
+
+            <!-- HIGHWAY -->
+            <div class="form-row mt-2 mb-2">
+                <div class="col">
+                    <input type="checkbox" id="highway" name="highway" {{$advertise->highway ? "checked" : ""}} disabled>Autópályán megyek
+                </div>
+            </div>
         </div>
 
+        <!-- MAP -->
         <div class="col-xs-12 col-lg-6">
-            Ajánlott útvonal<span style="float:right"><input type="checkbox" id="highway" name="highway" {{$advertise->highway ? "checked" : ""}} disabled>Autópálya</span>
+            Ajánlott útvonal
             <div class="panel panel-default map-panel" style="width: 100%; height: 330px" id="mapContainerShow"></div>
             <div id="route-summary"></div>
         </div>

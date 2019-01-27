@@ -118,11 +118,18 @@
             </div>
         </div>
 
+        <!-- HIGHWAY -->
+        <div class="form-row mt-2 mb-2">
+            <div class="col">
+                <input type="checkbox" id="highway" name="highway" {{$advertise->highway ? "checked" : ""}} disabled>Autópályán megyek
+            </div>
+        </div>
+
     </div>
 
     <!-- MAP -->
     <div class="col-xs-12 col-lg-6">
-        Ajánlott útvonal<span style="float:right"><input type="checkbox" id="highway" name="highway" {{$advertise->highway ? "checked" : ""}}>Autópálya</span>
+        Ajánlott útvonal
         <div class="panel panel-default map-panel" id="mapContainerForm" name="mapContainerForm" style="width: 100%; height: 314px;"></div>
         <div id="route-summary"></div>
     </div>

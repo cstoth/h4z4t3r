@@ -121,7 +121,8 @@
         <!-- HIGHWAY -->
         <div class="form-row mt-2 mb-2">
             <div class="col">
-                <input type="checkbox" id="highway" name="highway" {{$advertise->highway ? "checked" : ""}} disabled>Autópályán megyek
+                <input type="checkbox" id="highway" name="highway" {{$advertise->highway ? "checked" : ""}}>
+                <label for="highway">Autópályán megyek</label>
             </div>
         </div>
 

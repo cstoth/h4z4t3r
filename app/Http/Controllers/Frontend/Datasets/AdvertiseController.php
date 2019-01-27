@@ -312,7 +312,10 @@ class AdvertiseController extends Controller {
         }
         $advertise->user_id = Auth::user()->id;
         $advertises = Advertise::whereRaw('user_id=' . Auth::user()->id . ' AND template IS NULL')->orderBy('start_date');
-        $passangers = Reserve::whereRaw('advertise_id IN (SELECT id FROM advertises WHERE user_id=' . Auth::user()->id . ')');
+        $passangers = Reserve::join('advertises', 'advertise_id', '=', 'advertises.id')
+            //->where('advertises.status', 'in', [0,1,3])
+            ->where('advertises.user_id', '=', Auth::user()->id)
+            ->select('reserves.*', 'advertises.start_date')->orderBy('advertises.start_date');
         $templates = Advertise::whereRaw('user_id=' . Auth::user()->id . ' AND template IS NOT NULL');
         $midpoints = Midpoint::where('advertise_id', $advertise->id)->orderBy('order');
         $hunters = Hunter::where('user_id', Auth::user()->id);

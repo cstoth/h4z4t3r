@@ -6,6 +6,7 @@
                     <tr>
                         <th class="col-hidden">id</th>
                         <th>Utas adatai</th>
+                        <th>Út állapota</th>
                         <th>Út adatai</th>
                         <th class="action_buttons">@lang('labels.general.actions')</th>
                     </tr>
@@ -15,6 +16,7 @@
                     <tr class="table-row">
                         <td class="col-hidden">{{ $data->id }}</td>
                         <td>{!! $data->user_link_label !!}</td>
+                        <td>{!! $data->advertise->status_label !!}</td>
                         <td data-field="route" data-key="{{$data->id}}">{!! $data->advertise->route_label !!}</td>
                         <td>{!! $data->action_buttons !!}</td>
                     </tr>

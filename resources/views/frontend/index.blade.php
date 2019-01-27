@@ -83,7 +83,7 @@
             left: 380px;
              */
             /* top: 304px; */
-            margin-top: 6rem!important
+            margin-top: 3rem!important
         }
 
         .welcome-panel-old {
@@ -151,7 +151,7 @@
     <!-- SEARCH -->
     <div class="search-panel">
         <div class="form-row pt-5 pb-5 flex-row justify-content-center text-white">
-            <h1 class="outline"><strong><i>HazaTér</i></strong></h1>
+            <h1 class="outline" style="padding-top: 3em;"><strong><i>HazaTér</i></strong></h1>
         </div>
         <div class="form-row mt-1 mb-5 flex-row justify-content-center text-white">
             <h4 class="text-center outline">„Lépés-Váltás az Észak-Hegyháton - közös utakon”</h4>

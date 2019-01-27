@@ -68,6 +68,8 @@ class HomeController extends Controller {
             if ($city_id == 3183) { // Budapest
                 array_push($ids, 393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415);
             }
+            if ($city_id_name == 'end') {
+            }
             if ($not) {
                 return $res->whereNotIn($city_id_name.'_city_id', $ids);
             } else {
@@ -93,22 +95,34 @@ class HomeController extends Controller {
      */
     public function queryAdvertises($start_city_id, $end_city_id, $date, $name, $type = 0) {
         $res = Advertise::whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'));
-        $res = $res->whereNotNull('start_date');
-        $res = $res->whereNotNull('end_date');
+        $res->whereNotNull('start_date');
+        $res->whereNotNull('end_date');
 
         // if ($limit > 0) {
-        //     $res = $res->take($limit);
+        //     $res->take($limit);
         // }
 
-        $res = $this->budapest_hack($res, $start_city_id, 'start');
-        $res = $this->budapest_hack($res, $end_city_id, 'end');
+        $this->budapest_hack($res, $start_city_id, 'start');
+        // $this->budapest_hack($query, $end_city_id, 'end');
+        // $res->whereRaw('(`end_city_id` in ('640') or 640 IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id))');
+        
+        $res->where(function($query) use($start_city_id, $end_city_id) {
+            $this->budapest_hack($query, $end_city_id, 'end');
+            if (isset($end_city_id)) {
+                $query->orWhereRaw($end_city_id.' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id)');
+            }
+        });
+
+        //dd(Hazater::getQueries($res));
+        //$res = $this->budapest_hack($res, $start_city_id, 'start');
+        //$res = $this->budapest_hack($res, $end_city_id, 'end');
 
         if (isset($date) && !empty($date)) {
-            $res = $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+            $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
         }
 
         if (isset($name) && !empty($name)) {
-            $res = $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
+            $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
         }
 
         return $res->orderBy('start_date');

@@ -190,7 +190,8 @@ class AdvertiseController extends Controller {
 
         $car_id = Input::get('car_id');
         if (!$this->isCarFree($advertise->id, $car_id, $start_date, $end_date)) {
-            return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.carnotfree-error"));
+            //return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.carnotfree-error"));
+            return $this->redirTab(1)->withFlashDanger("A kiválasztott gépjármű az adott időpontban másik úton lesz!");
         }
 
         if (($request['publish_options'] == 'unique') && ($request['dates'] == null)) {
@@ -440,7 +441,8 @@ class AdvertiseController extends Controller {
 
         $car_id = Input::get('car_id');
         if (!$this->isCarFree(0, $car_id, $start_date, $end_date)) {
-            return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.carnotfree-error"));
+            //return $this->redirTab(1)->withFlashDanger(__("alerts.backend.advertise.carnotfree-error"));
+            return $this->redirTab(1)->withFlashDanger("A kiválasztott gépjármű az adott időpontban másik úton lesz!");
         }
 
         $publish_options = Input::get('publish_options');

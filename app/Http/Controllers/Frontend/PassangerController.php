@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Reserve;
 use App\Models\Hunter;
+use App\Helpers\Hazater;
 
 class PassangerController extends Controller
 {
@@ -15,15 +16,19 @@ class PassangerController extends Controller
      *
      */
     public function gotoTab($tab) {
+        $query = Reserve::join('advertises','reserves.advertise_id','=','advertises.id')->select('reserves.*')
+        ->where("reserves.user_id", Auth::user()->id)->orderBy('advertises.start_date');
+        //dd(Hazater::getQueries($query));
+
         return view('frontend.user.passanger')->with([
             'tab' => $tab,
             'cars' => Auth::user()->cars()->get(),
             'advertises' => Auth::user()->advertises()->get(),
             'reserve' => null,
             'reserved' => false,
-            'reserves' => Reserve::whereRaw("(user_id=".Auth::user()->id.")")->get(),
+            'reserves' => $query->get(),
             'hunter' => new Hunter(),
-            'hunters' => Hunter::whereRaw("(user_id=".Auth::user()->id.")")->get(),
+            'hunters' => Hunter::where("user_id", Auth::user()->id)->get(),
         ]);
     }
 

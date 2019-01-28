@@ -5,6 +5,7 @@
                 <thead>
                     <tr>
                         <th class="col-hidden">id</th>
+                        <th>Út állapota</th>
                         <th>Út adatai</th>
                         <th>Indulás - érkezés</th>
                         <th>Sofőr</th>
@@ -15,6 +16,7 @@
                     @foreach($reserves as $data)
                     <tr class="table-row">
                         <td class="col-hidden">{{ $data->id }}</td>
+                        <td>{!! $data->advertise->status_label !!}</td>
                         <td data-field="route" data-key="{{$data->id}}">{!! $data->from_to_label !!}</td>
                         <td>{!! $data->start_end_label !!}</td>
                         <td>{!! $data->driver_label !!}</td>

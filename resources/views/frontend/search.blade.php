@@ -133,6 +133,11 @@
             padding-right: 0px!important;
             padding-left: 0px!important;
         }
+
+        img.centered {
+            display: block;
+            margin: auto auto;
+        }        
     </style>
 @endsection
 
@@ -203,18 +208,23 @@
             @endif
 
             <!-- RESULT -->
-            <div class="row box pl-3 pr-3" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">
-                <div class="col-xs-12 col-md-9">{!! $result->dates_label !!}&nbsp;<i>({!! $result->highway_label !!})</i><br>{!! $result->cities_label !!}</div>
-                <div class="col-xs-12 col-md-1">{!! $result->free_seats !!} hely</div>
-                @if(1==2)
-                    <div class="col-xs-12 col-md-1">
-                        @if($result->user->picture)
-                        <img src="{{ $result->user->picture }}" class="img-avatar" height="48px">
+                <div class="row box pl-3 pr-3">
+                    <div class="col-xs-12 col-md-7" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">{!! $result->dates_label !!}&nbsp;<i>({!! $result->highway_label !!})</i><br>{!! $result->cities_label !!}</div>
+                    <div class="col-xs-12 col-md-1 align-middle">
+                        @if($result->mode > 0)
+                        <a class="bus" data-key="{{ $result->id }}" data-mode="{{ $result->mode }}" title="Tömegközlekedés"><img class="centered align-middle" src="{{ asset('img/frontend/hazater.icon.bus.png') }}"></a>
                         @endif
                     </div>
-                @endif
-                <div class="col-xs-12 col-md-2">{{ $result->user->rated_name }}<br>{!! $result->car_label !!}</div>
-            </div>
+                    <div class="col-xs-12 col-md-1" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">{!! $result->free_seats !!} hely</div>
+                    @if(1==2)
+                        <div class="col-xs-12 col-md-1" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">
+                            @if($result->user->picture)
+                            <img src="{{ $result->user->picture }}" class="img-avatar" height="48px">
+                            @endif
+                        </div>
+                    @endif
+                    <div class="col-xs-12 col-md-3" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">{{ $result->user->rated_name }}<br>{!! $result->car_label !!}</div>
+                </div>
         @empty
             <em>{{ __("strings.frontend.no_results_found")}}</em>
         @endforelse
@@ -252,6 +262,19 @@
                         }).fail(function (error){console.log(error)});
                     }
                 }
+            });
+            $('.bus').click(function(){
+                console.log(this);
+                $.get("{{ route('frontend.search.bus') }}", {
+                    advertise: $(this).data("key"),
+                    mode: $(this).data("mode"),
+                    startCity: $('#searchStartCity')[0].value,
+                    endCity: $('#searchEndCity')[0].value,
+                }, function (data) {
+                    console.log(data);
+                }).fail(function (error) {
+                    console.log(error)
+                });
             });
             //$('#searchButton').click();
         });

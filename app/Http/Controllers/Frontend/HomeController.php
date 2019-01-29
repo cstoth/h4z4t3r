@@ -94,17 +94,23 @@ class HomeController extends Controller {
      * 
      */
     public function queryAdvertises($start_city_id, $end_city_id, $date, $name, $type = 0) {
-        $res = Advertise::whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'));
-        $res->whereNotNull('start_date');
-        $res->whereNotNull('end_date');
+        $res = Advertise::select('*')->selectSub('SELECT '.$type, 'mode')
+            ->whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'))
+            ->whereNotNull('start_date')->whereNotNull('end_date');
+
+        if (isset($date) && !empty($date)) {
+            $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+        }
+
+        if (isset($name) && !empty($name)) {
+            $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
+        }
 
         // if ($limit > 0) {
         //     $res->take($limit);
         // }
 
         $this->budapest_hack($res, $start_city_id, 'start');
-        // $this->budapest_hack($query, $end_city_id, 'end');
-        // $res->whereRaw('(`end_city_id` in ('640') or 640 IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id))');
         
         $res->where(function($query) use($start_city_id, $end_city_id) {
             $this->budapest_hack($query, $end_city_id, 'end');
@@ -117,40 +123,39 @@ class HomeController extends Controller {
         //$res = $this->budapest_hack($res, $start_city_id, 'start');
         //$res = $this->budapest_hack($res, $end_city_id, 'end');
 
-        if (isset($date) && !empty($date)) {
-            $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
-        }
-
-        if (isset($name) && !empty($name)) {
-            $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
-        }
-
-        return $res->orderBy('start_date');
+        return $res; //->orderBy('start_date');
     }
 
     /**
      * 
      */
     public function queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, $type = 1) {
-        //$route = Hazater::queryRoute($start_city_id, $end_city_id, 'fastest');
-        //dd($route);
+        if (isset($start_city_id) && isset($end_city_id)) {
+            //$route = Hazater::queryRoute($start_city_id, $end_city_id, 'fastest');
+            //dd($route);
 
-        $res = Advertise::whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'));
-        $res = $res->whereNotNull('start_date');
-        $res = $res->whereNotNull('end_date');
+            $res = Advertise::select('*')->selectSub('SELECT '.$type, 'mode')
+                ->whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'))
+                ->whereNotNull('start_date')->whereNotNull('end_date');
 
-        $res = $this->budapest_hack($res, $start_city_id, 'start', ($type == 1));
-        $res = $this->budapest_hack($res, $end_city_id, 'end', ($type == 2));
+            if (isset($date) && !empty($date)) {
+                $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+            }
 
-        if (isset($date) && !empty($date)) {
-            $res = $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+            if (isset($name) && !empty($name)) {
+                $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
+            }
+
+            if ($type == 1) {
+                $this->budapest_hack($res, $start_city_id, 'start');
+            } else {
+                $this->budapest_hack($res, $end_city_id, 'end');
+            }
+
+            return $res;
+        } else {
+            return Advertise::select('*')->selectSub('SELECT '.$type, 'mode')->where('status', 999);
         }
-
-        if (isset($name) && !empty($name)) {
-            $res = $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
-        }
-
-        return $res->orderBy('start_date');
     }
 
     /**
@@ -189,13 +194,12 @@ class HomeController extends Controller {
         ];
         $_SESSION['SEARCH'] = $search;
 
-        $response = $this->queryAdvertises($start_city_id, $end_city_id, $date, $name)->paginate(25);
-        $response1 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 1)->paginate(25);
-        $response2 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 2)->paginate(25);
+        $response = $this->queryAdvertises($start_city_id, $end_city_id, $date, $name);
+        $response1 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 1);
+        $response2 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 2);
+        $response = $response->union($response1)->union($response2)->orderBy('start_date')->paginate(25);
 
-        //dd($response);
-
-        return view('frontend.search')->withSearch($search)->withResults($response)->withResults1($response1)->withResults2($response2);
+        return view('frontend.search')->withSearch($search)->withResults($response);
         //return redirect()->route('frontend.search')->withResults($response)->withSearch($search);
     }
 
@@ -276,5 +280,26 @@ class HomeController extends Controller {
         $tab = $request->input('tab');
         $_SESSION[$tab] = $request->input('hash');
         return $request->input('hash');
+    }
+
+    /**
+     *
+     */
+    public function searchBus(Request $request) {
+        $data = null;
+        $start_city_id = City::getCityByName($request->input('startCity'));
+        $end_city_id = City::getCityByName($request->input('endCity'));
+        $advertise = Advertise::find($request->input('advertise'));
+        $mode = $request->input('mode');
+        if (isset($start_city_id) && isset($end_city_id) && isset($advertise) && isset($mode)) {
+            $route = Hazater::queryRoute($start_city_id, $end_city_id, 'fastest');
+            dd($route);
+
+            $data = $end_city_id;
+            // $data = City::select("name")
+            //     ->where("name", "LIKE", "%{$request->input('query')}%")
+            //     ->get();
+        }
+        return response()->json($data);
     }
 }

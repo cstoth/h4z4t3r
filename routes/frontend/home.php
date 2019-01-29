@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\Datasets\CityController;
  * All route names are prefixed with 'frontend.'.
  */
 Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('search/bus', [HomeController::class, 'searchBus'])->name('search.bus');
 Route::get('search/city', [HomeController::class, 'typeaheadCity'])->name('search.city');
 Route::get('search/name', [HomeController::class, 'typeaheadName'])->name('search.name');
 Route::get('search/advertise', [HomeController::class, 'searchAdvertise'])->name('search.advertise');

@@ -138,51 +138,5 @@
                     }).fail(function (error){console.log(error)});
                 }
             });
-
-            // $('#searchButton').on('click', function (e) {
-            //     console.log(e);
-            //     console.log($('#searchStartCity').value());
-            //     console.log($('#searchEndCity').value());
-            //     console.log($('#searchDate').value());
-            // });
-
-            // $("#searchForm").submit(function(event) {
-            //     event.preventDefault(); // cancels the form submission
-            //     // console.log($(".result-panel"));
-            //     $(".result-panel").empty();
-            //     $.ajax({
-            //         type: "GET",
-            //         url: "{{ route('frontend.search.advertise') }}",
-            //         data: {
-            //             startCity: $("#searchStartCity").val(),
-            //             endCity: $("#searchEndCity").val(),
-            //             date: $("#searchDate").val(),
-            //         },
-            //         success: function(response) {
-            //             console.log(response);
-            //             // var fromCoord = { data.from.x, data.from.y };
-            //             // console.log(fromCoord);
-            //             // var toCoord = { data.to.x, data.to.y };
-            //             // console.log(toCoord);
-            //             // var fromMarker = new H.map.Marker(fromCoord);
-            //             // map.addObject(fromMarker);
-            //             // var toMarker = new H.map.Marker(toCoord);
-            //             // map.addObject(toMarker);
-            //             for (var key in response) {
-            //                 var result = response[key];
-            //                 console.log(result);
-            //                 var dates = result.start_date+' - '+result.end_date;
-            //                 $(".result-panel").append('<div class="row box">'+dates+'</div>');
-
-            //                 $("#step-1, #step-2").connections("update");
-            //                 $("#step-2, #step-3").connections("update");
-            //             }
-            //         },
-            //         error: function(error) {
-            //             console.log(error);
-            //         }
-            //     });
-            // });
-
     </script>
 @endsection

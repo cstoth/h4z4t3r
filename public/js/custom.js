@@ -66,11 +66,11 @@ function showSuccess(text) {
     console.log('Success:', text);
 }
 
-function showInfo(text) {
+function showInfo(text, titl='Infó') {
     if (text !== undefined) {
         swal({
             type: 'info',
-            title: 'Infó',
+            title: titl,
             text: text,
         });
     }

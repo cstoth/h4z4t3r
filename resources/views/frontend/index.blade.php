@@ -83,7 +83,7 @@
             left: 380px;
              */
             /* top: 304px; */
-            margin-top: 3rem!important
+            margin-top: 6rem!important
         }
 
         .welcome-panel-old {
@@ -150,7 +150,7 @@
 @section('search')
     <!-- SEARCH -->
     <div class="search-panel">
-        <div class="form-row pt-5 pb-5 flex-row justify-content-center text-white">
+        <div class="form-row pt-5 pb-1 flex-row justify-content-center text-white">
             <h1 class="outline" style="padding-top: 3em;"><strong><i>HazaTér</i></strong></h1>
         </div>
         <div class="form-row mt-1 mb-5 flex-row justify-content-center text-white">

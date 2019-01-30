@@ -1,6 +1,6 @@
 @include('frontend.includes.mail-header')
 
-<p style="text-align:justify">@lang('mails.hunter.upper')</p><br>
+<p class="upper">@lang('mails.hunter.upper')</p><br>
 
 <p><strong>Honnan:</strong> {{ $advertise->start_city_label }}</p>
 <p><strong>Hova:</strong> {{ $advertise->end_city_label }}</p>

@@ -19,11 +19,11 @@ class Hazater {
         return $city->name;
     }
 
-    public static function formatDate($date) {
+    public static function formatDate($date, $format = "Y.m.d H:i") {
         if ($date) {
-            return date_format(date_create($date), "Y.m.d H:i");
+            return date_format(date_create($date), $format);
         }
-        return date("Y.m.d H:i");
+        return Hazater::now($format);
     }
 
     public static function formatDate2($date) {
@@ -103,23 +103,28 @@ class Hazater {
     public static function queryRoute($start_city_id, $end_city_id, $mode = "fastest") {
         $city_start = City::find($start_city_id);
         $city_end = City::find($end_city_id);
-        if ($city_start && $city_end) {
-            $from = "geo!".$city_start->y.",".$city_start->x;
-            $to = "geo!".$city_end->y.",".$city_end->x;
+        //return $city_end;
+        if (isset($city_start) && isset($city_end)) {
+            $from = $city_start->y.",".$city_start->x;
+            $to = $city_end->y.",".$city_end->x;
             // $from = "waypoint0=geo!52.5,13.4";
             // $to = "waypoint1=geo!52.5,13.45";
 
-            //http://route.api.here.com/routing/7.2/calculateroute.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled
-            $rest = "//route.api.here.com/routing/7.2/calculateroute.json"
+            //route.api.here.com/routing/7.2/calculateroute.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled
+            //transit.api.here.com/v3/route.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&routing=all&dep=46.07309,18.22876&arr=47.49973,19.05508&time=2019-06-24T07%3A30%3A00
+            //Budapest, Debrecen, Kecskemet, Miskolc, Pecs
+            $rest = "http://transit.api.here.com/v3/route.json"
                 ."?app_id=".getenv('HERE_APP_ID')
                 ."&app_code=".getenv('HERE_APP_CODE')
-                ."&waypoint0=".$from
-                ."&waypoint1=".$to
-                ."&mode=".$mode.";publicTransport"
-                ."&combineChange=true"
-                ."&language=hu-hu";
-            $response = @file_get_contents($rest);
-            return $rest;
+                ."&routing=all"
+                ."&lang=hu"
+                ."&max=1"
+                ."&dep=".$from
+                ."&arr=".$to
+                ."&time=".Hazater::now("Y-m-dTH:i:s");
+//                ."&time=2019-01-31T07:30:00";
+            $response = file_get_contents($rest);
+            return $response;
 
             // $client = new Client();
             // $res = $client->request('GET', $rest, [
@@ -145,7 +150,7 @@ class Hazater {
             // return $response;
         }
 
-        return false;
+        return null;
     }
 
     /**

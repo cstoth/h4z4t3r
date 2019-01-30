@@ -62,7 +62,7 @@ class HomeController extends Controller {
     /**
      * 
      */
-    private function budapest_hack($res, $city_id, $city_id_name, $not = false) {
+    private function budapest_hack($query, $city_id, $city_id_name, $not = false) {
         if (isset($city_id)) {
             $ids = array($city_id);
             if ($city_id == 3183) { // Budapest
@@ -71,12 +71,12 @@ class HomeController extends Controller {
             if ($city_id_name == 'end') {
             }
             if ($not) {
-                return $res->whereNotIn($city_id_name.'_city_id', $ids);
+                return $query->whereNotIn($city_id_name.'_city_id', $ids);
             } else {
-                return $res->whereIn($city_id_name.'_city_id', $ids);
+                return $query->whereIn($city_id_name.'_city_id', $ids);
             }
         }
-        return $res;
+        return $query;
     }
 
     /**
@@ -94,36 +94,36 @@ class HomeController extends Controller {
      * 
      */
     public function queryAdvertises($start_city_id, $end_city_id, $date, $name, $type = 0) {
-        $res = Advertise::select('*')->selectSub('SELECT '.$type, 'mode')
+        $query = Advertise::select('*')->selectSub('SELECT '.$type, 'mode')
             ->whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'))
             ->whereNotNull('start_date')->whereNotNull('end_date');
 
         if (isset($date) && !empty($date)) {
-            $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+            $query->where('start_date', '<=', $date)->where('end_date', '>=', $date);
         }
 
         if (isset($name) && !empty($name)) {
-            $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
+            $query->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
         }
 
         // if ($limit > 0) {
-        //     $res->take($limit);
+        //     $query->take($limit);
         // }
 
-        $this->budapest_hack($res, $start_city_id, 'start');
+        $this->budapest_hack($query, $start_city_id, 'start');
         
-        $res->where(function($query) use($start_city_id, $end_city_id) {
+        $query->where(function($query) use($start_city_id, $end_city_id) {
             $this->budapest_hack($query, $end_city_id, 'end');
             if (isset($end_city_id)) {
                 $query->orWhereRaw($end_city_id.' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id)');
             }
         });
 
-        //dd(Hazater::getQueries($res));
-        //$res = $this->budapest_hack($res, $start_city_id, 'start');
-        //$res = $this->budapest_hack($res, $end_city_id, 'end');
+        //dd(Hazater::getQueries($query));
+        //$query = $this->budapest_hack($query, $start_city_id, 'start');
+        //$query = $this->budapest_hack($query, $end_city_id, 'end');
 
-        return $res; //->orderBy('start_date');
+        return $query; //->orderBy('start_date');
     }
 
     /**
@@ -134,25 +134,25 @@ class HomeController extends Controller {
             //$route = Hazater::queryRoute($start_city_id, $end_city_id, 'fastest');
             //dd($route);
 
-            $res = Advertise::select('*')->selectSub('SELECT '.$type, 'mode')
+            $query = Advertise::select('*')->selectSub('SELECT '.$type, 'mode')
                 ->whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'))
                 ->whereNotNull('start_date')->whereNotNull('end_date');
 
             if (isset($date) && !empty($date)) {
-                $res->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+                $query->where('start_date', '<=', $date)->where('end_date', '>=', $date);
             }
 
             if (isset($name) && !empty($name)) {
-                $res->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
+                $query->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
             }
 
             if ($type == 1) {
-                $this->budapest_hack($res, $start_city_id, 'start');
+                $this->budapest_hack($query, $start_city_id, 'start');
             } else {
-                $this->budapest_hack($res, $end_city_id, 'end');
+                $this->budapest_hack($query, $end_city_id, 'end');
             }
 
-            return $res;
+            return $query;
         } else {
             return Advertise::select('*')->selectSub('SELECT '.$type, 'mode')->where('status', 999);
         }
@@ -292,9 +292,16 @@ class HomeController extends Controller {
         $advertise = Advertise::find($request->input('advertise'));
         $mode = $request->input('mode');
         if (isset($start_city_id) && isset($end_city_id) && isset($advertise) && isset($mode)) {
-            $route = Hazater::queryRoute($advertise->end_city_id, $end_city_id, 'fastest');
+            $from = $advertise->end_city_id;
+            $to = $end_city_id;
+            if ($mode === 2) {
+                $from = $start_city_id;
+                $to = $advertise->start_city_id;
+            }
+            $route = Hazater::queryRoute($from, $to, 'fastest');
             if ($route === false) {
-                return response()->json("error_get_last()");
+                //return response()->json(error_get_last());
+                return response()->json($route);
             }
             return response()->json($route);
         }

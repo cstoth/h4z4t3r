@@ -48,6 +48,9 @@
 			border-radius: 8px;
 			text-transform: uppercase;
 		}
+		.upper {
+			text-align: center; /*justify;*/
+		}
 	</style>
   </head>
   <body>
@@ -55,5 +58,5 @@
 		<a class="centered" href="{{ route('frontend.index') }}"><img class="centered" src="{{ $message->embed(asset('img/frontend/email/header.jpg')) }}" alt="HazaTér"></a>
 	</div>
 	<div class="content">
-		<h3 style="text-align:left">Kedves HazaTér felhasználó!</h3>
+		<h3 style="text-align:center">Kedves HazaTér felhasználó!</h3>
 		<br>

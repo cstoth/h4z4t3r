@@ -265,7 +265,7 @@
             });
             $('.bus').click(function(){
                 console.log(this);
-                $.get("{{ route('frontend.search.bus') }}", {
+                $.get("{{ route('frontend.search.transport') }}", {
                     advertise: $(this).data("key"),
                     mode: $(this).data("mode"),
                     startCity: $('#searchStartCity')[0].value,

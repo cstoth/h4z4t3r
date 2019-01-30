@@ -285,21 +285,19 @@ class HomeController extends Controller {
     /**
      *
      */
-    public function searchBus(Request $request) {
+    public function searchTransport(Request $request) {
         $data = null;
         $start_city_id = City::getCityByName($request->input('startCity'));
         $end_city_id = City::getCityByName($request->input('endCity'));
         $advertise = Advertise::find($request->input('advertise'));
         $mode = $request->input('mode');
         if (isset($start_city_id) && isset($end_city_id) && isset($advertise) && isset($mode)) {
-            $route = Hazater::queryRoute($start_city_id, $end_city_id, 'fastest');
-            dd($route);
-
-            $data = $end_city_id;
-            // $data = City::select("name")
-            //     ->where("name", "LIKE", "%{$request->input('query')}%")
-            //     ->get();
+            $route = Hazater::queryRoute($advertise->end_city_id, $end_city_id, 'fastest');
+            if ($route === false) {
+                return response()->json("error_get_last()");
+            }
+            return response()->json($route);
         }
-        return response()->json($data);
+        return response()->json(null);
     }
 }

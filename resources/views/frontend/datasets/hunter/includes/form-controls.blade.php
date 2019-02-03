@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div class="form-row mb-3">
+{{-- <div class="form-row mb-3">
     <div class="col-12">
         <label for="days">{{ __('labels.backend.datasets.hunter.form.days') }}</label>
         <input type="hidden" id="days" name="days" value="{{ $hunter->days }}" required>
@@ -33,7 +33,7 @@
         <input id="day_7" name="day_7" type="checkbox"><label class="checkbox-inline ml-1 mr-3">@lang('dashboard.driver.submit-ad.Sunday')     </label>
         </div>
     </div>
-</div>
+</div> --}}
 
 @push('after-scripts')
 <script type="text/javascript">

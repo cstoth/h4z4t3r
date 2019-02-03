@@ -137,9 +137,27 @@
         img.centered {
             display: block;
             margin: auto auto;
-        }        
+        }
+
+        .loader {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .loading {
+            height: 80px;
+            width: 80px;
+            background: url(../images/loading.gif);
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
     </style>
 @endsection
+
+{{-- <div id="loader" class="loader">
+    <div class="loading"></div>
+</div> --}}
 
 @section('search')
     <!-- SEARCH -->
@@ -263,18 +281,39 @@
                     }
                 }
             });
-            $('.bus').click(function(){
-                console.log(this);
-                $.get("{{ route('frontend.search.transport') }}", {
-                    advertise: $(this).data("key"),
-                    mode: $(this).data("mode"),
-                    startCity: $('#searchStartCity')[0].value,
-                    endCity: $('#searchEndCity')[0].value,
-                }, function (data) {
-                    console.log(data);
-                    showInfo(data, 'Tömegközlekedés');
-                }).fail(function (error) {
-                    showError(error)
+            // $(document).ajaxStart(function() {
+            //     $("#loader").css("display", "block");
+            // }).ajaxStop(function() {
+            //     $("#loader").css("display", "none");
+            // });
+            $('.bus').click(function() {
+                swal({
+                    title: 'Lekérdezés folyamatban...',
+                    showConfirmButton: false,
+                    onBeforeOpen: () => {
+                        swal.showLoading();
+                        $.get("{{ route('frontend.search.transport') }}", {
+                            advertise: $(this).data("key"),
+                            mode: $(this).data("mode"),
+                            startCity: $('#searchStartCity')[0].value,
+                            endCity: $('#searchEndCity')[0].value,
+                        }, function (data) {
+                            //console.log(data);
+                            swal.hideLoading();
+                            var res = JSON.parse(data)[0];
+                            var route = res.data.Res.Connections.Connection[0];
+                            console.log(route);
+                            swal({
+                                type: 'success',
+                                title: res.name,
+                                html: hereRouteToHtml(route),
+                            });
+                            //showInfo(route, 'Tömegközlekedés');
+                        }).fail(function (error) {
+                            swal.hideLoading();
+                            showError(error)
+                        });
+                    },
                 });
             });
             //$('#searchButton').click();

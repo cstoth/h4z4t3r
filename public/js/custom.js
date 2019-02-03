@@ -74,7 +74,7 @@ function showInfo(text, titl='Infó') {
             text: text,
         });
     }
-    console.log('Info:', text);
+    //console.log('Info:', text);
 }
 
 function showError(text) {
@@ -85,7 +85,7 @@ function showError(text) {
             text: text,
         });
     }
-    console.log('Error:', text);
+    //console.log('Error:', text);
 }
 
 // function setCityAutocomplete(control, city, city_id) {
@@ -271,8 +271,20 @@ var routingService = platform.getRoutingService();
 Number.prototype.toKM = function () {
     return Math.floor(this / 1000)  +' km';
 }
+String.prototype.toHHMMSS = function () {
+    var sec_num = parseInt(this, 10); // don't forget the second param
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return hours+':'+minutes+':'+seconds;
+}
 Number.prototype.toMMSS = function () {
     return Math.floor(this / 3600)  +' óra ' + Math.floor((this % 3600) / 60)  +' perc';
+    //return toMMSS(this);
 }
 function calcRoute(map, sx, sy, ex, ey, mps = [], div = null, highway=true) {
     if (sx && sy && ex && ey) {
@@ -326,4 +338,53 @@ if (!Date.prototype.addMinutes) {
         this.setMinutes(this.getMinutes() + m);
         return this;
     };
+}
+
+// $(".caret").on('click', function() {
+//     console.log(this);
+//     this.parentElement.querySelector(".nested").classList.toggle("active");
+//     this.classList.toggle("caret-down");
+// });
+
+const transitModes = {
+    0:  "Gyorsvasút",
+    1:	"Intercity",
+    2:	"Helyközi vasút",
+    3:	"Vasút",
+    4:	"Városi vasút",
+    5:	"Busz",
+    6:	"Hajó",
+    7:	"Metró",
+    8:	"Komp",
+    9:	"Taxi",
+    10: "Sikló",
+    11:	"Libegő",
+    12:	"Gyors busz",
+    13:	"Egynyomtávú vasút",
+    14:	"Repülő",
+    20: "Gyalog",
+}
+
+/**
+ *
+ * @param {*} route
+ */
+function hereRouteToHtml(route) {
+    var html = '<b>Utazás ideje</b>: ' + route.duration + ', '
+    + '<b>Átszállások száma</b>: ' + route.transfers + '<br>';
+    var sections = route.Sections.Sec;
+    //console.log(sections);
+    for (var i = 0; i < sections.length; i++) {
+        var section = sections[i];
+        console.log(section);
+        if ("Stn" in section.Arr) {
+            html += section.Arr.Stn.name + " (" + transitModes[section.mode] + ")" + "<br>";
+        }
+        //html += JSON.stringify(sections[i]) + '<br>';
+    }
+    //+ JSON.stringify();
+
+    console.log(html);
+
+    return html;
 }

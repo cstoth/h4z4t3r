@@ -62,7 +62,7 @@ class Hazater {
 
     public static function callAPI($method, $url, $data){
         $curl = curl_init();
-     
+
         switch ($method){
            case "POST":
               curl_setopt($curl, CURLOPT_POST, 1);
@@ -72,14 +72,14 @@ class Hazater {
            case "PUT":
               curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
               if ($data)
-                 curl_setopt($curl, CURLOPT_POSTFIELDS, $data);			 					
+                 curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
               break;
            default:
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
               if ($data)
                  $url = sprintf("%s?%s", $url, http_build_query($data));
         }
-     
+
         // OPTIONS:
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
@@ -89,7 +89,7 @@ class Hazater {
         ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-     
+
         // EXECUTE:
         $result = curl_exec($curl);
         if(!$result){die("Connection Failure");}
@@ -97,18 +97,21 @@ class Hazater {
         return $result;
      }
 
+    // public static function isCityAllowed($city) {
+    //     $c = strtoupper($city);
+    //     return $c === "BUDAPEST" || $c === "DEBRECEN"
+    // }
+
     /**
-     * 
+     *
      */
     public static function queryRoute($start_city_id, $end_city_id, $mode = "fastest") {
         $city_start = City::find($start_city_id);
         $city_end = City::find($end_city_id);
-        //return $city_end;
+
         if (isset($city_start) && isset($city_end)) {
             $from = $city_start->y.",".$city_start->x;
             $to = $city_end->y.",".$city_end->x;
-            // $from = "waypoint0=geo!52.5,13.4";
-            // $to = "waypoint1=geo!52.5,13.45";
 
             //route.api.here.com/routing/7.2/calculateroute.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled
             //transit.api.here.com/v3/route.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&routing=all&dep=46.07309,18.22876&arr=47.49973,19.05508&time=2019-06-24T07%3A30%3A00
@@ -124,37 +127,23 @@ class Hazater {
                 ."&time=".Hazater::now("Y-m-dTH:i:s");
 //                ."&time=2019-01-31T07:30:00";
             $response = file_get_contents($rest);
-            return $response;
-
-            // $client = new Client();
-            // $res = $client->request('GET', $rest, [
-            //     'headers' => [
-            //         'Accept' => 'application/json',
-            //         'Content-type' => 'application/json',
-            //     ]
-            // ]);
-
-            // //$response = file_get_contents($rest);
-            // //$error = error_get_last();
-            // return "error";
-
-            // // try {
-            // //     $response = file_get_contents($rest);
-            // // } catch (Exception $e) {
-            // //     return $e->getMessage();
-            // // }
-
-            // //
-            // //dd($response);
-            // //$response = json_decode($response);
-            // return $response;
+            if (strpos($response, 'GW0001') !== false) {
+                return "A jelenlegi beállítások mellett, a HERE adatbázisában nem található tömegközlekedési lehetőség.";
+            }
+            //$obj = json_decode($response);
+            //dd($obj);
+            $res[] = [
+                'name' => $city_start->name . " -> " . $city_end->name,
+                'data' => json_decode($response),
+            ];
+            return json_encode($res);
         }
 
         return null;
     }
 
     /**
-     * 
+     *
      */
     public static function isUserNotRated($advertise_id, $user_id) {
         $cnt = Rate::where('user_id', $user_id)->where('advertise_id', $advertise_id)->count();
@@ -162,7 +151,7 @@ class Hazater {
     }
 
     /**
-     * 
+     *
      */
     public static function getUserRate($advertise_id, $user_id) {
         $rate = Rate::where('user_id', $user_id)->where('advertise_id', $advertise_id)->value('rate');
@@ -170,7 +159,7 @@ class Hazater {
     }
 
     /**
-     * 
+     *
      */
     public static function isRated($advertise_id) {
         $cntRate = Rate::where('advertise_id', $advertise_id)->count();
@@ -179,9 +168,9 @@ class Hazater {
     }
 
     /**
-     * 
+     *
      */
     public static function getQueries($builder) {
         return vsprintf(str_replace('?', '%s', str_replace('?', "'?'", $builder->toSql())), $builder->getBindings());
-    }    
+    }
 }

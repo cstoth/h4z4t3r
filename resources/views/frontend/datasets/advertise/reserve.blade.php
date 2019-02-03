@@ -35,10 +35,12 @@
 
                     <div class="col text-right">
                         @if ($reserved)
-                            {{ html()->form('GET', route('frontend.user.advertise.resign'))->class('form-horizontal resign-form')->open() }}
-                                <input type="hidden" name="advertise_id" value="{{$advertise->id}}">
-                                <button type="submit" class="btn btn-danger">Visszamondás</button>
-                            {{ html()->form()->close() }}
+                            @if ($advertise->isDeletable())
+                                {{ html()->form('GET', route('frontend.user.advertise.resign'))->class('form-horizontal resign-form')->open() }}
+                                    <input type="hidden" name="advertise_id" value="{{$advertise->id}}">
+                                    <button type="submit" class="btn btn-danger">Visszamondás</button>
+                                {{ html()->form()->close() }}
+                            @endif
                         @else
                             @if ((!Auth::user() || Auth::user()->id != $advertise->user->id) && ($advertise->free_seats > 0) && ($advertise->status == 1))
                                 {{ html()->form('POST', route('frontend.user.reserve.store'))->class('form-horizontal')->open() }}

@@ -195,12 +195,12 @@
 @section('content')
 <!-- <div class="container"> -->
     <!-- RESULT -->
-    <div class="result-panel justify-content-center">
-    </div>
+    {{-- <div class="result-panel justify-content-center">
+    </div> --}}
 
     <!-- WELCOME -->
     <div class="welcome-panel">
-        <div class="form-row pt-5 flex-row welcome-panel justify-content-center text-info">
+        <div class="form-row pt-0 flex-row welcome-panel justify-content-center text-info">
             <h5 class="text-center">Köszöntünk a <strong><i>HazaTér</i></strong> közösségi közlekedés-támogató rendszerén!</h5>
         </div>
         <div class="form-row pt-1 pb-1 flex-row welcome-panel justify-content-center text-info">

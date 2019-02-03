@@ -44,7 +44,7 @@
 </p>
 <p>
     <strong>
-        A főoldali menü „Feltöltök utat” gombra kattintva, a következő
+        Bejelentkezést követően a főoldali menü „Autós menü” gombra kattintva, a következő
         lépéseket követve regisztrálhatja a felajánlott utat, megadhatja annak
         részleteit.
     </strong>
@@ -79,21 +79,15 @@
             A <strong>2.</strong> <strong>Útvonal, dátum megadása </strong>
             menüpontnál válasza ki az indulási és érkezési címeket, valamint az
             utazás dátumát. Az interaktív térképen rögtön ellenőrizni tudja a
-            megadott útvonal helyességét.
+            megadott útvonal helyességét. Ne felejtse el az „Autópályán megyek”
+            opció megadását, amennyiben az autópályát használná utazása során.
         </p>
     </li>
 </ol>
 <ul>
     <li>
         <p>
-Választhat egy útra és visszaútra is,            <strong>fontos hogy a pontos időpontot adja meg.</strong>
-        </p>
-    </li>
-</ul>
-<ul>
-    <li>
-        <p>
-            A „köztes megálló hozzáadása”-val plusz megállóhelyeket adhat meg
+            A „köztes megálló hozzáadása” opciót választva plusz megállóhelyeket adhat meg
             az indulás és az érkezési pontok között.
         </p>
     </li>
@@ -110,25 +104,15 @@ Választhat egy útra és visszaútra is,            <strong>fontos hogy a ponto
 <ol start="5">
     <li>
         <p>
-            <strong>Mikor utazom?</strong>
-            Rendszeres út megadásánál a felkínált rádió gombot válassza.
-            Fontos, hogy pontosan határozza meg azokat a napokat, amelyeken
-            utast kíván szállítani. Ha ezt nem teszi meg, nem jelenik meg a
-            keresőben a felkínált út.
+            Adja meg azt az időt, amin belül még lemondhatja az utas a lefoglalt utat,
+            abban az esetben, ha valamilyen oknál fogva mégsem tudna Önnel utazni.
         </p>
     </li>
 </ol>
-<p>
-    Amennyiben egyetlen alkalomra kínál fel utazást, ezt az „Egyedi gyakoriságú
-    út(ak)” rádió gombra kattintva teheti meg. Itt konkrét dátumot megadva
-    (év-hónap-nap) adott napon jelenik meg a hirdetése.
-</p>
 <ol start="6">
     <li>
         <p>
-            Az „Elmentem sablonként” opció segítségével egy nevet megadva
-            elmenthető az adott út, hogy a későbbiekben újra egyszerűen
-            előhívható legyen.
+            Amennyiben pénzt kér az útért, kérjük adja meg a személyenként elkérhető összeget.
         </p>
     </li>
 </ol>

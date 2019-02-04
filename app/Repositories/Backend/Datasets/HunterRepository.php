@@ -13,13 +13,11 @@ use App\Events\Backend\Datasets\Hunter\HunterUpdated;
 /**
  * Class HunterRepository.
  */
-class HunterRepository extends BaseRepository
-{
+class HunterRepository extends BaseRepository {
     /**
      * @return string
      */
-    public function model()
-    {
+    public function model() {
         return Hunter::class;
     }
 
@@ -29,14 +27,13 @@ class HunterRepository extends BaseRepository
      * @return Hunter
      * @throws GeneralException
      */
-    public function create(array $data) : Hunter
-    {
+    public function create(array $data) : Hunter {
         return DB::transaction(function () use ($data) {
             $model = parent::create([
                 'user_id'       => $data['user_id'],
                 'start_city_id' => $data['start_city_id'] ?? City::getCityIdByName($data['start_city']),
                 'end_city_id'   => $data['end_city_id'] ?? City::getCityIdByName($data['end_city']),
-                'days'          => $data['days'],
+                //'days'          => $data['days'],
                 //'active'        => isset($data['active']) ? ($data['active'] ? 1 : 0) : 0,
                 'active'        => 1, // allways active
             ]);
@@ -57,14 +54,13 @@ class HunterRepository extends BaseRepository
      * @return mixed
      * @throws GeneralException
      */
-    public function update(Hunter $model, array $data)
-    {
+    public function update(Hunter $model, array $data) {
         return DB::transaction(function () use ($model, $data) {
             if ($model->update([
                 'user_id'       => $data['user_id'],
                 'start_city_id' => $data['start_city_id'] ?? City::getCityIdByName($data['start_city']),
                 'end_city_id'   => $data['end_city_id'] ?? City::getCityIdByName($data['end_city']),
-                'days'          => $data['days'],
+                //'days'          => $data['days'],
                 'active'        => $data['active'] ?? 0,
             ])) {
                 // event(new HunterUpdated($model));

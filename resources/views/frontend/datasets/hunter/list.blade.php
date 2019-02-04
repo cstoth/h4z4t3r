@@ -8,7 +8,7 @@
                             <th class="col-hidden">id</th>
                             <th>Indulási hely</th>
                             <th>Érkezési hely</th>
-                            <th>Utazás napja</th>
+                            <!-- <th>Utazás napja</th> -->
                             {{-- <th>Állapot</th> --}}
                             <th class="action_buttons">@lang('labels.general.actions')</th>
                         </tr>
@@ -19,7 +19,7 @@
                                 <td class="col-hidden">{{ $data->id }}</td>
                                 <td>{!! $data->start_city_label !!}</td>
                                 <td>{!! $data->end_city_label !!}</td>
-                                <td>{!! $data->days_label !!}</td>
+                                {{-- <td>{!! $data->days_label !!}</td> --}}
                                 {{-- <td>{!! $data->status_label !!}</td> --}}
                                 <td>{!! $data->frontend_action_buttons !!}</td>
                             </tr>

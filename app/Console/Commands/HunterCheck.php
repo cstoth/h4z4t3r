@@ -11,8 +11,7 @@ use App\Models\Hunter;
 use App\Models\Auth\User;
 use App\Models\Advertise;
 
-class HunterCheck extends Command
-{
+class HunterCheck extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -32,8 +31,7 @@ class HunterCheck extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -42,8 +40,7 @@ class HunterCheck extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
+    public function handle() {
         \Log::info($this->signature . " started");
         $this->check();
         \Log::info($this->signature . " ended");
@@ -57,9 +54,9 @@ class HunterCheck extends Command
         foreach ($hunters as $hunter) {
             $user = User::find($hunter->user_id);
             if (($advertise->template == null)
-                //TODO: Ide majd valami sokkal jobb vizsgálat kell!
-                && ($advertise->user_id != $hunter->user_id)
                 && ($advertise->status == Advertise::ACTIVE)
+                && ($advertise->user_id != $hunter->user_id)
+                //TODO: Ide majd valami sokkal jobb vizsgálat kell!
                 && ($advertise->start_city_id == $hunter->start_city_id)
                 && ($advertise->end_city_id == $hunter->end_city_id)
                 //TODO: dátum vizsgálat
@@ -80,8 +77,8 @@ class HunterCheck extends Command
             $advertises = Advertise::whereNull('template')
                 ->where('status', Advertise::ACTIVE)
                 //TODO: Ide majd valami sokkal jobb vizsgálat kell!
-                ->where('start_city_id','=',$hunter->start_city_id)
-                ->where('end_city_id','=',$hunter->end_city_id)
+                ->where('start_city_id', $hunter->start_city_id)
+                ->where('end_city_id', $hunter->end_city_id)
                 //TODO: dátum vizsgálat
                 // ->where('start_date','<=',$hunter->date)
                 // ->where('end_date','>=',$hunter->date)

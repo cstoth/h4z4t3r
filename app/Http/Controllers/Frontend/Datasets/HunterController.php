@@ -16,18 +16,17 @@ use App\Models\Reserve;
 /**
  * Class HunterController.
  */
-class HunterController extends Controller
-{
+class HunterController extends Controller {
     protected function getWithData($tab) {
         return [
-        'tab' => $tab,
-        'cars' => Auth::user()->cars()->get(),
-        'advertises' => Auth::user()->advertises()->get(),
-        'reserve' => null,
-        'reserved' => false,
-        'reserves' => Reserve::whereRaw("(user_id=".Auth::user()->id.")")->get(),
-        'hunter' => new Hunter(),
-        'hunters' => Hunter::whereRaw("(user_id=".Auth::user()->id.")")->get(),
+            'tab' => $tab,
+            'cars' => Auth::user()->cars()->get(),
+            'advertises' => Auth::user()->advertises()->get(),
+            'reserve' => null,
+            'reserved' => false,
+            'reserves' => Reserve::whereRaw("(user_id=".Auth::user()->id.")")->get(),
+            'hunter' => new Hunter(),
+            'hunters' => Hunter::whereRaw("(user_id=".Auth::user()->id.")")->get(),
         ];
     }
 
@@ -53,8 +52,7 @@ class HunterController extends Controller
     /**
      * @param HunterRepository       $repository
      */
-    public function __construct(HunterRepository $repository)
-    {
+    public function __construct(HunterRepository $repository) {
         $this->modelRepository = $repository;
     }
 
@@ -63,8 +61,7 @@ class HunterController extends Controller
      *
      * @return mixed
      */
-    public function index(HunterManageRequest $request)
-    {
+    public function index(HunterManageRequest $request) {
         return view('frontend.datasets.hunter.index')
             ->withHunters($this->modelRepository
                 ->orderBy('id', 'asc')
@@ -77,8 +74,7 @@ class HunterController extends Controller
      *
      * @return mixed
      */
-    public function create(HunterManageRequest $request)
-    {
+    public function create(HunterManageRequest $request) {
         return view('frontend.datasets.hunter.create');
     }
 
@@ -88,8 +84,7 @@ class HunterController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function store(HunterStoreRequest $request)
-    {
+    public function store(HunterStoreRequest $request) {
         //dd($request);
         $this->modelRepository->create($request->only(
             'user_id',
@@ -97,7 +92,7 @@ class HunterController extends Controller
             'start_city_id',
             'end_city',
             'end_city_id',
-            'days',
+            //'days',
             'active'
         ));
 
@@ -111,8 +106,7 @@ class HunterController extends Controller
      *
      * @return mixed
      */
-    public function show(HunterManageRequest $request, Hunter $model)
-    {
+    public function show(HunterManageRequest $request, Hunter $model) {
         return view('frontend.datasets.hunter.show')->withHunter($model);
     }
 
@@ -122,8 +116,7 @@ class HunterController extends Controller
      *
      * @return mixed
      */
-    public function edit(HunterManageRequest $request, Hunter $model)
-    {
+    public function edit(HunterManageRequest $request, Hunter $model) {
         return view('frontend.datasets.hunter.edit')->withHunter($model);
     }
 
@@ -134,15 +127,14 @@ class HunterController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function update(HunterUpdateRequest $request, Hunter $model)
-    {
+    public function update(HunterUpdateRequest $request, Hunter $model) {
         $this->modelRepository->update($model, $request->only(
             'user_id',
             'start_city',
             'start_city_id',
             'end_city',
             'end_city_id',
-            'days',
+            //'days',
             'active'
         ));
 
@@ -156,8 +148,7 @@ class HunterController extends Controller
      * @return mixed
      * @throws \Exception
      */
-    public function destroy(Hunter $hunter)
-    {
+    public function destroy(Hunter $hunter) {
         //dd($model);
         if ($hunter->delete()) {
 
@@ -177,16 +168,14 @@ class HunterController extends Controller
     /**
      *
      */
-    public function get($id)
-    {
+    public function get($id) {
         return Hunter::find($id);
     }
 
     /**
      *
      */
-    public function query(Request $request)
-    {
+    public function query(Request $request) {
         return Hunter::where('name', '=', Input::get('name'))->get();
     }
 }

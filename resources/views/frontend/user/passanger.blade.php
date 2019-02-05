@@ -1,7 +1,6 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-{{ $tab }}
     <div class="row justify-content-center align-items-center mb-3">
         <div class="col col-12 align-self-center">
 

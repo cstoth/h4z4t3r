@@ -27,8 +27,8 @@ class HomeController extends Controller {
      * @return \Illuminate\View\View
      */
     public function search(Request $request) {
-        //return $this->find($request);
         session_start();
+        //return $this->find($request);
         if (isset($_SESSION['SEARCH'])) {
             $search = $_SESSION['SEARCH'];
         } else {
@@ -251,10 +251,12 @@ class HomeController extends Controller {
     }
 
     public function mainMenu(Request $request) {
+        session_start();
         $_SESSION['MAIN_MENU_ID'] = $request->input('id');
     }
 
     public function subMenu(Request $request) {
+        session_start();
         $_SESSION['SUB_MENU_ID'] = $request->input('id');
     }
 
@@ -275,6 +277,7 @@ class HomeController extends Controller {
     }
 
     public function setTab(Request $request) {
+        session_start();
         $tab = $request->input('tab');
         $_SESSION[$tab] = $request->input('hash');
         return $request->input('hash');

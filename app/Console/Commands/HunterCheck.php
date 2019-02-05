@@ -49,7 +49,7 @@ class HunterCheck extends Command {
     /**
      *
      */
-    public static function checkAdvertise($advertise) {
+    public static function checkAdvertise(Advertise $advertise) {
         $hunters = Hunter::where('active', 1)->get();
         foreach ($hunters as $hunter) {
             $user = User::find($hunter->user_id);

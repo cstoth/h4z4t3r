@@ -36,6 +36,8 @@ class PassangerController extends Controller {
      *
      */
     public function passangerMenu(Request $request) {
+        session_start();
+        
         //dd($request);
         $tab = 1;
 

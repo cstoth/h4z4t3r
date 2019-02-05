@@ -360,6 +360,7 @@ class AdvertiseController extends Controller {
      *
      */
     public function driverMenu(Request $request) {
+        session_start();
         $tab = 2;
 
         if (isset($_SESSION["DRIVER_TAB"])) {

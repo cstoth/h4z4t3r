@@ -22,7 +22,11 @@ class Hazater {
     public static function formatDate($date, $format = "Y.m.d H:i") {
         try {
             if ($date) {
-                return date_format(date_create($date), $format);
+                $d = date_create($date);
+                if (gettype($d) == "boolean") {
+                    Hazater::now($format);
+                }
+                return date_format($d, $format);
             }
         } catch (Exception $e) {
             \Log::info('ERROR: ' . $e->getMessage());

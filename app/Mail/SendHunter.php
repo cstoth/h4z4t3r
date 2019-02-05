@@ -13,8 +13,7 @@ use App\Helpers\Hazater;
 /**
  * Class SendHunter.
  */
-class SendHunter extends Mailable
-{
+class SendHunter extends Mailable {
     use Queueable, SerializesModels;
 
     /**
@@ -33,8 +32,7 @@ class SendHunter extends Mailable
      * @param User $user
      * @param Advertise $advertise
      */
-    public function __construct(User $_user, Advertise $_advertise)
-    {
+    public function __construct(User $_user, Advertise $_advertise) {
         $this->user = $_user;
         $this->advertise = $_advertise;
     }
@@ -44,8 +42,7 @@ class SendHunter extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function build() {
         return $this->to($this->user->email, $this->user->full_name)
             ->view('frontend.mail.hunter')
             //->text('frontend.mail.hunter-text')

@@ -18,6 +18,9 @@ use App\Models\Reserve;
  */
 class HunterController extends Controller {
     protected function getWithData($tab) {
+        session_start();
+        //dd($tab);
+        $_SESSION["PASSANGER_TAB"] = $tab;
         return [
             'tab' => $tab,
             'cars' => Auth::user()->cars()->get(),
@@ -41,6 +44,7 @@ class HunterController extends Controller {
      *
      */
     public function redirTab($tab) {
+        //dd($tab);
         return redirect()->route('frontend.user.passanger.menu')->with($this->getWithData($tab));
     }
 

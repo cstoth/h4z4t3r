@@ -120,11 +120,7 @@ class HomeController extends Controller {
             }
         });
 
-        //dd(Hazater::getQueries($query));
-        //$query = $this->budapest_hack($query, $start_city_id, 'start');
-        //$query = $this->budapest_hack($query, $end_city_id, 'end');
-
-        \Log::info('QUERY: ' . Hazater::getQueries($query));
+        //\Log::info('QUERY: ' . Hazater::getQueries($query));
         return $query; //->orderBy('start_date');
     }
 

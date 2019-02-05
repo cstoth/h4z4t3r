@@ -26,10 +26,14 @@ class Hazater {
         return Hazater::now($format);
     }
 
-    public static function formatDate2($date) {
+    public static function formatDate2($date, $mode = 0) {
+        if ($date == "NaN-NaN-NaN") return null;
+        if ($date == "NaN.NaN.NaN") return null;
+        //dd($date);
         if ($date) {
             return date_format(date_create($date), "Y.m.d");
         }
+        if ($mode == 1) return null;
         return date("Y.m.d");
     }
 

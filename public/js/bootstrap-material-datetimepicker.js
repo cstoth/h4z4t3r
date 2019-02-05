@@ -218,7 +218,7 @@
                          '<div class="dtp-date-view">' +
                          '<header class="dtp-header">' +
                          '<div class="dtp-actual-day">Lundi</div>' +
-                         '<div class="dtp-close"><a href="javascript:void(0);"><i class="material-icons">Törlés</i></a></div>' +
+                         '<div class="dtp-close"><a href="javascript:void(0);"><span class="material-icons">X</span></a></div>' +
                          '</header>' +
                          '<div class="dtp-date hidden">' +
                          '<div>' +
@@ -266,9 +266,9 @@
                          '</div>' +
                          '</div>' +
                          '<div class="dtp-buttons">' +
-                         '<button class="dtp-btn-now btn btn-flat hidden">' + this.params.nowText + '</button>' +
-                         '<button class="dtp-btn-clear btn btn-flat hidden">' + this.params.clearText + '</button>' +
-                         '<button class="dtp-btn-cancel btn btn-flat">' + this.params.cancelText + '</button>' +
+                         '<button class="dtp-btn-now btn btn-flat hidden">' + this.params.nowText + '</button>&nbsp;' +
+                         '<button class="dtp-btn-clear btn btn-flat hidden">' + this.params.clearText + '</button>&nbsp;' +
+                         '<button class="dtp-btn-cancel btn btn-flat">' + this.params.cancelText + '</button>&nbsp;' +
                          '<button class="dtp-btn-ok btn btn-flat">' + this.params.okText + '</button>' +
                          '<div class="clearfix"></div>' +
                          '</div>' +

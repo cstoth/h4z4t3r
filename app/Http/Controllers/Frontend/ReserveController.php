@@ -83,7 +83,7 @@ class ReserveController extends Controller {
             }
             //dd($advertise);
         }
-        return $this->gotoTab(2, "Helyfoglalásod rögzítettük!");
+        return $this->redirTab(2, "Helyfoglalásod rögzítettük!");
     }
 
     /**

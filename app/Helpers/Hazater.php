@@ -20,8 +20,12 @@ class Hazater {
     }
 
     public static function formatDate($date, $format = "Y.m.d H:i") {
-        if ($date) {
-            return date_format(date_create($date), $format);
+        try {
+            if ($date) {
+                return date_format(date_create($date), $format);
+            }
+        } catch (Exception $e) {
+            \Log::info('ERROR: ' . $e->getMessage());
         }
         return Hazater::now($format);
     }

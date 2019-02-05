@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\Frontend\SendReserve;
 use App\Mail\Frontend\SendMeReserve;
 
-class ReserveController extends Controller
-{
+class ReserveController extends Controller {
     public function getMenuData($tab) {
         return [
             'tab' => $tab,
@@ -46,8 +45,7 @@ class ReserveController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         $model = Reserve::all();
         return view('frontend.reserve.index');
     }
@@ -57,8 +55,7 @@ class ReserveController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -68,8 +65,7 @@ class ReserveController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $id = Input::get('advertise_id');
         if ($id) {
             //TODO: ellenőrizni jelentkezett-e már erre!
@@ -87,7 +83,7 @@ class ReserveController extends Controller
             }
             //dd($advertise);
         }
-        return $this->gotoTab(1, "Helyfoglalásod rögzítettük!");
+        return $this->gotoTab(2, "Helyfoglalásod rögzítettük!");
     }
 
     /**
@@ -96,8 +92,7 @@ class ReserveController extends Controller
      * @param  \App\Reserve  $reserve
      * @return \Illuminate\Http\Response
      */
-    public function show(Reserve $reserve)
-    {
+    public function show(Reserve $reserve) {
         return $reserve;
     }
 
@@ -107,8 +102,7 @@ class ReserveController extends Controller
      * @param  \App\Reserve  $reserve
      * @return \Illuminate\Http\Response
      */
-    public function edit(Reserve $reserve)
-    {
+    public function edit(Reserve $reserve) {
         //
     }
 
@@ -119,8 +113,7 @@ class ReserveController extends Controller
      * @param  \App\Reserve  $reserve
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reserve $reserve)
-    {
+    public function update(Request $request, Reserve $reserve) {
         //
     }
 
@@ -130,10 +123,9 @@ class ReserveController extends Controller
      * @param  \App\Reserve  $reserve
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reserve $reserve)
-    {
+    public function destroy(Reserve $reserve) {
         //dd($reserve);
-        if ($reserve->delete()){
+        if ($reserve->delete()) {
             //return true;
         }
         //return view()->route();

@@ -184,7 +184,7 @@
                     </div>
                 </div>
                 <div class="input-group mr-2 mb-2">
-                    <input id="searchDate" name="searchDate" class="form-control datum" type="text" placeholder="Dátum" value="{{isset($search)?$search['date']:''}}" autocomplete="off">
+                    <input id="searchDate" name="searchDate" class="form-control datum" type="text" placeholder="Dátum" value="{{isset($search) ? \App\Helpers\Hazater::formatDate2($search['date']) : ''}}" autocomplete="off">
                     <div class="input-group-append">
                         <div class="input-group-text"><img class="addon-image" src="img/frontend/hazater.icon.date.png"></div>
                     </div>
@@ -257,7 +257,27 @@
 @section('scripts')
     <script>
         $(function () {
-            $(".datum").datepicker($.datepicker.regional["hu"]);
+            //$(".datum").datepicker($.datepicker.regional["hu"]);
+            $("#searchDate").bootstrapMaterialDatePicker({
+                format: 'YYYY.MM.DD HH:mm',
+                lang: 'hu',
+                weekStart: 1,
+                cancelText: 'Mégsem',
+                minDate: dateToday,
+                //switchOnClick: true,
+                time: false,
+            }).on('change', function(e, d) {
+                //console.log(d);
+                var date = new Date(d);
+                var year = date.getFullYear();
+                var month = zeroPad(date.getMonth() + 1, 2);
+                var day = zeroPad(date.getDate(), 2);
+                // var hour = date.getHours();
+                // var min = date.getMinutes();
+                date = year + "." + month + "." + day;
+                $('#searchDate').val(date);
+            });
+
             $('.typeahead-start-city').typeahead({
                 source: function (query, process) {
                     return $.get("{{ route('frontend.search.city') }}", {query: query}, function (data) {

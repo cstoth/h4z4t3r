@@ -99,7 +99,8 @@ class HomeController extends Controller {
             ->whereNotNull('start_date')->whereNotNull('end_date');
 
         if (isset($date) && !empty($date)) {
-            $query->where('start_date', '<=', $date)->where('end_date', '>=', $date);
+            $query->whereDate('start_date', '=', $date);
+            //$query->where('start_date', '<=', $date)->where('end_date', '>=', $date);
         }
 
         if (isset($name) && !empty($name)) {
@@ -123,6 +124,7 @@ class HomeController extends Controller {
         //$query = $this->budapest_hack($query, $start_city_id, 'start');
         //$query = $this->budapest_hack($query, $end_city_id, 'end');
 
+        \Log::info('QUERY: ' . Hazater::getQueries($query));
         return $query; //->orderBy('start_date');
     }
 

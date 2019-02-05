@@ -10,14 +10,14 @@ use App\Models\Reserve;
 use App\Models\Hunter;
 use App\Helpers\Hazater;
 
-class PassangerController extends Controller
-{
+class PassangerController extends Controller {
     /**
      *
      */
     public function gotoTab($tab) {
         $query = Reserve::join('advertises','reserves.advertise_id','=','advertises.id')->select('reserves.*')
-        ->where("reserves.user_id", Auth::user()->id)->orderBy('advertises.start_date');
+        //->where("reserves.user_id", Auth::user()->id)->orderBy('advertises.start_date');
+        ->where("reserves.user_id", Auth::user()->id)->orderBy('advertises.status');
         //dd(Hazater::getQueries($query));
 
         return view('frontend.user.passanger')->with([
@@ -49,8 +49,7 @@ class PassangerController extends Controller
     /**
      *
      */
-    public function list()
-    {
+    public function list() {
         $data = Passanger::all();
         return view('frontend.user.pages.driver.passangers')->with([
             'passangers' => $data,
@@ -82,8 +81,7 @@ class PassangerController extends Controller
     /**
      *
      */
-    public function delete($id)
-    {
+    public function delete($id) {
         $model = Passanger::find($id);
         if ($model) $model->delete();
         return redirect('dashboard')->with('Passanger', 'Passanger deleted successfully.');
@@ -119,18 +117,16 @@ class PassangerController extends Controller
     /**
      *
      */
-    public function get($id)
-    {
-        // TODO Auth!
-        return Passanger::find($id);
-    }
+    // public function get($id) {
+    //     // TODO Auth!
+    //     return Passanger::find($id);
+    // }
 
     /**
      *
      */
-    public function set(PassangerUpdateRequest $request)
-    {
-        // TODO Auth!
-        return 'ok';
-    }
+    // public function set(PassangerUpdateRequest $request) {
+    //     // TODO Auth!
+    //     return 'ok';
+    // }
 }

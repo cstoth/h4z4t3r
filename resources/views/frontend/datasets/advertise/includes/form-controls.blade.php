@@ -155,6 +155,46 @@
     </div>
 </div>
 
+@if(Auth::user() && (Auth::user()->id == $advertise->user->id))
+    <span class="d-block p-2 bg-group text-black mt-5 mb-3">{{ __('dashboard.driver.submit-ad.4 Passangers') }}</span>
+
+    <div class="form-row">
+        <div class="col">
+            @php
+                $results = \App\Models\Reserve::where('advertise_id', $advertise->id)->orderBy('id')->get()
+            @endphp
+            @if($results->count() > 0)
+            <div class="table-responsive">
+                <table class="table" id="passangersTable">
+                    <thead>
+                        <tr>
+                            <th class="col-hidden">id</th>
+                            <th>Utas</th>
+                            <th>Telefonszám</th>
+                            <th>Email</th>
+                            {{-- <th class="action_buttons">@lang('labels.general.actions')</th> --}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($results as $data)
+                            <tr class="table-row">
+                                <td class="col-hidden">{{ $data->id }}</td>
+                                <td>{!! $data->user_name_label !!}</td>
+                                <td>{!! $data->user_phone_label !!}</td>
+                                <td>{!! $data->user_email_label !!}</td>
+                                {{-- <td>{!! $data->action_buttons !!}</td> --}}
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+            <em>Még nem jelentkeztek erre a hirdetésre.</em>
+            @endif
+        </div>
+    </div>
+@endif
+
 @push('after-scripts')
 <script type="text/javascript">
 

@@ -12,7 +12,7 @@
         }
         .startDate .error-text {
             visibility: hidden;
-            width: 200px;
+            /*width: 200px;*/
             background-color: #f27474;
             color: #fff;
             text-align: center;
@@ -21,11 +21,11 @@
             position: absolute;
             z-index: 1;
             top: 22px;
-            left: 105%;
+            /*left: 105%;*/
         }
         .startDate .error-text::after {
             content: "";
-            position: absolute;
+            position: relative;
             top: 50%;
             right: 100%;
             margin-top: -5px;

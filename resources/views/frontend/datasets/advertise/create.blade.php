@@ -1,24 +1,26 @@
-{{ html()->form('GET', route('frontend.user.template.load'))->class('form-horizontal')->open() }}
+@if (1==2)
+    {{ html()->form('GET', route('frontend.user.template.load'))->class('form-horizontal')->open() }}
 
-<input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
+    <input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
 
-@if (count($templates) > 0)
-<div class="form-row" id="template-loader">
-    <div class="col-xs-12 col-lg-6">
-        <select class="form-control" id="template_id" name="template_id" placeholder="{{ __('dashboard.driver.submit-ad.Template placeholder') }}">
-            {{-- <option value="0">Válassz sablont!</option> --}}
-            @foreach($templates as $template)
-                <option value="{{ $template->id }}">{{ $template->template }}</option>
-            @endforeach
-        </select>
+    @if (count($templates) > 0)
+    <div class="form-row" id="template-loader">
+        <div class="col-xs-12 col-lg-6">
+            <select class="form-control" id="template_id" name="template_id" placeholder="{{ __('dashboard.driver.submit-ad.Template placeholder') }}">
+                {{-- <option value="0">Válassz sablont!</option> --}}
+                @foreach($templates as $template)
+                    <option value="{{ $template->id }}">{{ $template->template }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-xs-12 col-lg-1">
+            <button id="template-load" name="template-load" type="submit" class="btn btn-info">{{ __('dashboard.driver.submit-ad.Load Template') }}</button>
+        </div>
     </div>
-    <div class="col-xs-12 col-lg-1">
-        <button id="template-load" name="template-load" type="submit" class="btn btn-info">{{ __('dashboard.driver.submit-ad.Load Template') }}</button>
-    </div>
-</div>
+    @endif
+
+    {{ html()->form()->close() }}
 @endif
-
-{{ html()->form()->close() }}
 
 <form method="POST" action="{{route('frontend.advertise')}}" class="form-horizontal" autocomplete="off" onsubmit="return validateAdvertiseForm()">
 {{ csrf_field() }}

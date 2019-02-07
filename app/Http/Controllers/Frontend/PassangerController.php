@@ -15,6 +15,12 @@ class PassangerController extends Controller {
      *
      */
     public function gotoTab($tab) {
+        if ($tab == "#reserves") {
+            $tab = 1;
+        } else if ($tab == "#adhunter") {
+            $tab = 2;
+        }
+
         $query = Reserve::join('advertises','reserves.advertise_id','=','advertises.id')->select('reserves.*')
         //->where("reserves.user_id", Auth::user()->id)->orderBy('advertises.start_date');
         ->where("reserves.user_id", Auth::user()->id)->orderBy('advertises.status');

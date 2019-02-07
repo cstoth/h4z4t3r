@@ -46,9 +46,10 @@
         console.log("driver-1");
 
         @if (isset($_SESSION['DRIVER_TAB']))
-            console.log("SESSION_TAB: {{$_SESSION['DRIVER_TAB']}}");
             const driver_tab = "{{ $_SESSION['DRIVER_TAB'] }}";
-            $('a[href="'+driver_tab+'"]').click();
+            console.log("SESSION_TAB: " + driver_tab);
+            //$('a[href="localhost"]').click();
+            //$('a[href="'+driver_tab+'"]').click();
         @endif
 
         $('#driver-menu a').on('click', function (e) {
@@ -63,8 +64,8 @@
                 }, 100);
             }, 100);
             $.get("tab/set", {tab: 'DRIVER_TAB', hash: e.target.hash},
-                function(e){
-                    //console.log(e);
+                function(e) {
+                    console.log(e);
                 }
             );
         });

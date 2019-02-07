@@ -307,6 +307,17 @@ class AdvertiseController extends Controller {
      */
     public function getDriverMenuData($tab, $advertise = null) {
         //dd($advertise);
+
+        if ($tab == "#submit-ad") {
+            $tab = 1;
+        } else if ($tab == "#advertises") {
+            $tab = 2;
+        } else if ($tab == "#passangers") {
+            $tab = 3;
+        } else if ($tab == "#cars") {
+            $tab = 4;
+        }
+
         if (!$advertise) {
             $advertise = new Advertise;
             $advertise->regular = 0;

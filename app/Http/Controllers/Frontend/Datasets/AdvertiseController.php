@@ -606,8 +606,8 @@ class AdvertiseController extends Controller {
         if ($advertise) {
             $advertise->free_seats++;
             $advertise->save();
-            Mail::send(new SendCancel($advertise->user, $advertise)); //TODO: lehet olyan levelet kap, amiben már törlődött a hirdetés
-            Mail::send(new SendMeCancel(Auth::user(), $advertise)); //TODO: lehet olyan levelet kap, amiben már törlődött a hirdetés
+            Mail::send(new SendCancel(Auth::user(), $advertise)); //TODO: lehet olyan levelet kap, amiben már törlődött a hirdetés
+            Mail::send(new SendMeCancel($advertise->user, $advertise)); //TODO: lehet olyan levelet kap, amiben már törlődött a hirdetés
             if ($advertise->status == Advertise::DELETABLE) {
                 $count = Reserve::where('advertise_id', $advertise_id)->count();
                 if ($count == 0) {

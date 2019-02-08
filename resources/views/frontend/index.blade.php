@@ -83,7 +83,7 @@
             left: 380px;
              */
             /* top: 304px; */
-            margin-top: 6rem!important
+            /*margin-top: 6rem!important*/
         }
 
         .welcome-panel-old {

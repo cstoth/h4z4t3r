@@ -201,7 +201,6 @@
 console.log("advertise-form-1");
 
 var cars = {!! $advertise->user->cars !!};
-var templates = {!! $templates !!};
 var x1 = {{ $advertise->startCity->y ?? "null" }};
 var y1 = {{ $advertise->startCity->x ?? "null" }};
 var x2 = {{ $advertise->endCity->y ?? "null" }};
@@ -395,15 +394,15 @@ $('#koztes-hely').on('click', function() {
     }
 });
 
-function getTemplate(id) {
-    for (var i = 0; i < templates.length; i++) {
-        var template = templates[i];
-        if (template.id == id) {
-            return template;
-        }
-    }
-    return null;
-}
+// function getTemplate(id) {
+//     for (var i = 0; i < templates.length; i++) {
+//         var template = templates[i];
+//         if (template.id == id) {
+//             return template;
+//         }
+//     }
+//     return null;
+// }
 
 function initDays() {
     //console.log("initDays");

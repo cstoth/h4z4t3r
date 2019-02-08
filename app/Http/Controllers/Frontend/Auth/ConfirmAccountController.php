@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Frontend\Auth;
 use App\Http\Controllers\Controller;
 use App\Repositories\Frontend\Auth\UserRepository;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Frontend\SendConfirm;
 
 /**
  * Class ConfirmAccountController.
  */
-class ConfirmAccountController extends Controller
-{
+class ConfirmAccountController extends Controller {
     /**
      * @var UserRepository
      */
@@ -21,8 +22,7 @@ class ConfirmAccountController extends Controller
      *
      * @param UserRepository $user
      */
-    public function __construct(UserRepository $user)
-    {
+    public function __construct(UserRepository $user) {
         $this->user = $user;
     }
 
@@ -32,8 +32,7 @@ class ConfirmAccountController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function confirm($token)
-    {
+    public function confirm($token) {
         $this->user->confirm($token);
 
         return redirect()->route('frontend.auth.login')->withFlashSuccess(__('exceptions.frontend.auth.confirmation.success'));
@@ -45,15 +44,15 @@ class ConfirmAccountController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function sendConfirmationEmail($uuid)
-    {
+    public function sendConfirmationEmail($uuid) {
         $user = $this->user->findByUuid($uuid);
 
         if ($user->isConfirmed()) {
             return redirect()->route('frontend.auth.login')->withFlashSuccess(__('exceptions.frontend.auth.confirmation.already_confirmed'));
         }
 
-        $user->notify(new UserNeedsConfirmation($user->confirmation_code));
+        //$user->notify(new UserNeedsConfirmation($user->confirmation_code));
+        Mail::send(new SendConfirm($user));
 
         return redirect()->route('frontend.auth.login')->withFlashSuccess(__('exceptions.frontend.auth.confirmation.resent'));
     }

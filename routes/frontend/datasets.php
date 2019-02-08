@@ -10,6 +10,8 @@ use App\Http\Controllers\Frontend\Datasets\HunterController;
 /*
  * All route names are prefixed with 'admin.auth'.
  */
+Route::group(['middleware' => ['auth', 'password_expires']], function () {
+
 Route::group([
     'prefix'     => 'datasets',
     'as'         => 'datasets.',
@@ -100,4 +102,6 @@ Route::group([
             Route::delete('/', [HunterController::class, 'destroy'])->name('hunter.destroy');
         });
     });
+});
+
 });

@@ -9,8 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 /**
  * Class UserNeedsConfirmation.
  */
-class UserNeedsConfirmation extends Notification
-{
+class UserNeedsConfirmation extends Notification {
     use Queueable;
 
     /**
@@ -23,8 +22,7 @@ class UserNeedsConfirmation extends Notification
      *
      * @param $confirmation_code
      */
-    public function __construct($confirmation_code)
-    {
+    public function __construct($confirmation_code) {
         $this->confirmation_code = $confirmation_code;
     }
 
@@ -35,8 +33,7 @@ class UserNeedsConfirmation extends Notification
      *
      * @return array
      */
-    public function via($notifiable)
-    {
+    public function via($notifiable) {
         return ['mail'];
     }
 
@@ -47,8 +44,7 @@ class UserNeedsConfirmation extends Notification
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
+    public function toMail($notifiable) {
         return (new MailMessage())
             ->subject(app_name().': '.__('exceptions.frontend.auth.confirmation.confirm'))
             ->line(__('strings.emails.auth.click_to_confirm'))

@@ -70,8 +70,7 @@ class AdvertiseController extends Controller {
      * @return mixed
      */
     public function create(AdvertiseManageRequest $request) {
-        $cars = Car::where('user_id', Auth::user()->id)->get();
-        return view('frontend.datasets.advertise.create')->withCars($cars);
+        return $this->gotoTab(1);
     }
 
     /**
@@ -109,11 +108,11 @@ class AdvertiseController extends Controller {
             return $this->show($request, $advertise)->withFlashInfo('A hirdetés nem törölhető!');
         }
 
-        $advertises = Advertise::whereRaw('user_id='.Auth::user()->id.' AND template IS NULL');
-        $passangers = Passanger::whereRaw('advertise_id IN (SELECT id FROM advertises WHERE user_id='.Auth::user()->id.')');
-        $templates = Advertise::whereRaw('user_id='.Auth::user()->id.' AND template IS NOT NULL');
+        $advertises = Advertise::whereRaw('user_id='.Auth::id().' AND template IS NULL');
+        $passangers = Passanger::whereRaw('advertise_id IN (SELECT id FROM advertises WHERE user_id='.Auth::id().')');
+        $templates = Advertise::whereRaw('user_id='.Auth::id().' AND template IS NOT NULL');
         $midpoints = Midpoint::where('advertise_id', $advertise->id)->orderBy('order');
-        $hunters = Hunter::where('user_id', Auth::user()->id);
+        $hunters = Hunter::where('user_id', Auth::id());
         $dates = Date::where('advertise_id', $advertise->id)->orderBy('date');
         $regular_options = $advertise->regular == null ? "unique" : "regular";
 
@@ -322,16 +321,16 @@ class AdvertiseController extends Controller {
             $advertise = new Advertise;
             $advertise->regular = 0;
         }
-        $advertise->user_id = Auth::user()->id;
-        //$advertises = Advertise::whereRaw('user_id=' . Auth::user()->id . ' AND template IS NULL')->orderBy('start_date');
-        $advertises = Advertise::whereRaw('user_id=' . Auth::user()->id . ' AND template IS NULL')->orderBy('status');
+        $advertise->user_id = Auth::id();
+        //$advertises = Advertise::whereRaw('user_id=' . Auth::id() . ' AND template IS NULL')->orderBy('start_date');
+        $advertises = Advertise::whereRaw('user_id=' . Auth::id() . ' AND template IS NULL')->orderBy('status');
         $passangers = Reserve::join('advertises', 'advertise_id', '=', 'advertises.id')
-            ->where('advertises.user_id', '=', Auth::user()->id)
+            ->where('advertises.user_id', '=', Auth::id())
             //->select('reserves.*', 'advertises.start_date')->orderBy('advertises.start_date');
             ->select('reserves.*', 'advertises.start_date')->orderBy('advertises.status');
-        $templates = Advertise::whereRaw('user_id=' . Auth::user()->id . ' AND template IS NOT NULL');
+        $templates = Advertise::whereRaw('user_id=' . Auth::id() . ' AND template IS NOT NULL');
         $midpoints = Midpoint::where('advertise_id', $advertise->id)->orderBy('order');
-        $hunters = Hunter::where('user_id', Auth::user()->id);
+        $hunters = Hunter::where('user_id', Auth::id());
         $dates = Date::where('advertise_id', $advertise->id)->orderBy('date');
         $regular_options = $advertise->regular == null ? "unique" : "regular";
 
@@ -470,7 +469,7 @@ class AdvertiseController extends Controller {
         }
 
         $model_data = array(
-            'user_id'       => Auth::user()->id,
+            'user_id'       => Auth::id(),
             'car_id'        => Input::get('car_id'),
             'free_seats'    => Input::get('free_seats'),
             'start_city_id' => City::getCityByName(Input::get('start_city')),
@@ -585,9 +584,9 @@ class AdvertiseController extends Controller {
         $reserves = [];
         $hunters = [];
         if (Auth::user()) {
-            $reserved = Reserve::whereRaw("user_id=" . Auth::user()->id . " AND advertise_id=" . $id)->count() > 0;
-            Reserve::whereRaw("(user_id=".Auth::user()->id.")")->get();
-            $hunters = Hunter::where('user_id', Auth::user()->id)->get();
+            $reserved = Reserve::whereRaw("user_id=" . Auth::id() . " AND advertise_id=" . $id)->count() > 0;
+            Reserve::whereRaw("(user_id=".Auth::id().")")->get();
+            $hunters = Hunter::where('user_id', Auth::id())->get();
         }
         $midpoints = Midpoint::where('advertise_id', $id)->orderBy('order')->get();
         $dates = Date::where('advertise_id', $id)->orderBy('date')->get();

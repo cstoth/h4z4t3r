@@ -112,4 +112,12 @@ return [
         'image'     => 'ertekelek.png',
         'lower'     => '',
     ],
+
+    'confirm' => [
+        'subject'   => 'Aktiváld a felhasználói fiókodat!',
+        'upper'     => 'Kattints ide a felhasználói fiókod aktiválásához:',
+        'button'    => 'Felhasználói fiók aktiválása',
+        'image'     => 'aktivalas.png',
+        'lower'     => '',
+    ],
 ];

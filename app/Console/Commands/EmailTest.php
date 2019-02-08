@@ -24,6 +24,7 @@ use App\Models\Auth\User;
 use App\Models\Advertise;
 use App\Models\Passanger;
 use App\Models\Reserve;
+use App\Mail\Frontend\SendConfirm;
 
 class EmailTest extends Command {
     /**
@@ -64,51 +65,56 @@ class EmailTest extends Command {
 
             $advertise = Advertise::find(1);
             if ($advertise) {
-                // Rate
-                $output->write("SendRate... ");
-                Mail::send(new SendRate($user, $advertise));
+                // Confirm
+                $output->write("SendConfirm... ");
+                Mail::send(new SendConfirm($user));
                 $output->writeln("ok");
 
-                // Advertise
-                $output->write("SendUpdate... ");
-                Mail::send(new SendUpdate($user, $advertise));
-                $output->writeln("ok");
-
-                $output->write("SendMeUpdate... ");
-                Mail::send(new SendMeUpdate($user, $advertise));
-                $output->writeln("ok");
-
-                // Delete
-                $output->write("SendDelete... ");
-                Mail::send(new SendDelete($user, $advertise));
-                $output->writeln("ok");
-
-                $output->write("SendMeDelete... ");
-                Mail::send(new SendMeDelete($user, $advertise));
-                $output->writeln("ok");
-
-                // Reserve
-                $output->write("SendReserve... ");
-                Mail::send(new SendReserve($user, $advertise));
-                $output->writeln("ok");
-
-                $output->write("SendMeReserve... ");
-                Mail::send(new SendMeReserve($user, $advertise));
-                $output->writeln("ok");
-
-                // Cancel
-                $output->write("SendCancel... ");
-                Mail::send(new SendCancel($user, $advertise));
-                $output->writeln("ok");
-
-                $output->write("SendMeCancel... ");
-                Mail::send(new SendMeCancel($user, $advertise));
-                $output->writeln("ok");
-
-                // Resign
-                // $output->write("SendResign... ");
-                // Mail::send(new SendResign($user, $advertise));
+                // // Rate
+                // $output->write("SendRate... ");
+                // Mail::send(new SendRate($user, $advertise));
                 // $output->writeln("ok");
+
+                // // Advertise
+                // $output->write("SendUpdate... ");
+                // Mail::send(new SendUpdate($user, $advertise));
+                // $output->writeln("ok");
+
+                // $output->write("SendMeUpdate... ");
+                // Mail::send(new SendMeUpdate($user, $advertise));
+                // $output->writeln("ok");
+
+                // // Delete
+                // $output->write("SendDelete... ");
+                // Mail::send(new SendDelete($user, $advertise));
+                // $output->writeln("ok");
+
+                // $output->write("SendMeDelete... ");
+                // Mail::send(new SendMeDelete($user, $advertise));
+                // $output->writeln("ok");
+
+                // // Reserve
+                // $output->write("SendReserve... ");
+                // Mail::send(new SendReserve($user, $advertise));
+                // $output->writeln("ok");
+
+                // $output->write("SendMeReserve... ");
+                // Mail::send(new SendMeReserve($user, $advertise));
+                // $output->writeln("ok");
+
+                // // Cancel
+                // $output->write("SendCancel... ");
+                // Mail::send(new SendCancel($user, $advertise));
+                // $output->writeln("ok");
+
+                // $output->write("SendMeCancel... ");
+                // Mail::send(new SendMeCancel($user, $advertise));
+                // $output->writeln("ok");
+
+                // // Resign
+                // // $output->write("SendResign... ");
+                // // Mail::send(new SendResign($user, $advertise));
+                // // $output->writeln("ok");
             }
         }
     }

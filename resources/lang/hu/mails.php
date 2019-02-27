@@ -92,14 +92,16 @@ return [
     'delete' => [
         'subject'   => 'Törölték az egyik hirdetést, amire helyet foglalt.',
         'upper'     => 'Ezt a levelet azért kapta, mert a HazaTér rendszerében törlésre került egy hirdetés, melyre helyet foglalt.',
-        'button'    => 'Új hirdetés keresése',
-        'image'     => 'uj_hirdetes_keresese.png',
+        // 'button'    => 'Új hirdetés keresése',
+        // 'image'     => 'uj_hirdetes_keresese.png',
+        'button'    => 'Ugrás a hirdetésre',
+        'image'     => 'ugras_a_hirdetesre.png',
         'lower'     => 'Ha nem az Ön meghirdetett útjára történt a helyfoglalás, akkor nincsen más teendője.',
     ],
 
     'medelete' => [
         'subject'   => 'Törölte az egyik hirdetését.',
-        'upper'     => 'Ezt a levelet azért kapta, mert a HazaTér rendszerében törlésre került az Ön hirdetése.',
+        'upper'     => 'Ezt a levelet azért kapta, mert a HazaTér rendszerében törlésre került az Ön hirdetése.<br>Kérjük vegye fel a kapcsolatot az utasokkal, hogy azok lejelentkezzenek az útról.',
         'button'    => 'Új hirdetés feladása',
         'image'     => 'uj_hirdetes_feladasa.png',
         'lower'     => 'Ha nem az Ön meghirdetett útjára történt a helyfoglalás, akkor nincsen más teendője.',

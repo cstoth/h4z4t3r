@@ -30,7 +30,8 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col">
-                    <a href="{{route('frontend.user.driver.menu')}}" class="btn btn-info">{{__('buttons.general.return')}}</a>
+                    <!-- <a href="{{route('frontend.user.driver.menu')}}" class="btn btn-info">{{__('buttons.general.return')}}</a> -->
+                    <a href="{{ URL::previous() }}" class="btn btn-info">{{__('buttons.general.return')}}</a>
                 </div><!--col-->
             </div><!--row-->
         </div><!--card-footer-->

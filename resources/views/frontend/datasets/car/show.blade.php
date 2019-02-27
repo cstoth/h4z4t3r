@@ -27,7 +27,8 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col">
-                    <a href="{{route('frontend.user.driver.cars')}}" class="btn btn-info">{{__('buttons.general.return')}}</a>
+                    <!-- <a href="{{route('frontend.user.driver.cars')}}" class="btn btn-info">{{__('buttons.general.return')}}</a> -->
+                    <a href="{{ URL::previous() }}" class="btn btn-info">{{__('buttons.general.return')}}</a>
                 </div><!--col-->
 
                 <div class="col text-right">

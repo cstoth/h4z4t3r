@@ -5,13 +5,11 @@ namespace App\Http\Controllers\Frontend\User;
 use App\Http\Controllers\Controller;
 use App\Repositories\Frontend\Auth\UserRepository;
 use App\Http\Requests\Frontend\User\UpdateProfileRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Frontend\User\DeleteProfileRequest;
-use App\Models\Auth\User;
 use App\Models\Advertise;
 use App\Models\Reserve;
 use Illuminate\Support\Facades\DB;
+use App\Models\Auth\User;
 
 /**
  * Class ProfileController.
@@ -74,5 +72,15 @@ class ProfileController extends Controller {
         DB::delete('delete from social_accounts where user_id not in (select id from users)');
         auth()->logout();
         return redirect()->route('frontend.index')->withFlashInfo('Profilja sikeresen törölve!');
+    }
+
+    /**
+     * 
+     */
+    public function show($id) {
+        //\Log::info($id);
+        $user = User::find($id);
+        \Log::info($user);
+        return view('frontend.user.account.show')->withUser($user);
     }
 }

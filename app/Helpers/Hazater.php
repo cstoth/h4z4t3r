@@ -166,7 +166,7 @@ class Hazater {
      *
      */
     public static function getUserRate($advertise_id, $user_id) {
-        $rate = Rate::where('user_id', $user_id)->where('advertise_id', $advertise_id)->value('rate');
+        $rate = Rate::where('user_id', $user_id)->where('advertise_id', $advertise_id)->first();
         return $rate;
     }
 

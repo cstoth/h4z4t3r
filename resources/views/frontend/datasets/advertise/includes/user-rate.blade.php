@@ -26,11 +26,13 @@
         </label>
     </div>
     <span>{{ $name }}</span>
+    <textarea name="comment-{{$uid}}" class="ml-3 align-middle" rows="1" placeholder="Szöveges értékelés">
+    </textarea>
 @else
     <div class="form-row justify-content-left align-items-center text-left">
     @php $rate = \App\Helpers\Hazater::getUserRate($advertise->id, $uid); @endphp
     <!-- \App\Helpers\Hazater::showRateStars($rate) -->
-    @php $rating = $rate; @endphp
+    @php $rating = $rate->rate; @endphp
     @foreach(range(1,5) as $i)
         <span class="fa-stack" style="width:1em;color:#f2b600">
             <i class="far fa-star fa-stack-1x"></i>
@@ -44,7 +46,8 @@
             @php $rating--; @endphp
         </span>
     @endforeach
-    &nbsp;<span>{{ "(" . $rate . ") " . $name}}</span>
+    &nbsp;<span>{{ "(" . $rate->rate . ") " . $name}}</span>
+    <i class="ml-3 align-middle">{{ $rate->comment }}</i>
     </div>
 @endif
 <br>

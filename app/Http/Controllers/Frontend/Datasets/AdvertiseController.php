@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Frontend\Datasets;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Datasets\Advertise\AdvertiseManageRequest;
-use App\Http\Requests\Backend\Datasets\Advertise\AdvertiseStoreRequest;
-// use App\Events\Backend\Datasets\Advertise\AdvertiseDeleted;
 use App\Http\Requests\Backend\Datasets\Advertise\AdvertiseUpdateRequest;
 use App\Models\Advertise;
 use App\Models\Car;
@@ -153,7 +150,8 @@ class AdvertiseController extends Controller {
         $copied->status = Advertise::ACTIVE;
         $copied->save();
         $this->copyMidPoints($advertise, $copied);
-        return $this->edit($request, $copied);
+        //return $this->edit($request, $copied);
+        return $this->show($request, $copied);
     }
 
     /**
@@ -242,12 +240,12 @@ class AdvertiseController extends Controller {
     /**
      *
      */
-    public function storeRate($user_id, $advertise_id, $rate) {
+    public function storeRate($user_id, $advertise_id, $rate, $comment) {
         $model = new Rate();
         $model->user_id = $user_id;
         $model->advertise_id = $advertise_id;
         $model->rate = intval($rate);
-        $model->comment = "";
+        $model->comment = $comment;
         $model->save();
 
         $this->updateUserRate($user_id);
@@ -265,7 +263,8 @@ class AdvertiseController extends Controller {
             if (substr($key, 0, strlen($prefix)) == $prefix) {
                 $value = $request[$key];
                 $uid = ltrim($key, $prefix);
-                $this->storeRate($uid, $advertise->id, $value);
+                $comment = $request["comment-" . $uid];
+                $this->storeRate($uid, $advertise->id, $value, $comment);
             }
         }
 
@@ -439,6 +438,17 @@ class AdvertiseController extends Controller {
     }
 
     /**
+     * 
+     */
+    private function getCity($cityId, $cityName) {
+        if ($cityId) {
+            return $cityId;
+        } else {
+            return City::getCityByName($cityName);
+        }
+    }
+
+    /**
      *
      */
     public function store(Request $request) {
@@ -472,9 +482,9 @@ class AdvertiseController extends Controller {
             'user_id'       => Auth::id(),
             'car_id'        => Input::get('car_id'),
             'free_seats'    => Input::get('free_seats'),
-            'start_city_id' => City::getCityByName(Input::get('start_city')),
+            'start_city_id' => $this->getCity(Input::get('start_city_id'), Input::get('start_city')), //City::getCityByName(Input::get('start_city')),
             'start_date'    => Input::get('start_date'),
-            'end_city_id'   => City::getCityByName(Input::get('end_city')),
+            'end_city_id'   => $this->getCity(Input::get('end_city_id'), Input::get('end_city')), //City::getCityByName(Input::get('end_city')),
             'end_date'      => Input::get('end_date'),
             //'retour'        => Input::get('retour') ? (Input::get('retour') ? 1 : 0) : 0,
             'description'   => Input::get('description'),
@@ -485,6 +495,18 @@ class AdvertiseController extends Controller {
             'status'        => Input::get('status') ?? 1,
             'highway'       => Input::get('highway') ? (Input::get('highway') ? 1 : 0) : 0,
         );
+
+        $temp = new Advertise();
+        $temp->user_id = $model_data['user_id'];
+        $temp->car_id = $model_data['car_id'];
+        $temp->start_city_id = $model_data['start_city_id'];
+        $temp->end_city_id = $model_data['end_city_id'];
+        if (!$model_data['start_city_id']) {
+            return $this->redirTab(1, $temp)->withFlashDanger("A kezdőpont nem megfelelő!");
+        }
+        if (!$model_data['end_city_id']) {
+            return $this->redirTab(1, $temp)->withFlashDanger("A végpont nem megfelelő!");
+        }
 
         $template = Input::get('template');
         //TODO: név figyelés! felülír vagy figyelmeztet?
@@ -616,7 +638,7 @@ class AdvertiseController extends Controller {
         if ($advertise) {
             $advertise->free_seats++;
             $advertise->save();
-            Mail::send(new SendCancel(Auth::user(), $advertise)); //TODO: lehet olyan levelet kap, amiben már törlődött a hirdetés
+            Mail::send(new SendCancel(Auth::getUser(), $advertise)); //TODO: lehet olyan levelet kap, amiben már törlődött a hirdetés
             Mail::send(new SendMeCancel($advertise->user, $advertise)); //TODO: lehet olyan levelet kap, amiben már törlődött a hirdetés
             if ($advertise->status == Advertise::DELETABLE) {
                 $count = Reserve::where('advertise_id', $advertise_id)->count();

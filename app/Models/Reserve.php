@@ -56,16 +56,14 @@ class Reserve extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(user::class, 'user_id');
     }
 
     /**
      * @return string
      */
-    public function getUserLabelAttribute()
-    {
+    public function getUserLabelAttribute() {
         if ($this->user) {
             return $this->user->full_name . " " . $this->user->phone;
         }
@@ -75,10 +73,10 @@ class Reserve extends Model
     /**
      * @return string
      */
-    public function getUserLinkLabelAttribute()
-    {
+    public function getUserLinkLabelAttribute() {
         if ($this->user) {
-            return '<a href="mailto:'.$this->user->email.'" target="_top">'.$this->user->full_name . " " . $this->user->phone.'</a>';
+            // return '<a href="mailto:'.$this->user->email.'" target="_top">'.$this->user->full_name . " " . $this->user->phone.'</a>';
+            return '<a href="' . route('frontend.user.profile.show', $this->user->id) . '">' . $this->user->full_name . '</a>';
         }
         return "";
     }
@@ -86,8 +84,7 @@ class Reserve extends Model
     /**
      * @return string
      */
-    public function getUserNameLabelAttribute()
-    {
+    public function getUserNameLabelAttribute() {
         if ($this->user) {
             return $this->user->full_name;
         }
@@ -97,8 +94,7 @@ class Reserve extends Model
     /**
      * @return string
      */
-    public function getUserPhoneLabelAttribute()
-    {
+    public function getUserPhoneLabelAttribute() {
         if ($this->user) {
             return $this->user->phone;
         }
@@ -108,8 +104,7 @@ class Reserve extends Model
     /**
      * @return string
      */
-    public function getUserEmailLabelAttribute()
-    {
+    public function getUserEmailLabelAttribute() {
         if ($this->user) {
             return '<a href="mailto:'.$this->user->email.'" target="_top">'.$this->user->email.'</a>';
         }
@@ -119,24 +114,21 @@ class Reserve extends Model
     /**
      * @return string
      */
-    public function getFromToLabelAttribute()
-    {
+    public function getFromToLabelAttribute() {
         return $this->advertise->from_to_label;
     }
 
     /**
      * @return string
      */
-    public function getStartEndLabelAttribute()
-    {
+    public function getStartEndLabelAttribute() {
         return $this->advertise->dates_label;
     }
 
     /**
      * @return string
      */
-    public function getDriverLabelAttribute()
-    {
+    public function getDriverLabelAttribute() {
         return $this->advertise->user->full_name;
     }
 
@@ -145,16 +137,14 @@ class Reserve extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function advertise()
-    {
+    public function advertise() {
         return $this->belongsTo(advertise::class, 'advertise_id');
     }
 
     /**
      * @return string
      */
-    public function getAdvertiseLabelAttribute()
-    {
+    public function getAdvertiseLabelAttribute() {
         //TODO ide mad kell egy leírás féle, pl: from-to dates ...
         return $this->advertise->id;
     }
@@ -162,8 +152,7 @@ class Reserve extends Model
     /**
      * @return string
      */
-    public function getShowButtonAttribute()
-    {
+    public function getShowButtonAttribute() {
         return '<a href="'.route('frontend.advertise.reserve', $this->advertise_id).'"
             id="reserve-show-{{$this->id}}"
             data-key="'.$this->id.'"
@@ -176,8 +165,7 @@ class Reserve extends Model
     /**
      * @return string
      */
-    public function getEditButtonAttribute()
-    {
+    public function getEditButtonAttribute() {
         // href="'.route('admin.auth.user.edit', $this).'"
         return '<a
             id="reserve-edit-{{$this->id}}"
@@ -191,8 +179,7 @@ class Reserve extends Model
     /**
      * @return string
      */
-    public function getDeleteButtonAttribute()
-    {
+    public function getDeleteButtonAttribute() {
         if ($this->user_id == auth()->id()) {
             return '<a href="'.route('frontend.user.reserve.destroy', $this).'"
                 title="'.__('buttons.general.crud.delete').'"
@@ -210,8 +197,7 @@ class Reserve extends Model
     /**
      * @return string
      */
-    public function getActionButtonsAttribute()
-    {
+    public function getActionButtonsAttribute() {
         return '<div id="passanger-buttons" class="btn-group" role="group" aria-label="'.__('labels.backend.access.users.user_actions').'">
             '.$this->show_button.'
             '.$this->delete_button.'

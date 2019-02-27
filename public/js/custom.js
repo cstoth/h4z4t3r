@@ -286,7 +286,7 @@ Number.prototype.toMMSS = function () {
     return Math.floor(this / 3600)  +' óra ' + Math.floor((this % 3600) / 60)  +' perc';
     //return toMMSS(this);
 }
-function calcRoute(map, sx, sy, ex, ey, mps = [], div = null, highway=true) {
+function calcRoute(map, sx, sy, ex, ey, mps = [], div = null, highway=true, callback=null) {
     if (sx && sy && ex && ey) {
         var params = {
             'mode': 'fastest;car' + (highway ? '' : ';motorway:-2'),
@@ -310,6 +310,9 @@ function calcRoute(map, sx, sy, ex, ey, mps = [], div = null, highway=true) {
                     content += '<b>Távolság</b>: ' + summary.distance.toKM()  + '&nbsp;';
                     content += '<b>Utazás ideje</b>: ' + summary.travelTime.toMMSS();
                     div.append(content);
+                    if (callback) {
+                        callback(summary);
+                    }
                 }
             }
         }, function(error) {

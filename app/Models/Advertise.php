@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Auth\User;
 use App\Models\Car;
-use App\Models\Advertise;
 use App\Helpers\Hazater;
 
 class Advertise extends Model {
@@ -172,6 +171,39 @@ class Advertise extends Model {
     }
 
     /**
+     * 
+     */
+    public function getMidPointsAttribute() {
+        return Midpoint::where('advertise_id', $this->id)->orderBy('order')->get();
+    }
+
+    /**
+     * 
+     */
+    public function hasMidpoint($cityId) {
+        foreach ($this->midPoints as $midpoint) {
+            if ($midpoint == $cityId) return true;
+        }
+        return false;
+    }
+
+    /**
+     * 
+     */
+    public function startCityOrMidpoint($cityId) {
+        if ($this->start_city_id == $cityId) return true;
+        return $this->hasMidpoint($cityId);
+    }
+
+    /**
+     * 
+     */
+    public function endCityOrMidpoint($cityId) {
+        if ($this->start_city_id == $cityId) return true;
+        return $this->hasMidpoint($cityId);
+    }
+
+    /**
      *
      */
     public function getStartingDateAttribute() {
@@ -244,6 +276,16 @@ class Advertise extends Model {
      */
     public function getStatusLabelAttribute() {
         return '<span class="badge '.$this->statusColors[$this->status].'">'.$this->statusLabels[$this->status].'</span>';
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUser($user_id) {
+        $cnt = Reserve::where('advertise_id', $this->id)
+            ->where('user_id', $user_id)
+            ->count();
+        return $cnt > 0;
     }
 
     /**

@@ -85,9 +85,8 @@ class HomeController extends Controller {
     private function getInputCity($request, $name, $default) {
         if (Input::has($name)) {
             return $request->input($name);
-        } else {
-            return $search['start_city'] ?? "";
         }
+        return $default;
     }
 
     /**
@@ -111,8 +110,13 @@ class HomeController extends Controller {
         //     $query->take($limit);
         // }
 
-        $this->budapest_hack($query, $start_city_id, 'start');
-        
+        $query->where(function($query) use($start_city_id, $end_city_id) {
+            $this->budapest_hack($query, $start_city_id, 'start');
+            if (isset($start_city_id)) {
+                $query->orWhereRaw($start_city_id.' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id)');
+            }
+        });
+    
         $query->where(function($query) use($start_city_id, $end_city_id) {
             $this->budapest_hack($query, $end_city_id, 'end');
             if (isset($end_city_id)) {

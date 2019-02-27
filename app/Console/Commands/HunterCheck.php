@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use App\Helpers\Hazater;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendHunter;
@@ -56,9 +55,8 @@ class HunterCheck extends Command {
             if (($advertise->template == null)
                 && ($advertise->status == Advertise::ACTIVE)
                 && ($advertise->user_id != $hunter->user_id)
-                //TODO: Ide majd valami sokkal jobb vizsgálat kell!
-                && ($advertise->start_city_id == $hunter->start_city_id)
-                && ($advertise->end_city_id == $hunter->end_city_id)
+                && ($advertise->startCityOrMidpoint($hunter->start_city_id))
+                && ($advertise->endCityOrMidpoint($hunter->end_city_id))
                 //TODO: dátum vizsgálat
             ) {
                 \Log::info($user->email . ' ' . Hazater::routeLabel($advertise->id));
@@ -73,18 +71,19 @@ class HunterCheck extends Command {
     public function check() {
         $hunters = Hunter::where('active', 1)->get();
         foreach ($hunters as $hunter) {
+            \Log::info($hunter->id);
             $user = User::find($hunter->user_id);
             $advertises = Advertise::whereNull('template')
                 ->where('status', Advertise::ACTIVE)
-                //TODO: Ide majd valami sokkal jobb vizsgálat kell!
-                ->where('start_city_id', $hunter->start_city_id)
-                ->where('end_city_id', $hunter->end_city_id)
+                ->whereRaw('updated_at > CURRENT_DATE-1')
+                ->whereRaw('(' . $hunter->start_city_id . ' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id) OR (advertises.start_city_id='.$hunter->start_city_id.'))')
+                ->whereRaw('(' . $hunter->end_city_id . ' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id) OR (advertises.end_city_id='.$hunter->end_city_id.'))')
                 //TODO: dátum vizsgálat
                 // ->where('start_date','<=',$hunter->date)
                 // ->where('end_date','>=',$hunter->date)
-                ->get();
+                ->orderBy('id')->get();
             foreach ($advertises as $advertise) {
-                \Log::info($user->email . ' ' . Hazater::routeLabel($advertise->id));
+                \Log::info($user->email . ' (' . $advertise->id . '): ' . Hazater::routeLabel($advertise->id));
                 Mail::send(new SendHunter($user, $advertise));
             }
         }

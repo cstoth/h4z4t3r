@@ -27,7 +27,8 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col">
-                    {{ form_cancel(route('frontend.datasets.message.index'), __('buttons.general.return')) }}
+                    <!-- {{ form_cancel(route('frontend.datasets.message.index'), __('buttons.general.return')) }} -->
+                    {{ form_cancel(URL::previous(), __('buttons.general.return')) }}
                 </div><!--col-->
 
                 <div class="col text-right">

@@ -23,22 +23,25 @@
 
             <div class="row mt-4">
                 <div class="col">
+                <h5>{!! $advertise->route_label !!}</h5>
                 @if(Auth::user()->id == $advertise->user_id)
                     <!-- Sofőr értéklei az utasait -->
                     @foreach($advertise->reserves as $reserve)
-                        @include('frontend.datasets.advertise.includes.user-rate', ['uid' => $reserve->user_id, 'name' => $reserve->user->full_name])
+                        @include('frontend.datasets.advertise.includes.user-rate', [
+                            'uid' => $reserve->user_id,
+                            'name' => $reserve->user->full_name
+                        ])
                     @endforeach
-                     
-                    <!-- if(\App\Helpers\Hazater::isDriverRated($advertise->id))
-                        <i>Köszönjük, hogy már értékelt!</i>
-                    endif -->
                 @else
-                    <!-- Utas értékeli a sofőrt -->
-                    @include('frontend.datasets.advertise.includes.user-rate', ['uid' => $advertise->user_id, 'name' => $advertise->user->full_name])
-
-                    <!-- if(\App\Helpers\Hazater::isUserRated($advertise->id))
-                        <i>Köszönjük, hogy már értékelt!</i>
-                    endif -->
+                    @if($advertise->hasUser(Auth::user()->id))
+                        <!-- Utas értékeli a sofőrt -->
+                        @include('frontend.datasets.advertise.includes.user-rate', [
+                            'uid' => $advertise->user_id,
+                            'name' => $advertise->user->full_name
+                        ])
+                    @else
+                        <p>Ön nem volt utas ezen az úton!</p>
+                    @endif
                 @endif
                 </div><!--col-->
             </div><!--row-->
@@ -47,11 +50,12 @@
         <div class="card-footer">
             <div class="row">
                 <div class="col">
-                    <a href="{{route('frontend.user.driver.menu')}}" class="btn btn-info">{{__('buttons.general.return')}}</a>
+                    <!-- <a href="{{route('frontend.user.driver.menu')}}" class="btn btn-info">{{__('buttons.general.return')}}</a> -->
+                    <a href="{{ URL::previous() }}" class="btn btn-info">{{__('buttons.general.return')}}</a>
                 </div><!--col-->
 
                 <div class="col text-right">
-                    @if(!\App\Helpers\Hazater::isRated($advertise->id))
+                    @if(!\App\Helpers\Hazater::isRated($advertise->id) && $advertise->hasUser(Auth::user()->id))
                     <button id="rate-save" type="submit" class="btn btn-success pull-right">{{__('buttons.general.crud.save')}}</button>
                     @endif
                 </div><!--col-->                

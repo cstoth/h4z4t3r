@@ -562,6 +562,7 @@ function callRouteCalculation() {
         var date1 = $('#start_date').val();
         var date2 = moment(date1.split('.').join('-')).add(summary.travelTime, 'seconds').toDate();
         $('#end_date').val(formattedDate(date2));
+        checkDates();
     });
     var startCity = $('#start_city_id').attr('value');
     var endCity = $('#end_city_id').attr('value');

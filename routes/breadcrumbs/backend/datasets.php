@@ -51,4 +51,16 @@ Breadcrumbs::for('admin.datasets.car.edit', function ($trail, $id) {
     $trail->push(__('menus.backend.datasets.car.edit'), route('admin.datasets.car.edit', $id));
 });
 
+// CRON
+
+Breadcrumbs::for('admin.cron.index', function ($trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push(__('menus.backend.datasets.car.management'), route('admin.cron.index'));
+});
+
+
+Breadcrumbs::for('admin.cron.hunter', function ($trail) {
+    $trail->parent('admin.cron.index');
+    $trail->push(__('menus.backend.datasets.car.management'), route('admin.cron.hunter'));
+});
 

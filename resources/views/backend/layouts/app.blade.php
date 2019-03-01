@@ -55,6 +55,7 @@
     {!! script(mix('js/manifest.js')) !!}
     {!! script(mix('js/vendor.js')) !!}
     {!! script(mix('js/backend.js')) !!}
+    @yield('scripts')
     @stack('after-scripts')
 </body>
 </html>

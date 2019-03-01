@@ -16,6 +16,11 @@ Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 Route::get('main-menu/{id}', [HomeController::class, 'mainMenu']);
 Route::get('sub-menu/{id}', [HomeController::class, 'subMenu']);
 
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    // return what you want
+});
+
 /*
  * Frontend Routes
  * Namespaces indicate folder structure

@@ -31,6 +31,7 @@ use App\Mail\Frontend\SendMeCancel;
 use App\Mail\Frontend\SendDelete;
 use App\Mail\Frontend\SendMeDelete;
 use App\Models\Auth\User;
+use App\Mail\Frontend\SendMeRevoke;
 
 /**
  * Class AdvertiseController.
@@ -537,7 +538,8 @@ class AdvertiseController extends Controller {
     }
 
     protected function realDelete(Advertise $model) {
-        Mail::send(new SendMeDelete($model->user, $model));
+        \Log::info('Real delete');
+        Mail::queue(new SendMeDelete($model->user, $model));
         $routeLabel = Hazater::routeLabel($model->id);
         $model->delete();
         \Log::info('A hirdetés ('.$model->id.') törölve ' . $routeLabel);
@@ -559,9 +561,11 @@ class AdvertiseController extends Controller {
             if ($count == 0) {
                 $this->realDelete($model);
             } else {
+                \Log::info('Mark as deletable');
                 $model->status = Advertise::DELETABLE; // Törlésre jelölve!
                 $model->save();
                 Mail::send(new SendMeRevoke($model->user, $model));
+                //Mail::queue(new SendMeDelete($model->user, $model));
                 \Log::info('A hirdetés ('.$id.') törlésre jelölve ' . Hazater::routeLabel($id));
 
                 $reserves = Reserve::where('advertise_id', $id)->get();

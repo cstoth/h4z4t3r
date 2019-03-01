@@ -171,24 +171,24 @@ class Advertise extends Model {
     }
 
     /**
-     * 
+     *
      */
     public function getMidPointsAttribute() {
         return Midpoint::where('advertise_id', $this->id)->orderBy('order')->get();
     }
 
     /**
-     * 
+     *
      */
     public function hasMidpoint($cityId) {
         foreach ($this->midPoints as $midpoint) {
-            if ($midpoint == $cityId) return true;
+            if ($midpoint->city_id == $cityId) return true;
         }
         return false;
     }
 
     /**
-     * 
+     *
      */
     public function startCityOrMidpoint($cityId) {
         if ($this->start_city_id == $cityId) return true;
@@ -196,7 +196,7 @@ class Advertise extends Model {
     }
 
     /**
-     * 
+     *
      */
     public function endCityOrMidpoint($cityId) {
         if ($this->start_city_id == $cityId) return true;

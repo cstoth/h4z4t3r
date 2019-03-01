@@ -55,10 +55,10 @@
                 </div><!--col-->
 
                 <div class="col text-right">
-                    @if(!\App\Helpers\Hazater::isRated($advertise->id) && $advertise->hasUser(Auth::user()->id))
+                    @if(!\App\Helpers\Hazater::isRated($advertise->id) && ($advertise->user_id == Auth::user()->id || $advertise->hasUser(Auth::user()->id)))
                     <button id="rate-save" type="submit" class="btn btn-success pull-right">{{__('buttons.general.crud.save')}}</button>
                     @endif
-                </div><!--col-->                
+                </div><!--col-->
             </div><!--row-->
         </div><!--card-footer-->
     </div><!--card-->

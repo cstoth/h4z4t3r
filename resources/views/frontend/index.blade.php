@@ -157,7 +157,7 @@
             <h4 class="text-center outline">„Lépés-Váltás az Észak-Hegyháton - közös utakon”</h4>
         </div>
 
-        <form id="searchForm" method="POST" action="{{ route('frontend.find') }}" class="form-inline search-form flex-row justify-content-center p-3" autocomplete="off">
+        <form id="searchForm" method="GET" action="{{ route('frontend.find') }}" class="form-inline search-form flex-row justify-content-center p-3" autocomplete="off">
             <div class="form-row mt-5 mb-5">
                 <div class="input-group mr-2 mb-2">
                     <input id="searchStartCity" name="searchStartCity" class="form-control typeahead typeahead-start-city" data-provide="typeahead" type="text" placeholder="Indulási hely" value="{{isset($search)?$search['start_city']:''}}" autocomplete="anyrandomstring">
@@ -184,7 +184,7 @@
                     </div>
                 </div>
                 <div class="input-group mr-2 mb-2">
-                    {!! csrf_field() !!}
+
                     <button id="searchButton" class="btn btn-info col-12 col-md-12 col-xl-12 search-button">{{ __("labels.general.buttons.search") }}</button>
                 </div>
             </div>

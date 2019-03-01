@@ -42,7 +42,7 @@
     </head>
     <body>
         @if(App\Helpers\Hazater::isLocal() || strpos(url()->current(), 'teszt') !== false)
-            <div class="corner-ribbon top-left sticky red shadow"><strong>{{ "TESZT v.01.29" }}</strong></div>
+            <div class="corner-ribbon top-left sticky red shadow"><strong>{{ "TESZT v.03.01" }}</strong></div>
         @endif
 
         @include('cookieConsent::index')

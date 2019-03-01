@@ -140,15 +140,19 @@ class Hazater {
 //                ."&time=2019-01-31T07:30:00";
             $response = file_get_contents($rest);
             if (strpos($response, 'GW0001') !== false) {
-                return "A jelenlegi beállítások mellett, a HERE adatbázisában nem található tömegközlekedési lehetőség.";
+                return json_encode([
+                    'name' => $city_start->name . " -> " . $city_end->name,
+                    'data' => null,
+                    'error' => "A jelenlegi beállítások mellett, a HERE adatbázisában nem található tömegközlekedési lehetőség.",
+                ]);
             }
             //$obj = json_decode($response);
             //dd($obj);
-            $res[] = [
+            return json_encode([
                 'name' => $city_start->name . " -> " . $city_end->name,
                 'data' => json_decode($response),
-            ];
-            return json_encode($res);
+                'error' => null,
+            ]);
         }
 
         return null;

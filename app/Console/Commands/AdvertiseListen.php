@@ -46,7 +46,7 @@ class AdvertiseListen extends Command
      */
     public function handle()
     {
-        \Log::info($this->signature . " started");
+        //\Log::info($this->signature . " started");
 
         $output = new ConsoleOutput();
         
@@ -62,7 +62,7 @@ class AdvertiseListen extends Command
             $advertise->save();
         }
 
-        \Log::info($this->signature . " ended");
+        //\Log::info($this->signature . " ended");
     }
 }
 

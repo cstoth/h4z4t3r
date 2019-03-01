@@ -234,22 +234,6 @@ function setCityAutocomplete(control, city, city_id) {
     });
 }
 
-$('#publish-regular').click(function(){
-    $('#unique-tab').removeClass("active show");
-    $('#regular-tab').addClass("active show");
-});
-$('#publish-unique').click(function(){
-    $('#regular-tab').removeClass("active show");
-    $('#unique-tab').addClass("active show");
-});
-$('#save-template').click(function(){
-    if($(this).is(':checked')) {
-        $('#sablon-save').prop('disabled', false);
-    } else {
-        $('#sablon-save').prop('disabled', true);
-    }
-});
-
 function getCar(id) {
     for (var i = 0; i < cars.length; i++) {
         var car = cars[i];
@@ -396,110 +380,6 @@ $('#koztes-hely').on('click', function() {
     }
 });
 
-// function getTemplate(id) {
-//     for (var i = 0; i < templates.length; i++) {
-//         var template = templates[i];
-//         if (template.id == id) {
-//             return template;
-//         }
-//     }
-//     return null;
-// }
-
-// function initDays() {
-//     //console.log("initDays");
-//     var days = $("#regular").val();
-//     if (days) {
-//         if (days == 0) {
-//             $('#day_0:checkbox').prop('checked', true);
-//             for (var i = 1; i < 8; i++) {
-//                 $('#day_'+i+':checkbox').attr('disabled', true);
-//             }
-//         } else {
-//             for (var i = 0; i < 7; i++) {
-//                 $('#day_'+(i+1)+':checkbox').prop('checked', days & Math.pow(2, i));
-//             }
-//             checkBoxDaysChanged();
-//         }
-//     } else {
-//         //console.log("days: null");
-//     }
-//     checkButtons(days);
-// }
-// function checkButtons(days = null) {
-//     var cnt = 0;
-//     if ($('#publish-regular').is(":checked")) {
-//         for (var i = 0; i < 8; i++) {
-//             if ($('#day_'+i+':checkbox').is(":checked")) {
-//                 cnt++;
-//             }
-//         }
-//     } else {
-//         cnt = 1;
-//     }
-
-//     if (cnt > 0) {
-//         //console.log("enabled");
-//         $('#advertise-create').removeAttr("disabled");
-//         $('#advertise-update').removeAttr("disabled");
-//     } else {
-//         //console.log("disabled");
-//         $('#advertise-create').prop("disabled", true);
-//         $('#advertise-update').prop("disabled", true);
-//     }
-// }
-// $('#publish-regular').change(function (e) {
-//     checkButtons();
-// });
-// $('#publish-unique').change(function (e) {
-//     checkButtons();
-// });
-// function calcDays() {
-//     var days = 0;
-//     for (var i = 0; i < 7; i++) {
-//         if ($('#day_'+(i+1)+':checkbox').is(":checked")) {
-//             days += Math.pow(2, i);
-//             //console.log(days);
-//         }
-//     }
-//     $("#regular").val(days);
-//     //console.log($("#regular").val());
-//     checkButtons(days);
-// }
-// function checkBoxDaysChanged() {
-//     var flag = ($("[id^=day]:checked").length > 0);
-//     $('#day_0:checkbox').attr('disabled', flag);
-//     calcDays();
-// }
-// $('#day_0:checkbox').change(function (e) {
-//     const flag = e.currentTarget.checked;
-//     for (var i = 1; i < 8; i++) {
-//         $('#day_'+i+':checkbox').attr('disabled', flag);
-//     }
-//     calcDays();
-// });
-// $('#day_1:checkbox').change(function (e) {
-//     checkBoxDaysChanged();
-// });
-// $('#day_2:checkbox').change(function (e) {
-//     checkBoxDaysChanged();
-// });
-// $('#day_3:checkbox').change(function (e) {
-//     checkBoxDaysChanged();
-// });
-// $('#day_4:checkbox').change(function (e) {
-//     checkBoxDaysChanged();
-// });
-// $('#day_5:checkbox').change(function (e) {
-//     checkBoxDaysChanged();
-// });
-// $('#day_6:checkbox').change(function (e) {
-//     checkBoxDaysChanged();
-// });
-// $('#day_7:checkbox').change(function (e) {
-//     checkBoxDaysChanged();
-// });
-
 var mapAdvertiseForm = makeMap('mapContainerForm', mapInitCenter);
 window.addEventListener('resize', function () {
     mapAdvertiseForm.getViewPort().resize();
@@ -555,14 +435,18 @@ var hiddenDate = $("#hidden-date").bootstrapMaterialDatePicker({
     });
     $('#dates').append(makeDateTableRow(id, date));
 });
-
+var travelTime;
+function calcDate2() {
+    var date1 = $('#start_date').val();
+    var date2 = moment(date1.split('.').join('-')).add(travelTime, 'seconds').toDate();
+    $('#end_date').val(formattedDate(date2));
+    checkDates();
+}
 function callRouteCalculation() {
     console.log("callRouteCalculation");
     calcRoute(mapAdvertiseForm, x1, y1, x2, y2, midPoints, $('#route-summary'), $("#highway").is(':checked'), function(summary) {
-        var date1 = $('#start_date').val();
-        var date2 = moment(date1.split('.').join('-')).add(summary.travelTime, 'seconds').toDate();
-        $('#end_date').val(formattedDate(date2));
-        checkDates();
+        travelTime = summary.travelTime;
+        calcDate2();
     });
     var startCity = $('#start_city_id').attr('value');
     var endCity = $('#end_city_id').attr('value');
@@ -582,7 +466,7 @@ callRouteCalculation();
 $('#start_date').on('change', function(e) {
     var date1 = $('#start_date').val();
     $('#end_date').bootstrapMaterialDatePicker('setMinDate', date1);
-    checkDates();
+    calcDate2();
 });
 $('#end_date').on('change', function(e) {
     var date2 = $('#end_date').val();

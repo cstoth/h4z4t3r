@@ -57,6 +57,14 @@ return [
         'lower'     => 'Ha nem az Ön meghirdetett útjára történt a helyfoglalás, akkor nincsen más teendője.',
     ],
 
+    'merevoke' => [
+        'subject'   => 'Törlésre jelölte az egyik hirdetését.',
+        'upper'     => 'Ezt a levelet azért kapta, mert a HazaTér rendszerében törlésre jelölte az egyik hirdetését.<br>Kérjük vegye fel a kapcsolatot az utasokkal, hogy azok lejelentkezzenek az útról.',
+        'button'    => 'Ugrás a hirdetésre',
+        'image'     => 'ugras_a_hirdetesre.png',
+        'lower'     => 'Ha nem az Ön meghirdetett útjára történt a helyfoglalás, akkor nincsen más teendője.',
+    ],
+
     'update' => [
         'subject'   => 'Módosították az egyik hirdetést, amire helyet foglalt.',
         'upper'     => 'Ezt a levelet azért kapta, mert a HazaTér rendszerében módosításra került egy hirdetés, melyre helyet foglalt. Megnézheti a változásokat a lenti linkre kattintva. Amennyiben szükséges, kérjük egyeztessen az utat meghirdető sofőrrel a részletekről.',
@@ -101,7 +109,7 @@ return [
 
     'medelete' => [
         'subject'   => 'Törölte az egyik hirdetését.',
-        'upper'     => 'Ezt a levelet azért kapta, mert a HazaTér rendszerében törlésre került az Ön hirdetése.<br>Kérjük vegye fel a kapcsolatot az utasokkal, hogy azok lejelentkezzenek az útról.',
+        'upper'     => 'Ezt a levelet azért kapta, mert a HazaTér rendszerében törlésre került az Ön hirdetése.',
         'button'    => 'Új hirdetés feladása',
         'image'     => 'uj_hirdetes_feladasa.png',
         'lower'     => 'Ha nem az Ön meghirdetett útjára történt a helyfoglalás, akkor nincsen más teendője.',

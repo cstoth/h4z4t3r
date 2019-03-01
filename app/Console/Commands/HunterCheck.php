@@ -40,9 +40,9 @@ class HunterCheck extends Command {
      * @return mixed
      */
     public function handle() {
-        \Log::info($this->signature . " started");
+        //\Log::info($this->signature . " started");
         $this->check();
-        \Log::info($this->signature . " ended");
+        //\Log::info($this->signature . " ended");
     }
 
     /**
@@ -83,7 +83,7 @@ class HunterCheck extends Command {
                 // ->where('end_date','>=',$hunter->date)
                 ->orderBy('id')->get();
             foreach ($advertises as $advertise) {
-                \Log::info($user->email . ' (' . $advertise->id . '): ' . Hazater::routeLabel($advertise->id));
+                \Log::info('HunterCheck.SendMail: ' . $user->email . ' (' . $advertise->id . '): ' . Hazater::routeLabel($advertise->id));
                 Mail::send(new SendHunter($user, $advertise));
             }
         }

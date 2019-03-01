@@ -9,6 +9,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Repositories\Frontend\Auth\UserRepository;
 use App\Helpers\Frontend\Auth\Socialite as SocialiteHelper;
+use App\Models\Auth\User;
 
 /**
  * Class SocialLoginController.
@@ -66,7 +67,8 @@ class SocialLoginController extends Controller
 
         if ($request->has('error')) {
             $error_message = $provider . " hibakód:" . $request->error_code . " (" . $request->error . ")";
-            return redirect()->route(home_route())->withFlashDanger($error_message);
+            //return redirect()->route(home_route())->withFlashDanger($error_message);
+            return redirect()->route(home_route());
         }
 
         // Create the user if this is a new social account or find the one that is already there.

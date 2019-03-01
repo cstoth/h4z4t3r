@@ -39,6 +39,7 @@ return [
             'minutes'             => ' percek',
             'search_placeholder'  => 'Keresés...',
             'timeout'             => 'Automatikusan kijelentkeztél inaktivitás miatt.',
+            'are_you_sure_copy'   => 'Biztos benne, hogy lemásolja ezt az utat?',
 
             'see_all' => [
                 'messages'      => 'Összes üzenet megtekintése',

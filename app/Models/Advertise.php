@@ -361,13 +361,21 @@ class Advertise extends Model {
      * @return string
      */
     public function getCopyButtonAttribute() {
-        return '<a href="'.route('frontend.datasets.advertise.copy', $this).'"
+        if ($this->user_id == auth()->id()) {
+            return '<a href="'.route('frontend.datasets.advertise.copy', $this).'"
             id="advertise-copy-'.$this->id.'"
+            name="confirm_item"
+            data-trans-button-cancel="'.__('buttons.general.cancel').'"
+            data-trans-button-confirm="'.__('buttons.general.crud.copy').'"
+            data-trans-title="'.__('strings.backend.general.are_you_sure_copy').'"
             data-key="'.$this->id.'"
             data-toggle="tooltip"
             data-placement="top"
             title="'.__('buttons.general.crud.copy').'"
             class="btn btn-info"><i class="fas fa-copy"></i></a>';
+        }
+
+        return '';
     }
 
     /**

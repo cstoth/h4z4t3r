@@ -67,7 +67,7 @@ class EmailSend extends Command
      * @return mixed
      */
     public function handle() {
-        \Log::info($this->signature . " started");
+        //\Log::info($this->signature . " started");
 
         $output = new ConsoleOutput();
 
@@ -86,7 +86,7 @@ class EmailSend extends Command
             $this->sendMail($advertise);
         }
 
-        \Log::info($this->signature . " ended");
+        //\Log::info($this->signature . " ended");
     }
 }
 

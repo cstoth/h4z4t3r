@@ -144,6 +144,7 @@ class AdvertiseController extends Controller {
      * @return mixed
      */
     public function copy(AdvertiseManageRequest $request, Advertise $advertise) {
+        //dd($request);
         $copied = $advertise->replicate();
         $copied->start_date = null;
         $copied->end_date = null;
@@ -546,6 +547,7 @@ class AdvertiseController extends Controller {
      *
      */
     public function delete($id) {
+        \Log::info('Advertise.delete()');
         $flash = __('alerts.backend.advertise.deleted');
         $model = Advertise::find($id);
         if ($model) {
@@ -559,6 +561,7 @@ class AdvertiseController extends Controller {
             } else {
                 $model->status = Advertise::DELETABLE; // Törlésre jelölve!
                 $model->save();
+                Mail::send(new SendMeRevoke($model->user, $model));
                 \Log::info('A hirdetés ('.$id.') törlésre jelölve ' . Hazater::routeLabel($id));
 
                 $reserves = Reserve::where('advertise_id', $id)->get();

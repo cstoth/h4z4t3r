@@ -304,10 +304,10 @@ class HomeController extends Controller {
                 $to = $advertise->start_city_id;
             }
             $route = Hazater::queryRoute($from, $to, 'fastest');
-            if ($route === false) {
-                //return response()->json(error_get_last());
-                return response()->json($route);
-            }
+            // if ($route === false) {
+            //     //return response()->json(error_get_last());
+            //     return response()->json($route);
+            // }
             return response()->json($route);
         }
         return response()->json(null);

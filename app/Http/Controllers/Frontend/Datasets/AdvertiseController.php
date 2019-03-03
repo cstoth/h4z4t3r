@@ -197,6 +197,12 @@ class AdvertiseController extends Controller {
             return redirect()->route('frontend.datasets.advertise.edit', $advertise)->withFlashDanger("Egyedi gyakoriságú útnál meg kell adni legalább egy dátumot!");
         }
 
+        $cnt1 = $advertise->reserve_count + $request['free_seats'];
+        $cnt2 = $advertise->car->seats;
+        if ($cnt1 > $cnt2) {
+            return redirect()->route('frontend.datasets.advertise.edit', $advertise)->withFlashDanger("A szabad ülések száma nem megfelelő!");
+        }
+
         $this->repository->update($advertise, $request->only(
             'user_id',
             'car_id',
@@ -440,7 +446,7 @@ class AdvertiseController extends Controller {
     }
 
     /**
-     * 
+     *
      */
     private function getCity($cityId, $cityName) {
         if ($cityId) {

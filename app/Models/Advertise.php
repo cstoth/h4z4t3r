@@ -319,6 +319,13 @@ class Advertise extends Model {
     /**
      *
      */
+    public function getReserveCountAttribute() {
+        return Reserve::where('advertise_id', $this->id)->count();
+    }
+
+    /**
+     *
+     */
     public function getBoolItem($bool) {
         if ($bool) {
             return '<span class="badge badge-success" style="cursor:pointer">'.__('labels.general.yes').'</span>';

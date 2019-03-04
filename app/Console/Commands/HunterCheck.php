@@ -40,9 +40,9 @@ class HunterCheck extends Command {
      * @return mixed
      */
     public function handle() {
-        //\Log::info($this->signature . " started");
+        \Log::info($this->signature . " started");
         $this->check();
-        //\Log::info($this->signature . " ended");
+        \Log::info($this->signature . " ended");
     }
 
     /**
@@ -75,13 +75,14 @@ class HunterCheck extends Command {
             $user = User::find($hunter->user_id);
             $advertises = Advertise::whereNull('template')
                 ->where('status', Advertise::ACTIVE)
-                ->whereRaw('updated_at > CURRENT_DATE-1')
+                //->whereRaw('updated_at > CURRENT_DATE-1')
                 ->whereRaw('(' . $hunter->start_city_id . ' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id) OR (advertises.start_city_id='.$hunter->start_city_id.'))')
                 ->whereRaw('(' . $hunter->end_city_id . ' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id) OR (advertises.end_city_id='.$hunter->end_city_id.'))')
-                //TODO: dátum vizsgálat
-                // ->where('start_date','<=',$hunter->date)
-                // ->where('end_date','>=',$hunter->date)
-                ->orderBy('id')->get();
+                ->orderBy('id');
+            //\Log::info(\App\Helpers\Hazater::getQueries($advertises));
+            //\Log::info($advertises->count());
+            $advertises = $advertises->get();
+            //\Log::info($advertises);
             foreach ($advertises as $advertise) {
                 \Log::info('HunterCheck.SendMail: ' . $user->email . ' (' . $advertise->id . '): ' . Hazater::routeLabel($advertise->id));
                 Mail::send(new SendHunter($user, $advertise));

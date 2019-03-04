@@ -125,12 +125,14 @@ class Hazater {
             $from = $city_start->y.",".$city_start->x;
             $to = $city_end->y.",".$city_end->x;
 
+            $here_app_id = getenv('HERE_APP_ID') ?: 'axUZ27L1dhYZQjW2W8NT'; 
+            $here_app_code = getenv('HERE_APP_CODE') ?: '4eggOH1Vi4Zkcj0P5cMHFA';
             //route.api.here.com/routing/7.2/calculateroute.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled
             //transit.api.here.com/v3/route.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&routing=all&dep=46.07309,18.22876&arr=47.49973,19.05508&time=2019-06-24T07%3A30%3A00
             //Budapest, Debrecen, Kecskemet, Miskolc, Pecs
             $rest = "http://transit.api.here.com/v3/route.json"
-                ."?app_id=".getenv('HERE_APP_ID')
-                ."&app_code=".getenv('HERE_APP_CODE')
+                ."?app_id=".$here_app_id
+                ."&app_code=".$here_app_code
                 ."&routing=all"
                 ."&lang=hu"
                 ."&max=1"
@@ -138,21 +140,30 @@ class Hazater {
                 ."&arr=".$to
                 ."&time=".Hazater::now("Y-m-dTH:i:s");
 //                ."&time=2019-01-31T07:30:00";
+            \Log::debug($rest);
             $response = file_get_contents($rest);
-            if (strpos($response, 'GW0001') !== false) {
-                return json_encode([
+            //\Log::debug($response);
+            if (strpos($response, '"code":"I4"') !== false) {
+                return [
+                    'name' => $city_start->name . " -> " . $city_end->name,
+                    'data' => null,
+                    'error' => "Nem megfelelő vagy hiányzó HERE App Id és/vagy HERE App Code.",
+                ];
+            }
+            if (strpos($response, '"code":"GW0001"') !== false) {
+                return [
                     'name' => $city_start->name . " -> " . $city_end->name,
                     'data' => null,
                     'error' => "A jelenlegi beállítások mellett, a HERE adatbázisában nem található tömegközlekedési lehetőség.",
-                ]);
+                ];
             }
             //$obj = json_decode($response);
             //dd($obj);
-            return json_encode([
+            return [
                 'name' => $city_start->name . " -> " . $city_end->name,
                 'data' => json_decode($response),
                 'error' => null,
-            ]);
+            ];
         }
 
         return null;

@@ -325,13 +325,21 @@
                             endCity: $('#searchEndCity')[0].value,
                         }, function (data) {
                             swal.hideLoading();
-                            var res = JSON.parse(data);
+                            //console.log(data);
+                            //var res = JSON.parse(data);
+                            var res = data;
+                            //console.log(res);
                             if (res.error !== null) {
-                                showError(res.error);
+                                //showError(res.error);
+                                swal({
+                                    type: 'error',
+                                    title: res.name,
+                                    html: res.error,
+                                });
                             } else {
-                                console.log(res);
+                                //console.log(res);
                                 var route = res.data.Res.Connections.Connection[0];
-                                console.log(route);
+                                //console.log(route);
                                 swal({
                                     type: 'success',
                                     title: res.name,

@@ -11,6 +11,7 @@ use \Datetime;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Hazater;
+use App\Models\Midpoint;
 
 /**
  * Class HomeController.
@@ -287,27 +288,78 @@ class HomeController extends Controller {
         return $request->input('hash');
     }
 
+    // private function searchTransportMode($start_city_id, $end_city_id, $advertise) {
+    //     $from = $advertise->end_city_id;
+    //     $to = $end_city_id;
+    //     if ($mode === 2) {
+    //         $from = $start_city_id;
+    //         $to = $advertise->start_city_id;
+    //     }
+    //     $route = Hazater::queryRoute($from, $to, 'fastest');
+    //     if ($route['error']) {
+    //         \Log::debug($route);
+    //     }
+        
+    //     return $route;
+    // }
+
+    private function searchTransportMode1($from, $to, $advertise) {
+        //\Log::debug('searchTransportMode1');
+        $route = Hazater::queryRoute($from, $to, 'fastest');
+        if ($route['data'] !== null) {
+            return $route;
+        }
+        
+        $midpoints = Midpoint::where('advertise_id', $advertise->id)->orderBy('order', 'desc')->get();
+
+        foreach ($midpoints as $midpoint) {
+            $from = $midpoint->city_id;
+            //\Log::debug($from);
+            $route = Hazater::queryRoute($from, $to, 'fastest');
+            if ($route['data'] !== null) {
+                return $route;
+            }
+        }
+
+        return $route;
+    }
+
+    private function searchTransportMode2($from, $to, $advertise) {
+        //\Log::debug('searchTransportMode2');
+        $route = Hazater::queryRoute($from, $to, 'fastest');
+        if ($route['data'] !== null) {
+            return $route;
+        }
+        
+        $midpoints = Midpoint::where('advertise_id', $advertise->id)->orderBy('order', 'asc')->get();
+        foreach ($midpoints as $midpoint) {
+            $to = $midpoint->city_id;
+            //\Log::debug($to);
+            $route = Hazater::queryRoute($from, $to, 'fastest');
+            if ($route['data'] !== null) {
+                return $route;
+            }
+        }
+
+        return $route;
+    }
+
     /**
      *
      */
     public function searchTransport(Request $request) {
-        $data = null;
+        //\Log::debug('searchTransport');
         $start_city_id = City::getCityByName($request->input('startCity'));
         $end_city_id = City::getCityByName($request->input('endCity'));
         $advertise = Advertise::find($request->input('advertise'));
         $mode = $request->input('mode');
+        //\Log::debug($mode);
         if (isset($start_city_id) && isset($end_city_id) && isset($advertise) && isset($mode)) {
-            $from = $advertise->end_city_id;
-            $to = $end_city_id;
-            if ($mode === 2) {
-                $from = $start_city_id;
-                $to = $advertise->start_city_id;
+            if ($mode == 1) {
+                $route = $this->searchTransportMode1($advertise->end_city_id, $end_city_id, $advertise);
+            } else {
+                $route = $this->searchTransportMode2($start_city_id, $advertise->start_city_id, $advertise);
             }
-            $route = Hazater::queryRoute($from, $to, 'fastest');
-            // if ($route === false) {
-            //     //return response()->json(error_get_last());
-            //     return response()->json($route);
-            // }
             return response()->json($route);
         }
         return response()->json(null);

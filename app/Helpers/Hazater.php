@@ -140,7 +140,7 @@ class Hazater {
                 ."&arr=".$to
                 ."&time=".Hazater::now("Y-m-dTH:i:s");
 //                ."&time=2019-01-31T07:30:00";
-            \Log::debug($rest);
+            //\Log::debug($rest);
             $response = file_get_contents($rest);
             //\Log::debug($response);
             if (strpos($response, '"code":"I4"') !== false) {
@@ -159,6 +159,7 @@ class Hazater {
             }
             //$obj = json_decode($response);
             //dd($obj);
+            \Log::debug($response);
             return [
                 'name' => $city_start->name . " -> " . $city_end->name,
                 'data' => json_decode($response),

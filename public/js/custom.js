@@ -368,13 +368,17 @@ const transitModes = {
     20: "Gyalog",
 }
 
+var dur;
+
 /**
  *
  * @param {*} route
  */
 function hereRouteToHtml(route) {
-    var html = '<b>Utazás ideje</b>: ' + route.duration + ', '
-    + '<b>Átszállások száma</b>: ' + route.transfers + '<br>';
+    dur = route.duration;
+    dur = dur.replace("PT", "").replace("H", " óra ").replace("M", " perc ");
+    var html = '<b>Utazás ideje</b>: ' + dur + ', '
+    + '<b>átszállások száma</b>: ' + route.transfers + '<br>';
     var sections = route.Sections.Sec;
     //console.log(sections);
     for (var i = 0; i < sections.length; i++) {

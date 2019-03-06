@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Auth\User;
 use App\Models\Advertise;
 
-class Rate extends Model
-{
+class Rate extends Model {
     protected $table = "rates";
     protected $primaryKey = "id";
     public $incrementing = true;
@@ -97,7 +96,21 @@ class Rate extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function advertise() {
-        return $this->belongsTo(advertise::class, 'advertise_id');
+        return $this->belongsTo(Advertise::class, 'advertise_id');
     }
 
+    /**
+     *
+     */
+    public function getRouteLabelAttribute() {
+        $advertise = Advertise::find($this->advertise_id);
+        if ($advertise) {
+            return $advertise->route_label;
+        }
+        return '';
+    }
+
+    public function getRateStarsAttribute() {
+
+    }
 }

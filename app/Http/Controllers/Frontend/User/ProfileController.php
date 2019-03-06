@@ -10,6 +10,7 @@ use App\Models\Advertise;
 use App\Models\Reserve;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
+use App\Models\Rate;
 
 /**
  * Class ProfileController.
@@ -75,12 +76,22 @@ class ProfileController extends Controller {
     }
 
     /**
-     * 
+     *
      */
     public function show($id) {
         //\Log::info($id);
         $user = User::find($id);
         \Log::info($user);
         return view('frontend.user.account.show')->withUser($user);
+    }
+
+    /**
+     *
+     */
+    public function rate($id) {
+        //\Log::info($id);
+        $user = User::find($id);
+        $rates = Rate::where('user_id', $id)->orderBy('created_at')->get();
+        return view('frontend.user.account.rate')->withUser($user)->withRates($rates);
     }
 }

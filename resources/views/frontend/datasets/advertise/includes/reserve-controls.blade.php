@@ -2,10 +2,14 @@
     <style>
         #user_rate_stars {
             height: 2.7em;
+            padding-right: 3em;
         }
         #user_rate_number {
             color: black;
             height: 2.7em;
+            position: absolute;
+            margin-top: 0.2em;
+            margin-left: 0.3em;
         }
     </style>
 @endpush
@@ -15,13 +19,15 @@
         <span class="d-block p-2 bg-group text-black mt-3 mb-3">Sofőr adatai</span>
         <div class="form-row">
             <div class="col-md-6 justify-content-center align-items-center text-center">
-                <div class="form-row justify-content-center align-items-center text-center btn btn-outline-light btn-sm" id="user_rate_stars">
+                <div class="form-row justify-content-center align-items-center text-center btn btn-outline-light btn-sm"
+                    id="user_rate_stars" data-toggle="tooltip" data-placement="bottom" title="Értékelés részletei"
+                    onclick="window.location='{{ route('frontend.user.profile.rate', $advertise->user->id) }}';">
                     @php $rating = $advertise->user->rate; @endphp
                     @foreach(range(1,5) as $i)
                         <span class="fa-stack" style="width:1em;color:#f2b600">
                             <i class="far fa-star fa-stack-1x"></i>
-                            @if($rating >0)
-                                @if($rating >0.5)
+                            @if($rating > 0)
+                                @if($rating > 0.5)
                                     <i class="fas fa-star fa-stack-1x"></i>
                                 @else
                                     <i class="fas fa-star-half fa-stack-1x"></i>

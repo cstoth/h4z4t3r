@@ -96,6 +96,7 @@ Route::group(['middleware' => ['auth', 'password_expires']], function () {
         Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('profile/delete/{id}', [ProfileController::class, 'delete'])->name('profile.delete');
         Route::get('profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+        Route::get('profile/rate/{id}', [ProfileController::class, 'rate'])->name('profile.rate');
 
         /*
          * Reserve Management

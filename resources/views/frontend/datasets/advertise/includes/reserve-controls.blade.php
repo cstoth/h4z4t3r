@@ -1,9 +1,21 @@
+@push('after-styles')
+    <style>
+        #user_rate_stars {
+            height: 2.7em;
+        }
+        #user_rate_number {
+            color: black;
+            height: 2.7em;
+        }
+    </style>
+@endpush
+
 <div class="row">
     <div class="col-xs-12 col-md-6">
         <span class="d-block p-2 bg-group text-black mt-3 mb-3">Sofőr adatai</span>
         <div class="form-row">
             <div class="col-md-6 justify-content-center align-items-center text-center">
-                <div class="form-row justify-content-center align-items-center text-center">
+                <div class="form-row justify-content-center align-items-center text-center btn btn-outline-light btn-sm" id="user_rate_stars">
                     @php $rating = $advertise->user->rate; @endphp
                     @foreach(range(1,5) as $i)
                         <span class="fa-stack" style="width:1em;color:#f2b600">
@@ -18,9 +30,9 @@
                             @php $rating--; @endphp
                         </span>
                     @endforeach
-                    &nbsp;({{$advertise->user->rate}})
+                    <span id="user_rate_number">({{$advertise->user->rate}})</span>
                 </div>
-                <div class="form-row justify-content-center align-items-center text-center">
+                <div class="form-row justify-content-center align-items-center text-center mt-1">
                     <a href="#" alt="Sofőr felhasználói adatai">
                         <img src="{{ $advertise->user->picture }}" class="user-profile-image"/>
                     </a>

@@ -114,55 +114,140 @@ class Hazater {
     //     return $c === "BUDAPEST" || $c === "DEBRECEN"
     // }
 
+    static public function slugify($text) {
+        $text = preg_replace('#[^\\pL\d]+#u', '-', $text);
+        $text = trim($text, '-');
+        $charmap = array(
+            'ö' => 'o','Ö' => 'O','ó' => 'o','Ó' => 'O','ő' => 'o','Ő' => 'O',
+            'ú' => 'u','Ú' => 'U','ű' => 'u','Ű' => 'U','ü' => 'u','Ü' => 'U','á' => 'a',
+            'Á' => 'A','é' => 'e','É' => 'E','í' => 'i','Í' => 'I',
+        );
+
+        $text = strtr($text, $charmap);
+        $text = strtolower($text);
+        $text = preg_replace('#[^-\w]+#', '', $text);
+        // if (empty($text)) {
+        //     return 'n-a';
+        // }
+        return $text;
+    }
+
+    /**
+     * 
+     */
+    public static function toKm($length) {
+        return floor($length / 1000) . ' km ' . floor($length % 1000)  . ' m';
+    }
+
+    /**
+     * 
+     */
+    public static function toDuration($duration) {
+        return floor($duration / 3600)  . ' óra ' . floor(($duration % 3600) / 60)  . ' perc';
+    }
+
+    /**
+     * 
+     */
+    public static function routeToHtml($route) {
+        $html = "";
+        $leg = $route->leg[0];
+        $html .= '<style>.direction,.length,.street,.next-street,.heading,.station,.line,.destination,.stops,.company{font-weight:bold;}</style>';
+        $html .= '<span class="length">Utazás hossza:</span> ' . Hazater::toKm($leg->length) . ', ';
+        $html .= '<span class="length">időtartama:</span> ' . Hazater::toDuration($leg->travelTime) . '<br><br>';
+        $html .= '<ol style="font-size:0.8em;text-align:left;">';
+        foreach ($leg->maneuver as $maneuver) {
+            $html .= '<li>' . $maneuver->instruction . '</li>';
+        }
+        $html .= '</ol>';
+        return $html;
+    }
+
+    /**
+     * 
+     */
+    public static function getHereAppCode() {
+        $here_app_id = getenv('HERE_APP_ID') ?: 'axUZ27L1dhYZQjW2W8NT'; 
+        $here_app_code = getenv('HERE_APP_CODE') ?: '4eggOH1Vi4Zkcj0P5cMHFA';
+        return "app_id=".$here_app_id."&app_code=".$here_app_code;
+    }
+
+    /**
+     * 
+     */
+    public static function queryCityLocation($city) {
+        \Log::debug("---queryCityLocation---");
+        $params = Hazater::getHereAppCode()."&searchtext=".Hazater::slugify($city);
+        $rest = "https://geocoder.api.here.com/6.2/geocode.json?".$params;
+        \Log::debug($rest);
+        $response = file_get_contents($rest);
+        //\Log::debug($response);
+        $result = json_decode($response)->Response->View[0]->Result[0];
+        //\Log::debug($result);
+        $coord = $result->Location->DisplayPosition;
+        //\Log::debug($coord);
+        return $coord->Latitude.",".$coord->Longitude;
+    }
+
     /**
      *
      */
     public static function queryRoute($start_city_id, $end_city_id, $mode = "fastest") {
+        \Log::debug("---queryRoute---");
         $city_start = City::find($start_city_id);
         $city_end = City::find($end_city_id);
 
         if (isset($city_start) && isset($city_end)) {
-            $from = $city_start->y.",".$city_start->x;
-            $to = $city_end->y.",".$city_end->x;
+            $title = $city_start->name . " -> " . $city_end->name;
+            $from = Hazater::queryCityLocation($city_start->name);
+            $to = Hazater::queryCityLocation($city_end->name);
+            // $from = $city_start->y.",".$city_start->x;
+            // $to = $city_end->y.",".$city_end->x;
 
             $here_app_id = getenv('HERE_APP_ID') ?: 'axUZ27L1dhYZQjW2W8NT'; 
             $here_app_code = getenv('HERE_APP_CODE') ?: '4eggOH1Vi4Zkcj0P5cMHFA';
             //route.api.here.com/routing/7.2/calculateroute.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&waypoint0=geo!52.5,13.4&waypoint1=geo!52.5,13.45&mode=fastest;car;traffic:disabled
             //transit.api.here.com/v3/route.json?app_id=axUZ27L1dhYZQjW2W8NT&app_code=4eggOH1Vi4Zkcj0P5cMHFA&routing=all&dep=46.07309,18.22876&arr=47.49973,19.05508&time=2019-06-24T07%3A30%3A00
             //Budapest, Debrecen, Kecskemet, Miskolc, Pecs
-            $rest = "http://transit.api.here.com/v3/route.json"
-                ."?app_id=".$here_app_id
-                ."&app_code=".$here_app_code
-                ."&routing=all"
-                ."&lang=hu"
-                ."&max=1"
-                ."&dep=".$from
-                ."&arr=".$to
-                ."&time=".Hazater::now("Y-m-dTH:i:s");
-//                ."&time=2019-01-31T07:30:00";
-            //\Log::debug($rest);
+            // $rest = "https://mobility.api.here.com/v1/route.json"
+            // // $rest = "http://transit.api.here.com/v3/route.json"
+            //     ."?".Hazater::getHereAppCode()
+            //     ."&profile=parkandride"
+            //     // ."&routing=all"
+            //     ."&lang=hu"
+            //     ."&max=1"
+            //     ."&dep=".$from
+            //     ."&arr=".$to
+            //     ."&time=".Hazater::now("Y-m-dTH:i:s")
+            // ;
+            $rest = "https://route.api.here.com/routing/7.2/calculateroute.json?".Hazater::getHereAppCode()
+                ."&alternatives=0&avoidTransportTypes=&departure=now&jsonAttributes=41&language=hu_HU&metricSystem=metric"
+                ."&mode=fastest;publicTransportTimeTable;traffic:disabled&transportMode=publicTransport&walkSpeed=1.4"
+                ."&waypoint0=geo!".$from
+                ."&waypoint1=geo!".$to;
+            \Log::debug($rest);
             $response = file_get_contents($rest);
-            //\Log::debug($response);
+            \Log::debug($response);
             if (strpos($response, '"code":"I4"') !== false) {
                 return [
-                    'name' => $city_start->name . " -> " . $city_end->name,
+                    'name' => $title,
                     'data' => null,
                     'error' => "Nem megfelelő vagy hiányzó HERE App Id és/vagy HERE App Code.",
                 ];
             }
             if (strpos($response, '"code":"GW0001"') !== false) {
                 return [
-                    'name' => $city_start->name . " -> " . $city_end->name,
+                    'name' => $title,
                     'data' => null,
                     'error' => "A jelenlegi beállítások mellett, a HERE adatbázisában nem található tömegközlekedési lehetőség.",
                 ];
             }
             //$obj = json_decode($response);
             //dd($obj);
-            \Log::debug($response);
+            //\Log::debug($response);
             return [
-                'name' => $city_start->name . " -> " . $city_end->name,
-                'data' => json_decode($response),
+                'name' => $title,
+                'data' => Hazater::RouteToHtml(json_decode($response)->response->route[0]),
                 'error' => null,
             ];
         }

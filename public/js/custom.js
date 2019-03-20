@@ -376,8 +376,8 @@ var dur;
  */
 function hereRouteToHtml(route) {
     dur = route.duration;
-    dur = dur.replace("PT", "").replace("H", " óra ").replace("M", " perc ");
-    var html = '<b>Utazás ideje</b>: ' + dur + ', '
+    dur = dur.replace("PT", "").replace("H", " óra ").replace("M", " perc ").replace("S", " másodperc ");
+    var html = '<b>Utazás ideje</b>: ' + dur + '<br>'
     + '<b>átszállások száma</b>: ' + route.transfers + '<br>';
     var sections = route.Sections.Sec;
     //console.log(sections);

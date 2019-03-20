@@ -338,12 +338,14 @@
                                 });
                             } else {
                                 //console.log(res);
-                                var route = res.data.Res.Connections.Connection[0];
+                                // var route = res.data.Res.Connections.Connection[0];
                                 //console.log(route);
                                 swal({
                                     type: 'success',
                                     title: res.name,
-                                    html: hereRouteToHtml(route),
+                                    // html: hereRouteToHtml(res.data),
+                                    html: res.data,
+                                    width: '50rem',
                                 });
                                 //showInfo(route, 'Tömegközlekedés');
                             }

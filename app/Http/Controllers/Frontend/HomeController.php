@@ -304,14 +304,14 @@ class HomeController extends Controller {
     // }
 
     private function searchTransportMode1($from, $to, $advertise) {
-        //\Log::debug('searchTransportMode1');
+        \Log::debug('searchTransportMode1');
         $route = Hazater::queryRoute($from, $to, 'fastest');
         if ($route['data'] !== null) {
             return $route;
         }
         
+        \Log::debug('Midpoint1');
         $midpoints = Midpoint::where('advertise_id', $advertise->id)->orderBy('order', 'desc')->get();
-
         foreach ($midpoints as $midpoint) {
             $from = $midpoint->city_id;
             //\Log::debug($from);
@@ -325,12 +325,14 @@ class HomeController extends Controller {
     }
 
     private function searchTransportMode2($from, $to, $advertise) {
-        //\Log::debug('searchTransportMode2');
+        \Log::debug('searchTransportMode2');
         $route = Hazater::queryRoute($from, $to, 'fastest');
+        //\Log::debug($route);
         if ($route['data'] !== null) {
             return $route;
         }
         
+        \Log::debug('Midpoint2');
         $midpoints = Midpoint::where('advertise_id', $advertise->id)->orderBy('order', 'asc')->get();
         foreach ($midpoints as $midpoint) {
             $to = $midpoint->city_id;

@@ -79,13 +79,14 @@ class HunterCheck extends Command {
                 ->whereRaw('(' . $hunter->start_city_id . ' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id) OR (advertises.start_city_id='.$hunter->start_city_id.'))')
                 ->whereRaw('(' . $hunter->end_city_id . ' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id) OR (advertises.end_city_id='.$hunter->end_city_id.'))')
                 ->orderBy('id');
-            //\Log::info(\App\Helpers\Hazater::getQueries($advertises));
+            \Log::info(\App\Helpers\Hazater::getQueries($advertises));
             //\Log::info($advertises->count());
             $advertises = $advertises->get();
             //\Log::info($advertises);
             foreach ($advertises as $advertise) {
                 \Log::info('HunterCheck.SendMail: ' . $user->email . ' (' . $advertise->id . '): ' . Hazater::routeLabel($advertise->id));
                 Mail::send(new SendHunter($user, $advertise));
+                sleep(5);
             }
         }
     }

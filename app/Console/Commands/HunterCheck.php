@@ -71,7 +71,7 @@ class HunterCheck extends Command {
     public function check() {
         $hunters = Hunter::where('active', 1)->get();
         foreach ($hunters as $hunter) {
-            \Log::info($hunter->id);
+            \Log::debug($hunter->id);
             $user = User::find($hunter->user_id);
             $advertises = Advertise::whereNull('template')
                 ->where('status', Advertise::ACTIVE)
@@ -79,7 +79,7 @@ class HunterCheck extends Command {
                 ->whereRaw('(' . $hunter->start_city_id . ' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id) OR (advertises.start_city_id='.$hunter->start_city_id.'))')
                 ->whereRaw('(' . $hunter->end_city_id . ' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id) OR (advertises.end_city_id='.$hunter->end_city_id.'))')
                 ->orderBy('id');
-            \Log::info(\App\Helpers\Hazater::getQueries($advertises));
+            \Log::debug(\App\Helpers\Hazater::getQueries($advertises));
             //\Log::info($advertises->count());
             $advertises = $advertises->get();
             //\Log::info($advertises);

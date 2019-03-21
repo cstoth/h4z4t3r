@@ -325,31 +325,24 @@
                             endCity: $('#searchEndCity')[0].value,
                         }, function (data) {
                             swal.hideLoading();
-                            //console.log(data);
-                            //var res = JSON.parse(data);
+                            // console.log(data);
                             var res = data;
-                            //console.log(res);
                             if (res.error !== null) {
-                                //showError(res.error);
                                 swal({
                                     type: 'error',
                                     title: res.name,
                                     html: res.error,
                                 });
                             } else {
-                                //console.log(res);
-                                // var route = res.data.Res.Connections.Connection[0];
-                                //console.log(route);
                                 swal({
                                     type: 'success',
                                     title: res.name,
-                                    // html: hereRouteToHtml(res.data),
                                     html: res.data,
                                     width: '50rem',
                                 });
-                                //showInfo(route, 'Tömegközlekedés');
                             }
                         }).fail(function (error) {
+                            console.log(error);
                             swal.hideLoading();
                             showError(error)
                         });

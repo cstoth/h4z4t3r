@@ -198,10 +198,16 @@ class HomeController extends Controller {
         $_SESSION['SEARCH'] = $search;
 
         $response = $this->queryAdvertises($start_city_id, $end_city_id, $date, $name);
-        $response1 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 1);
-        $response2 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 2);
-        $response = $response->union($response1)->union($response2)->orderBy('start_date')->paginate(25);
-
+        $cnt0 = $response->count();
+        if ($cnt0 == 0) {
+            $response1 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 1);
+            $cnt1 = $response1->count();
+            $response2 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 2);
+            $cnt2 = $response2->count();
+            $response = $response->union($response1)->union($response2);
+            \Log::debug('Response0: ' . $cnt0 . ', response1: ' . $cnt1 . ', response2: ' . $cnt2);
+        }
+        $response = $response->orderBy('start_date')->paginate(25);
         return view('frontend.search')->withSearch($search)->withResults($response);
         //return redirect()->route('frontend.search')->withResults($response)->withSearch($search);
     }

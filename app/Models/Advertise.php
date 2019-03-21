@@ -199,7 +199,7 @@ class Advertise extends Model {
      *
      */
     public function endCityOrMidpoint($cityId) {
-        if ($this->start_city_id == $cityId) return true;
+        if ($this->end_city_id == $cityId) return true;
         return $this->hasMidpoint($cityId);
     }
 

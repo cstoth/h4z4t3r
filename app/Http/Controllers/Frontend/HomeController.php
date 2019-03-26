@@ -91,7 +91,7 @@ class HomeController extends Controller {
     }
 
     /**
-     * 
+     * Minden olyan út, aminél a kiinduló és az érkező állomás is érintett
      */
     public function queryAdvertises($start_city_id, $end_city_id, $date, $name, $type = 0, $fields = '*') {
         $query = Advertise::select($fields)->selectSub('SELECT '.$type, 'mode')
@@ -100,16 +100,11 @@ class HomeController extends Controller {
 
         if (isset($date) && !empty($date)) {
             $query->whereDate('start_date', '=', $date);
-            //$query->where('start_date', '<=', $date)->where('end_date', '>=', $date);
         }
 
         if (isset($name) && !empty($name)) {
             $query->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
         }
-
-        // if ($limit > 0) {
-        //     $query->take($limit);
-        // }
 
         $query->where(function($query) use($start_city_id, $end_city_id) {
             $this->budapest_hack($query, $start_city_id, 'start');
@@ -126,6 +121,33 @@ class HomeController extends Controller {
         });
 
         //\Log::info('QUERY: ' . Hazater::getQueries($query));
+        return $query; //->orderBy('start_date');
+    }
+
+    /**
+     * Minden olyan út, aminél a kiinduló állomás érintett
+     */
+    public function queryAdvertises2($start_city_id, $date, $name, $type = 0, $fields = '*') {
+        $query = Advertise::select($fields)->selectSub('SELECT '.$type, 'mode')
+            ->whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'))
+            ->whereNotNull('start_date')->whereNotNull('end_date');
+
+        if (isset($date) && !empty($date)) {
+            $query->whereDate('start_date', '=', $date);
+        }
+
+        if (isset($name) && !empty($name)) {
+            $query->whereRaw("user_id IN (SELECT id FROM users WHERE LOWER(CONCAT(first_name,' ',last_name)) LIKE LOWER(?))", ["%{$name}%"]);
+        }
+
+        $query->where(function($query) use($start_city_id) {
+            $this->budapest_hack($query, $start_city_id, 'start');
+            if (isset($start_city_id)) {
+                $query->orWhereRaw($start_city_id.' IN (SELECT city_id FROM midpoints WHERE advertise_id=advertises.id)');
+            }
+        });
+    
+        //\Log::info('QUERY-2: ' . Hazater::getQueries($query));
         return $query; //->orderBy('start_date');
     }
 
@@ -221,21 +243,21 @@ class HomeController extends Controller {
         //\Log::debug(Hazater::getQueries($response));
 
         $cnt0 = $response->count();
-        $ids0 = $this->getIdentifiers($response);
+        // $ids0 = $this->getIdentifiers($response);
 
-        //if ($cnt0 == 0) {
+        if ($cnt0 == 0) {
             $response1 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 1, '*');
             $cnt1 = $response1->count();
-            $ids1 = $this->getIdentifiers($response1);
-            $ids0 = $ids0->merge($ids1);
+            // $ids1 = $this->getIdentifiers($response1);
+            // $ids0 = $ids0->merge($ids1);
             $response2 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 2, '*');
             $cnt2 = $response2->count();
-            $ids2 = $this->getIdentifiers($response2);
-            $ids0 = $ids0->merge($ids2);
-            \Log::debug('Identifiers: ' . $ids0);
+            // $ids2 = $this->getIdentifiers($response2);
+            // $ids0 = $ids0->merge($ids2);
+            // \Log::debug('Identifiers: ' . $ids0);
             $response = $response->union($response1)->union($response2);
             \Log::debug('Responses: ' . $cnt0 . ', ' . $cnt1 . ', ' . $cnt2);
-        //}
+        }
         $response = $response->orderBy('start_date')->paginate(25);
         return view('frontend.search')->withSearch($search)->withResults($response);
     }

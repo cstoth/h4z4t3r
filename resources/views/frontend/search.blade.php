@@ -229,7 +229,7 @@
                 <div class="row box pl-3 pr-3">
                     <div class="col-xs-12 col-md-7" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">{!! $result->dates_label !!}&nbsp;<i>({!! $result->highway_label !!})</i><br>{!! $result->cities_label !!}</div>
                     <div class="col-xs-12 col-md-1 align-middle">
-                        @if($result->mode > 0)
+                        @if($result->mode < 0)
                         <a class="bus" data-object="{{ $result }}" data-key="{{ $result->id }}" data-mode="{{ $result->mode }}" data-start="{{ $result->start_city }}" data-end="{{ $result->end_city }}" title="Tömegközlekedés"><img class="centered align-middle" src="{{ asset('img/frontend/hazater.icon.bus.png') }}">Tömegközlekedés</a>
                         @endif
                     </div>

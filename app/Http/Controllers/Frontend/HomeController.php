@@ -93,8 +93,8 @@ class HomeController extends Controller {
     /**
      * 
      */
-    public function queryAdvertises($start_city_id, $end_city_id, $date, $name, $type = 0) {
-        $query = Advertise::select('*')->selectSub('SELECT '.$type, 'mode')
+    public function queryAdvertises($start_city_id, $end_city_id, $date, $name, $type = 0, $fields = '*') {
+        $query = Advertise::select($fields)->selectSub('SELECT '.$type, 'mode')
             ->whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'))
             ->whereNotNull('start_date')->whereNotNull('end_date');
 
@@ -132,12 +132,9 @@ class HomeController extends Controller {
     /**
      * 
      */
-    public function queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, $type = 1) {
+    public function queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, $type = 1, $fields = '*') {
         if (isset($start_city_id) && isset($end_city_id)) {
-            //$route = Hazater::queryRoute($start_city_id, $end_city_id, 'fastest');
-            //dd($route);
-
-            $query = Advertise::select('*')->selectSub('SELECT '.$type, 'mode')
+            $query = Advertise::select($fields)->selectSub('SELECT '.$type, 'mode')
                 ->whereNull('template')->where('status', 1)->where('start_date', '>=', date('Y-m-d H:i:s'))
                 ->whereNotNull('start_date')->whereNotNull('end_date');
 
@@ -157,14 +154,37 @@ class HomeController extends Controller {
 
             return $query;
         } else {
-            return Advertise::select('*')->selectSub('SELECT '.$type, 'mode')->where('status', 999);
+            return Advertise::select($fields)->selectSub('SELECT '.$type, 'mode')->where('status', 999);
         }
+    }
+
+    /**
+     * 
+     */
+    private function getIdentifiers($query) {
+        $sql = Hazater::getQueries($query);
+        //\Log::debug($sql);
+        $ids = DB::table(DB::raw('(' . $sql . ')  as A'))->select('id')->get();
+        //\Log::debug($ids);
+        return $ids;
+    }
+
+    /**
+     * 
+     */
+    private function addIdentifiers($ids1, $ids2) {
+        if ($ids1 === []) {
+            return $ids2;
+        }
+        return array_merge($ids1, $ids2);
     }
 
     /**
      * @return \Illuminate\View\View
      */
     private function doFind(Request $request) {
+        \Log::debug("doFind");
+
         //dd($request);
         session_start();
         if (isset($_SESSION['SEARCH'])) {
@@ -197,19 +217,27 @@ class HomeController extends Controller {
         ];
         $_SESSION['SEARCH'] = $search;
 
-        $response = $this->queryAdvertises($start_city_id, $end_city_id, $date, $name);
+        $response = $this->queryAdvertises($start_city_id, $end_city_id, $date, $name, 0, '*');
+        //\Log::debug(Hazater::getQueries($response));
+
         $cnt0 = $response->count();
-        if ($cnt0 == 0) {
-            $response1 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 1);
+        $ids0 = $this->getIdentifiers($response);
+
+        //if ($cnt0 == 0) {
+            $response1 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 1, '*');
             $cnt1 = $response1->count();
-            $response2 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 2);
+            $ids1 = $this->getIdentifiers($response1);
+            $ids0 = $ids0->merge($ids1);
+            $response2 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 2, '*');
             $cnt2 = $response2->count();
+            $ids2 = $this->getIdentifiers($response2);
+            $ids0 = $ids0->merge($ids2);
+            \Log::debug('Identifiers: ' . $ids0);
             $response = $response->union($response1)->union($response2);
-            \Log::debug('Response0: ' . $cnt0 . ', response1: ' . $cnt1 . ', response2: ' . $cnt2);
-        }
+            \Log::debug('Responses: ' . $cnt0 . ', ' . $cnt1 . ', ' . $cnt2);
+        //}
         $response = $response->orderBy('start_date')->paginate(25);
         return view('frontend.search')->withSearch($search)->withResults($response);
-        //return redirect()->route('frontend.search')->withResults($response)->withSearch($search);
     }
 
     /**

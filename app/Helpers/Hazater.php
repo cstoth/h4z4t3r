@@ -189,6 +189,23 @@ class Hazater {
     }
 
     /**
+     * 
+     */
+    public static function makeQueryRouteResult($title, $data, $code) {
+        $error = null;
+        if ($code === -1) {
+            $error = "Nem megfelelő vagy hiányzó HERE App Id és/vagy HERE App Code.";
+        } else if ($code === -2) {
+            $error = "A jelenlegi beállítások mellett, a HERE adatbázisában nem található tömegközlekedési lehetőség.";
+        }
+        return [
+            'name' => $title,
+            'data' => $data,
+            'error' => $error,
+        ];
+    }
+
+    /**
      *
      */
     public static function queryRoute($start_city_id, $end_city_id, $mode = "fastest") {
@@ -213,30 +230,14 @@ class Hazater {
             // \Log::debug($response);
             if ($response) {
                 if (strpos($response, '"code":"I4"') !== false) {
-                    return [
-                        'name' => $title,
-                        'data' => null,
-                        'error' => "Nem megfelelő vagy hiányzó HERE App Id és/vagy HERE App Code.",
-                    ];
+                    return Hazater::makeQueryRouteResult($title, null, -1);
                 }
                 if (strpos($response, 'GW0001') !== false) {
-                    return [
-                        'name' => $title,
-                        'data' => null,
-                        'error' => "A jelenlegi beállítások mellett, a HERE adatbázisában nem található tömegközlekedési lehetőség.",
-                    ];
+                    return Hazater::makeQueryRouteResult($title, null, -2);
                 }
-                return [
-                    'name' => $title,
-                    'data' => Hazater::RouteToHtml(json_decode($response)->response->route[0]),
-                    'error' => null,
-                ];
+                return Hazater::makeQueryRouteResult($title, Hazater::RouteToHtml(json_decode($response)->response->route[0]), null);
             } else {
-                return [
-                    'name' => $title,
-                    'data' => null,
-                    'error' => "A jelenlegi beállítások mellett, a HERE adatbázisában nem található tömegközlekedési lehetőség.",
-                ];           
+                return Hazater::makeQueryRouteResult($title, null, -2);
             }
         }
 

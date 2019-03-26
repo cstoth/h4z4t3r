@@ -230,7 +230,7 @@
                     <div class="col-xs-12 col-md-7" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">{!! $result->dates_label !!}&nbsp;<i>({!! $result->highway_label !!})</i><br>{!! $result->cities_label !!}</div>
                     <div class="col-xs-12 col-md-1 align-middle">
                         @if($result->mode > 0)
-                        <a class="bus" data-key="{{ $result->id }}" data-mode="{{ $result->mode }}" title="Tömegközlekedés"><img class="centered align-middle" src="{{ asset('img/frontend/hazater.icon.bus.png') }}">Tömegközlekedés</a>
+                        <a class="bus" data-object="{{ $result }}" data-key="{{ $result->id }}" data-mode="{{ $result->mode }}" data-start="{{ $result->start_city }}" data-end="{{ $result->end_city }}" title="Tömegközlekedés"><img class="centered align-middle" src="{{ asset('img/frontend/hazater.icon.bus.png') }}">Tömegközlekedés</a>
                         @endif
                     </div>
                     <div class="col-xs-12 col-md-1" onclick="window.location='{{route('frontend.advertise.reserve', $result->id)}}';">{!! $result->free_seats !!} hely</div>
@@ -313,6 +313,24 @@
             //     $("#loader").css("display", "none");
             // });
             $('.bus').click(function() {
+                var advertise = $(this).data("object");
+                var id = $(this).data("key");
+                var startCity = $('#searchStartCity')[0].value;
+                var endCity = $('#searchEndCity')[0].value;
+                var mode = $(this).data("mode");
+                console.log(advertise);
+                console.log(advertise.start_city);
+                var url = "https://wego.here.com/directions/mix/";
+                if (mode == 1) { // Autóval indul és tömegközlekedéssel érkezik
+                    url += advertise.end_city.name + "/" + endCity;
+                } else { // Tömegközlekedéssel indul és autóval érkezik
+                    url += startCity + "/" + advertise.start_city.name;
+                }
+                console.log(url);
+                window.open(url, 'HERE');
+                // https://wego.here.com/directions/mix/Paks/Pécs
+                // https://wego.here.com/directions/publicTransport/Paks/Pécs
+                /*
                 swal({
                     title: 'Lekérdezés folyamatban...',
                     showConfirmButton: false,
@@ -348,6 +366,7 @@
                         });
                     },
                 });
+                */
             });
             //$('#searchButton').click();
         });

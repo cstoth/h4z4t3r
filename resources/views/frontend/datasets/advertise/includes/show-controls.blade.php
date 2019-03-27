@@ -17,12 +17,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4  justify-content-center align-items-center">
+        <div class="col-md-4 justify-content-center align-items-center">
             @if($advertise->car->image)
                 <img src="{{ $advertise->car->picture }}" class="user-profile-image" style="max-width:200px;max-height:100px"/>
             @endif
         </div>
-        <div class="col-md-4  justify-content-center align-items-center">
+        <div class="col-md-4 justify-content-center align-items-center">
             @if($advertise->car->image2)
                 <img src="{{ $advertise->car->picture2 }}" class="user-profile-image" style="max-width:200px;max-height:100px"/>
             @endif
@@ -35,6 +35,7 @@
         <div class="col-md-6">
             <div class="form-row">
                 <div class="col-md-8">
+                    <img src="/img/frontend/map-marker-green.svg" />
                     <label for="start_city">{{ __('dashboard.driver.submit-ad.Start Place') }}</label>
                     <input class="form-control" id="start_city" name="start_city" type="text" value="{!! $advertise->start_city_label !!}" readonly>
                 </div>
@@ -52,14 +53,16 @@
             <div class="form-row mt-2 mb-2">
                 <div class="col">
                     @if (count($midpoints) > 0)
+                        <img src="/img/frontend/map-marker-blue.svg" />
                         <label for="midpoints">Köztes megállóhelyek</label>
                     @endif
-                    <table id="midpoints" class="col-12"><tr><th width="100%"></th></tr></table>
+                    <table id="midpoints" class="col-12"><tr><th></th><th width="164px"></th></tr></table>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="col-md-8">
+                    <img src="/img/frontend/map-marker-red.svg" />
                     <label for="end_city">{{ __('dashboard.driver.submit-ad.Target Place') }}</label>
                     <input class="form-control" id="end_city" name="end_city" type="text" value="{!! $advertise->end_city_label !!}" readonly>
                 </div>
@@ -230,22 +233,24 @@ $(function() {
     initDays();
 });
 
-function makeMidpointTableRow(id, name) {
+function makeMidpointTableRow(id, name, date) {
+    // console.log(date);
     return '<tr id="midpoint-'+id+'">'
         +'<td><input type="hidden" name="midpoints[]" value="'+id+'">'
-        +'<input class="form-control mb-2 col-8" type="text" name="midpointnames[]" value="'+name+'" readonly></td>'
+        +'<input class="form-control form-control-sm mb-2 pr-2" type="text" name="midpointnames[]" value="'+name+'" readonly></td>'
+        +'<td><input class="form-control form-control-sm mb-2" type="text" name="midpointdates[]" value="'+date+'" readonly></td>'
         +'</tr>';
 }
-
 var midPoints = [];
 @foreach($midpoints as $midpoint)
     midPoints.push({
         id: {{$midpoint->city_id}},
         name: "{{$midpoint->city->name}}",
+        date: "{{$midpoint->date}}",
         x: {{$midpoint->city->y}},
         y: {{$midpoint->city->x}},
     });
-    $('#midpoints').append(makeMidpointTableRow({{$midpoint->city_id}}, "{{$midpoint->city->name}}"));
+    $('#midpoints').append(makeMidpointTableRow({{$midpoint->city_id}}, "{{$midpoint->city->name}}", "{{$midpoint->date}}"));
 @endforeach
 
 var mapAdvertiseShow = makeMap('mapContainerShow', mapInitCenter);

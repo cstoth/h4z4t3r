@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Auth\User;
 
-class Midpoint extends Model
-{
+class Midpoint extends Model {
     /**
      * The attributes that are mass assignable.
      *
@@ -16,6 +15,7 @@ class Midpoint extends Model
         'advertise_id',
         'order',
         'city_id',
+        'date',
     ];
 
     /**
@@ -31,6 +31,7 @@ class Midpoint extends Model
         'advertise_id' => 'required',
         'order' => 'required',
         'city_id' => 'required',
+        'date' => 'required',
     ];
 
     /**
@@ -65,8 +66,7 @@ class Midpoint extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function advertise()
-    {
+    public function advertise() {
         return $this->belongsTo(Advertise::class, 'advertise_id');
     }
 
@@ -75,16 +75,14 @@ class Midpoint extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function city()
-    {
+    public function city() {
         return $this->belongsTo(City::class, 'city_id');
     }
 
     /**
      * @return string
      */
-    public function getCityLabelAttribute()
-    {
+    public function getCityLabelAttribute() {
         return $this->city->name;
     }
 
@@ -99,24 +97,21 @@ class Midpoint extends Model
     /**
      * @return string
      */
-    public function getShowButtonAttribute()
-    {
+    public function getShowButtonAttribute() {
         return '<a href="'.route('admin.datasets.car.show', $this).'" data-toggle="tooltip" data-placement="top" title="'.__('buttons.general.crud.view').'" class="btn btn-info"><i class="fas fa-eye"></i></a>';
     }
 
     /**
      * @return string
      */
-    public function getEditButtonAttribute()
-    {
+    public function getEditButtonAttribute() {
         return '<a href="'.route('admin.datasets.car.edit', $this).'" class="btn btn-success"><i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="'.__('buttons.general.crud.edit').'"></i></a>';
     }
 
     /**
      * @return string
      */
-    public function getDeleteButtonAttribute()
-    {
+    public function getDeleteButtonAttribute() {
         return '<a href="'.route('admin.datasets.car.destroy', $this).'"
 			 data-method="delete"
 			 data-trans-button-cancel="'.__('buttons.general.cancel').'"
@@ -128,8 +123,7 @@ class Midpoint extends Model
     /**
      * @return string
      */
-    public function getActionButtonsAttribute()
-    {
+    public function getActionButtonsAttribute() {
         return '<div class="btn-group btn-group-sm" role="group" aria-label="'.__('labels.backend.access.users.user_actions').'">
 			  '.$this->show_button.'
 			  '.$this->edit_button.'

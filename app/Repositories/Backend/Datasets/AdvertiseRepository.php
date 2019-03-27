@@ -88,8 +88,7 @@ class AdvertiseRepository extends BaseRepository
      * @return mixed
      * @throws GeneralException
      */
-    public function update(Advertise $model, array $data)
-    {
+    public function update(Advertise $model, array $data) {
         return DB::transaction(function () use ($model, $data) {
             //dd($data);
             if (!isset($data['start_city_id'])) {
@@ -134,17 +133,18 @@ class AdvertiseRepository extends BaseRepository
                 'highway'       => isset($data['highway']) ? ($data['highway'] == 'on' ? 1 : 0) : 0,
             ])) {
                 // TODO event(new AdvertiseUpdated($model));
-                //dd($data);
                 Midpoint::where('advertise_id', $model->id)->delete();
                 if (isset($data['midpoints'])) {
                     $i = 0;
                     foreach ($data['midpoints'] as $midpoint) {
                         $mp = array(
                             'advertise_id' => $model->id,
-                            'order' => $i++,
+                            'order' => $i,
                             'city_id' => $midpoint,
+                            'date' => $data['midpointdates'][$i],
                         );
                         Midpoint::insert($mp);
+                        $i++;
                     }
                 }
 

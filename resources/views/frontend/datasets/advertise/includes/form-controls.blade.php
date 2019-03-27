@@ -33,6 +33,17 @@
             border-style: solid;
             border-color: transparent #f27474 transparent transparent;
         }
+        .delete-button {
+            border: 0;
+            width: 24px;
+            height: 24px;
+            background-image: url('/img/frontend/delete-gray.svg');
+            vertical-align: baseline;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-image: url('/img/frontend/delete-red.svg');
+        }
     </style>
 @endpush
 
@@ -66,6 +77,7 @@
         <!-- START -->
         <div class="form-row">
             <div class="col-md-8">
+                <img src="/img/frontend/map-marker-green.svg" />
                 <label for="start_city">{{ __('dashboard.driver.submit-ad.Start Place') }}</label>
                 <input type="hidden" id="start_city_id" name="start_city_id" value="{{$advertise->start_city_id}}">
                 <input class="form-control typeahead typeahead-start-city" id="start_city" name="start_city" value="{{$advertise->start_city_label}}" placeholder="{{ __('dashboard.driver.submit-ad.Start Place') }}" type="text" autocomplete="off" required>
@@ -86,7 +98,9 @@
         <!-- MIDPOINTS -->
         <div class="form-row mt-2 mb-2">
             <div class="col">
-                <table id="midpoints" class="col-12"><tr><th width="100%"></th><th></th></tr></table>
+                <img src="/img/frontend/map-marker-blue.svg" />
+                <label for="midpoints">Köztes megállóhelyek</label>
+                <table id="midpoints" class="col-12"><tr data-key="0"><th></th><th width="142px"></th><th width="24px"></th></tr></table>
                 <a id="koztes-hely" class="disabled-link" href="#">{{ __('dashboard.driver.submit-ad.Add Midpoint') }}</a>
             </div>
         </div>
@@ -94,6 +108,7 @@
         <!-- END -->
         <div class="form-row">
             <div class="col-md-8">
+                <img src="/img/frontend/map-marker-red.svg" />
                 <label for="end_city">{{ __('dashboard.driver.submit-ad.Target Place') }}</label>
                 <input type="hidden" id="end_city_id" name="end_city_id" value="{{$advertise->end_city_id}}">
                 <input class="form-control typeahead typeahead-end-city" id="end_city" name="end_city" value="{{$advertise->end_city_label}}" placeholder="{{ __('dashboard.driver.submit-ad.Target Place') }}" type="text" autocomplete="off" required>
@@ -326,10 +341,12 @@ function deleteMidpoint(id) {
     }
 }
 function makeMidpointTableRow(id, name) {
-    return '<tr id="midpoint-'+id+'">'
-        +'<td><input type="hidden" name="midpoints[]" value="'+id+'">'
-        +'<input class="form-control mb-2" type="text" name="midpointnames[]" value="'+name+'" readonly></td>'
-        +'<td><a class="btn btn-outline-danger ml-2 mb-2" onclick="deleteMidpoint('+id+')">Törlés</a></td>'
+    return '<tr id="midpoint-'+id+'" data-key="'+midPoints.length+'">'
+        +'<td class="pr-2"><input type="hidden" name="midpoints[]" value="'+id+'">'
+        +'<input class="form-control form-control-sm mb-2" type="text" name="midpointnames[]" value="'+name+'" readonly></td>'
+//        +'<td class="pr-2"><input type="hidden" name="midpointdates[]" value="">'
+        +'<td class="pr-2"><input class="form-control form-control-sm date mb-2" type="text" data-key="'+midPoints.length+'" id="midpointdate-'+id+'" name="midpointdates[]" autocomplete="off" required></td>'
+        +'<td><a title="Köztes megállóhely törlése" onclick="deleteMidpoint('+id+')"><img class="delete-button" /></a></td>'
         +'</tr>';
 }
 function addMidPointByName(name) {
@@ -343,6 +360,14 @@ function addMidPointByName(name) {
                 y: data[0].x,
             });
             $('#midpoints').append(makeMidpointTableRow(data[0].id, data[0].name));
+            $(".date").bootstrapMaterialDatePicker({
+                format: 'YYYY.MM.DD HH:mm',
+                lang: 'hu',
+                weekStart: 1,
+                cancelText: 'Mégsem',
+                minDate: dateToday,
+                //switchOnClick: true,
+            });
             callRouteCalculation();
         } else {
             showError("Nem található a megadott település: " + name);
@@ -384,6 +409,7 @@ var mapAdvertiseForm = makeMap('mapContainerForm', mapInitCenter);
 window.addEventListener('resize', function () {
     mapAdvertiseForm.getViewPort().resize();
 });
+
 @foreach($midpoints as $midpoint)
     midPoints.push({
         id: {{$midpoint->city_id}},
@@ -392,6 +418,14 @@ window.addEventListener('resize', function () {
         y: {{$midpoint->city->x}},
     });
     $('#midpoints').append(makeMidpointTableRow({{$midpoint->city_id}}, "{{$midpoint->city->name}}"));
+    $(".date").bootstrapMaterialDatePicker({
+        format: 'YYYY.MM.DD HH:mm',
+        lang: 'hu',
+        weekStart: 1,
+        cancelText: 'Mégsem',
+        minDate: dateToday,
+        //switchOnClick: true,
+    });
 @endforeach
 
 function deleteDate(id) {
@@ -436,17 +470,38 @@ var hiddenDate = $("#hidden-date").bootstrapMaterialDatePicker({
     $('#dates').append(makeDateTableRow(id, date));
 });
 var travelTime;
+function addSecondsToDate(d1, secs) {
+    return moment(d1.split('.').join('-')).add(secs, 'seconds').toDate();
+}
 function calcDate2() {
     var date1 = $('#start_date').val();
-    var date2 = moment(date1.split('.').join('-')).add(travelTime, 'seconds').toDate();
+    var date2 = addSecondsToDate(date1, travelTime);
+    // var date2 = moment(date1.split('.').join('-')).add(travelTime, 'seconds').toDate();
     $('#end_date').val(formattedDate(date2));
     checkDates();
 }
 function callRouteCalculation() {
     console.log("callRouteCalculation");
-    calcRoute(mapAdvertiseForm, x1, y1, x2, y2, midPoints, $('#route-summary'), $("#highway").is(':checked'), function(summary) {
-        travelTime = summary.travelTime;
+    calcRoute(mapAdvertiseForm, x1, y1, x2, y2, midPoints, $('#route-summary'), $("#highway").is(':checked'), function(route) {
+        travelTime = route.summary.travelTime;
+        console.log(travelTime);
         calcDate2();
+        var date1 = $('#start_date').val();
+        var t = 0;
+        for (leg in route.leg) {
+            var id = Number(leg) + 1;
+            var maneuvers = route.leg[leg].maneuver;
+            for (man in maneuvers) {
+                t += maneuvers[man].travelTime;
+            }
+            console.log(id + ":" + t);
+            var input = $("input[data-key='"+id+"']")[0];
+            console.log(input);
+            if (input) {
+                var d = addSecondsToDate(date1, t);
+                $("input[data-key='"+id+"']").val(formattedDate(d));
+            }
+        }
     });
     var startCity = $('#start_city_id').attr('value');
     var endCity = $('#end_city_id').attr('value');

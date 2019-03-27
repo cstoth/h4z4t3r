@@ -216,6 +216,7 @@ class AdvertiseController extends Controller {
             //'retour',
             'description',
             'midpoints',
+            'midpointdates',
             'price',
             'hours',
             'status',
@@ -225,13 +226,14 @@ class AdvertiseController extends Controller {
         ));
 
         \Log::info('A hirdetés ('.$advertise->id.') módosult ' . Hazater::routeLabel($advertise->id));
-        Mail::send(new SendMeUpdate($advertise->user, $advertise));
-        $reserves = Reserve::where('advertise_id', $advertise->id)->get();
-        foreach ($reserves as $reserve) {
-            Mail::send(new SendUpdate($reserve->user, $advertise));
+        if (!Hazater::isLocal()) {
+            Mail::send(new SendMeUpdate($advertise->user, $advertise));
+            $reserves = Reserve::where('advertise_id', $advertise->id)->get();
+            foreach ($reserves as $reserve) {
+                Mail::send(new SendUpdate($reserve->user, $advertise));
+            }
+            HunterCheck::checkAdvertise($advertise); //A módosult hirdetés megfelel egy hirdetés vadásznak?
         }
-        HunterCheck::checkAdvertise($advertise); //A módosult hirdetés megfelel egy hirdetés vadásznak?
-
         return redirect()->route('frontend.user.driver.menu')->withFlashSuccess(__('alerts.backend.advertise.updated'));
     }
 
@@ -517,7 +519,6 @@ class AdvertiseController extends Controller {
         }
 
         $template = Input::get('template');
-        //TODO: név figyelés! felülír vagy figyelmeztet?
         if ($template) {
             $template_data = $model_data;
             $template_data['template'] = $template;

@@ -88,33 +88,6 @@ function showError(text) {
     //console.log('Error:', text);
 }
 
-// function setCityAutocomplete(control, city, city_id) {
-//     //console.log(control);
-//     control.typeahead({
-//         source: function (query, process) {
-//             return $.get("{{ route('frontend.search.city') }}", {
-//                 query: query
-//             }, function (data) {
-//                 return process(data);
-//             }).fail(function (error) {
-//                 console.log(error)
-//             });
-//         }
-//     });
-//     city.on('change', function (e) {
-//         $.get("{{ route('frontend.city.query') }}", {
-//             name: city.val()
-//         }, function (data) {
-//             //console.log(data);
-//             if (data.length > 0) {
-//                 city_id.attr('value', data[0].id);
-//             }
-//         }).fail(function (error) {
-//             console.log(error)
-//         });
-//     });
-// }
-
 /* HERE inicialisation */
 var platform = new H.service.Platform({
     'app_id': HERE_APP_ID,
@@ -193,15 +166,15 @@ function makeMap(elementId, center) {
 }
 
 var svgStartPoint = new H.map.Icon('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g>' +
-    '<path d="M256,0C167.641,0,96,71.625,96,160c0,24.75,5.625,48.219,15.672,69.125C112.234,230.313,256,512,256,512l142.594-279.375   C409.719,210.844,416,186.156,416,160C416,71.625,344.375,0,256,0z M256,256c-53.016,0-96-43-96-96s42.984-96,96-96   c53,0,96,43,96,96S309,256,256,256z" fill="#91DC5A"/>' +
+    '<path d="M256,0C167.641,0,96,71.625,96,160c0,24.75,5.625,48.219,15.672,69.125C112.234,230.313,256,512,256,512l142.594-279.375 C409.719,210.844,416,186.156,416,160C416,71.625,344.375,0,256,0z M256,256c-53.016,0-96-43-96-96s42.984-96,96-96 c53,0,96,43,96,96S309,256,256,256z" fill="#91DC5A"/>' +
     '</g></svg>');
 
 var svgMidPoint = new H.map.Icon('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_2" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g>' +
-    '<path d="M256,0C167.641,0,96,71.625,96,160c0,24.75,5.625,48.219,15.672,69.125C112.234,230.313,256,512,256,512l142.594-279.375   C409.719,210.844,416,186.156,416,160C416,71.625,344.375,0,256,0z M256,256c-53.016,0-96-43-96-96s42.984-96,96-96   c53,0,96,43,96,96S309,256,256,256z" fill="#006DF0"/>' +
+    '<path d="M256,0C167.641,0,96,71.625,96,160c0,24.75,5.625,48.219,15.672,69.125C112.234,230.313,256,512,256,512l142.594-279.375 C409.719,210.844,416,186.156,416,160C416,71.625,344.375,0,256,0z M256,256c-53.016,0-96-43-96-96s42.984-96,96-96 c53,0,96,43,96,96S309,256,256,256z" fill="#006DF0"/>' +
     '</g></svg>');
 
 var svgEndPoint = new H.map.Icon('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_3" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g>' +
-    '<path d="M256,0C167.641,0,96,71.625,96,160c0,24.75,5.625,48.219,15.672,69.125C112.234,230.313,256,512,256,512l142.594-279.375   C409.719,210.844,416,186.156,416,160C416,71.625,344.375,0,256,0z M256,256c-53.016,0-96-43-96-96s42.984-96,96-96   c53,0,96,43,96,96S309,256,256,256z" fill="#D80027"/>' +
+    '<path d="M256,0C167.641,0,96,71.625,96,160c0,24.75,5.625,48.219,15.672,69.125C112.234,230.313,256,512,256,512l142.594-279.375 C409.719,210.844,416,186.156,416,160C416,71.625,344.375,0,256,0z M256,256c-53.016,0-96-43-96-96s42.984-96,96-96 c53,0,96,43,96,96S309,256,256,256z" fill="#D80027"/>' +
     '</g></svg>');
 
 // var svgCircle = new H.map.Icon('<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 438.533 438.533" style="enable-background:new 0 0 438.533 438.533;" xml:space="preserve">' +
@@ -292,6 +265,7 @@ function calcRoute(map, sx, sy, ex, ey, mps = [], div = null, highway=true, call
             'mode': 'fastest;car' + (highway ? '' : ';motorway:-2'),
             'representation': 'display',
             'routeAttributes': 'summary',
+            'language': 'hu-HU',
         }
         var i = 0;
         params['waypoint'+i++] = 'geo!'+sx+','+sy;
@@ -311,7 +285,7 @@ function calcRoute(map, sx, sy, ex, ey, mps = [], div = null, highway=true, call
                     content += '<b>Utazás ideje</b>: ' + summary.travelTime.toMMSS();
                     div.append(content);
                     if (callback) {
-                        callback(summary);
+                        callback(route);
                     }
                 }
             }

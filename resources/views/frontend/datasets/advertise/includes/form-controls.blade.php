@@ -34,15 +34,20 @@
             border-color: transparent #f27474 transparent transparent;
         }
         .delete-button {
+            color: red;
             border: 0;
             width: 24px;
             height: 24px;
-            background-image: url('/img/frontend/delete-gray.svg');
+            /* background-image: url('/img/frontend/delete-gray.svg'); */
             vertical-align: baseline;
             cursor: pointer;
         }
-        .delete-button:hover {
-            background-image: url('/img/frontend/delete-red.svg');
+        .delete-icon {
+            color: gray;
+            height: 2em;
+        }
+        .delete-icon:hover {
+            color: red;
         }
     </style>
 @endpush
@@ -340,14 +345,14 @@ function deleteMidpoint(id) {
         }
     }
 }
-function makeMidpointTableRow(id, name) {
+function makeMidpointTableRow(id, name, date = null) {
     return '<tr id="midpoint-'+id+'" data-key="'+midPoints.length+'">'
         +'<td class="pr-2"><input type="hidden" name="midpoints[]" value="'+id+'">'
         +'<input class="form-control form-control-sm mb-2" type="text" name="midpointnames[]" value="'+name+'" readonly></td>'
 //        +'<td class="pr-2"><input type="hidden" name="midpointdates[]" value="">'
-        +'<td class="pr-2"><input class="form-control form-control-sm date mb-2" type="text" data-key="'+midPoints.length+'" id="midpointdate-'+id+'" name="midpointdates[]" autocomplete="off" required></td>'
-        +'<td><a title="Köztes megállóhely törlése" onclick="deleteMidpoint('+id+')"><img class="delete-button" /></a></td>'
-        +'</tr>';
+        +'<td class="pr-2"><input class="form-control form-control-sm date mb-2" type="text" data-key="'+midPoints.length+'" id="midpointdate-'+id+'" name="midpointdates[]" value="'+(date==null?"":date)+'" autocomplete="off" required></td>'
+        +'<td><a class="delete-button" title="Köztes megállóhely törlése" onclick="deleteMidpoint('+id+')"><i class="fas fa-times delete-icon"></i></a></td>'
+        +'</tr>'; //<img class="delete-button" />
 }
 function addMidPointByName(name) {
     $.get("{{ route('frontend.city.query') }}", {name: name}, function (data) {
@@ -356,10 +361,11 @@ function addMidPointByName(name) {
             midPoints.push({
                 id: data[0].id,
                 name: data[0].name,
+                date: null,
                 x: data[0].y,
                 y: data[0].x,
             });
-            $('#midpoints').append(makeMidpointTableRow(data[0].id, data[0].name));
+            $('#midpoints').append(makeMidpointTableRow(data[0].id, data[0].name, null));
             $(".date").bootstrapMaterialDatePicker({
                 format: 'YYYY.MM.DD HH:mm',
                 lang: 'hu',
@@ -414,10 +420,11 @@ window.addEventListener('resize', function () {
     midPoints.push({
         id: {{$midpoint->city_id}},
         name: "{{$midpoint->city->name}}",
+        date: "{{$midpoint->date}}",
         x: {{$midpoint->city->y}},
         y: {{$midpoint->city->x}},
     });
-    $('#midpoints').append(makeMidpointTableRow({{$midpoint->city_id}}, "{{$midpoint->city->name}}"));
+    $('#midpoints').append(makeMidpointTableRow({{$midpoint->city_id}}, "{{$midpoint->city->name}}", "{{$midpoint->date}}"));
     $(".date").bootstrapMaterialDatePicker({
         format: 'YYYY.MM.DD HH:mm',
         lang: 'hu',
@@ -470,6 +477,7 @@ var hiddenDate = $("#hidden-date").bootstrapMaterialDatePicker({
     $('#dates').append(makeDateTableRow(id, date));
 });
 var travelTime;
+var travelTimes = [];
 function addSecondsToDate(d1, secs) {
     return moment(d1.split('.').join('-')).add(secs, 'seconds').toDate();
 }
@@ -484,22 +492,25 @@ function callRouteCalculation() {
     console.log("callRouteCalculation");
     calcRoute(mapAdvertiseForm, x1, y1, x2, y2, midPoints, $('#route-summary'), $("#highway").is(':checked'), function(route) {
         travelTime = route.summary.travelTime;
-        console.log(travelTime);
+        //console.log(travelTime);
         calcDate2();
         var date1 = $('#start_date').val();
-        var t = 0;
+        var tt = 0;
         for (leg in route.leg) {
+            var t = 0;
             var id = Number(leg) + 1;
             var maneuvers = route.leg[leg].maneuver;
             for (man in maneuvers) {
                 t += maneuvers[man].travelTime;
             }
-            console.log(id + ":" + t);
-            var input = $("input[data-key='"+id+"']")[0];
-            console.log(input);
+            travelTimes[(id - 1)] = t;
+            tt += t;
+            var input = $("input[data-key='"+id+"']");
             if (input) {
-                var d = addSecondsToDate(date1, t);
-                $("input[data-key='"+id+"']").val(formattedDate(d));
+                var d = formattedDate(addSecondsToDate(date1, tt));
+                input.val(d);
+                input.attr('data-changed', false);
+                input.bootstrapMaterialDatePicker('setMinDate', d);
             }
         }
     });
@@ -510,6 +521,7 @@ function callRouteCalculation() {
     } else {
         $("#koztes-hely").addClass("disabled-link");
     }
+    console.log(travelTimes);
 }
 $('#highway:checkbox').change(function (e) {
     callRouteCalculation();
@@ -521,12 +533,38 @@ callRouteCalculation();
 $('#start_date').on('change', function(e) {
     var date1 = $('#start_date').val();
     $('#end_date').bootstrapMaterialDatePicker('setMinDate', date1);
-    calcDate2();
+    //calcDate2();
+    callRouteCalculation();
 });
 $('#end_date').on('change', function(e) {
     var date2 = $('#end_date').val();
     $('#start_date').bootstrapMaterialDatePicker('setMaxDate', date2);
     checkDates();
+});
+$('.date').on('change', function(e) {
+    var id = e.target.id;
+    console.log("change: " + id);
+    if (id.startsWith("midpointdate")) {
+        $("#"+id).attr('data-changed', true);
+        var idx = $("#"+id).attr('data-key');
+        var currDate = formattedDate(new Date(e.target.value));
+        var prevDate = formattedDate(new Date(e.target.defaultValue));
+        for (var i = idx; i < travelTimes.length; i++) {
+            var input = $("input[data-key='"+i+"']");
+            if (input) {
+                console.log(currDate);
+                console.log(travelTimes[i]);
+                var newDate = formattedDate(addSecondsToDate(currDate, travelTimes[i]));
+                console.log(newDate);
+                input.val(newDate);
+                var minDate = formattedDate(addSecondsToDate(prevDate, travelTimes[i]));
+                input.bootstrapMaterialDatePicker('setMinDate', minDate);
+                currDate = newDate;
+            }
+        }
+        //TODO end_date
+
+    }
 });
 
 function initDates() {

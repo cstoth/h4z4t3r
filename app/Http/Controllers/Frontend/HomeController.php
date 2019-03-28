@@ -244,6 +244,7 @@ class HomeController extends Controller {
 
         $cnt0 = $response->count();
         // $ids0 = $this->getIdentifiers($response);
+        $flashMessage = null;
 
         if ($cnt0 == 0) {
             $response1 = $this->queryAdvertisesByHere($start_city_id, $end_city_id, $date, $name, 1, '*');
@@ -257,9 +258,11 @@ class HomeController extends Controller {
             // \Log::debug('Identifiers: ' . $ids0);
             $response = $response->union($response1)->union($response2);
             \Log::debug('Responses: ' . $cnt0 . ', ' . $cnt1 . ', ' . $cnt2);
+
+            $flashMessage = "Erre a keresési feltételre jelenleg nincs megfelelő találat. Az alábbi utak részben megfelelnek a keresési feltételnek:";
         }
         $response = $response->orderBy('start_date')->paginate(25);
-        return view('frontend.search')->withSearch($search)->withResults($response);
+        return view('frontend.search')->withSearch($search)->withResults($response)->withMessage($flashMessage);
     }
 
     /**

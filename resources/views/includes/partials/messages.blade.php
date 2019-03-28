@@ -1,4 +1,4 @@
-<div class="mt-5">
+<div class="mt-5" id="messages">
 @if($errors->any())
     <div class="alert alert-danger" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

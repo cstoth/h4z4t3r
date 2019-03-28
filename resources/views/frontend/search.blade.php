@@ -207,6 +207,10 @@
 @section('content')
     <!-- RESULT -->
     <div class="result-panel justify-content-center">
+        @if ($message)
+        <div class="alert alert-info" role="alert">{{$message}}</div>
+        @endif
+
         @php
             setlocale(LC_ALL,'hu_HU');
             $last_date = null;

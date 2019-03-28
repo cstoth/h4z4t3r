@@ -11,6 +11,21 @@
             margin-top: 0.2em;
             margin-left: 0.3em;
         }
+        .bus {
+            position: absolute;
+            right: 16px;
+            bottom: 6px;
+            cursor: pointer;
+        }
+        .midbus {
+            position: relative;
+            right: 27px;
+            bottom: -4px;
+            cursor: pointer;
+        }
+        .midcity {
+            display: -webkit-box;
+        }
     </style>
 @endpush
 
@@ -121,7 +136,7 @@
                     <img src="/img/frontend/map-marker-blue.svg" />
                     <label for="midpoints">Köztes megállóhelyek</label>
                 @endif
-                <table id="midpoints" class="col-12"><tr><th width="100%"></th></tr></table>
+                <table id="midpoints" class="col-12"><tr><th></th><th width="172px"></th></tr></table>
             </div>
         </div>
 
@@ -131,6 +146,7 @@
                 <label for="end_city">{{ __('dashboard.driver.submit-ad.Target Place') }}</label>
                 <input type="hidden" id="end_city_id" name="end_city_id" value="{{$advertise->end_city_id}}">
                 <input class="form-control" id="end_city" name="end_city" value="{{$advertise->end_city_label}}" type="text" readonly>
+                <a href="https://www.google.com/maps/dir/?api=1&origin={{$advertise->end_city_label}}" target="MAPS" class="bus"><i class="fas fa-bus"></i></a>
             </div>
 
             <div class="col-md-4">
@@ -234,22 +250,24 @@
 
 console.log("reserve-1");
 
-function makeMidpointTableRow(id, name) {
+function makeMidpointTableRow(id, name, date) {
     return '<tr id="midpoint-'+id+'">'
-        +'<td><input type="hidden" name="midpoints[]" value="'+id+'">'
-        +'<input class="form-control mb-2 col-8" type="text" name="midpointnames[]" value="'+name+'" readonly></td>'
+        +'<td class="pr-2"><input type="hidden" name="midpoints[]" value="'+id+'">'
+        +'<div class="midcity"><input class="form-control form-control-sm mb-2" type="text" name="midpointnames[]" value="'+name+'" readonly>'
+        +'<a href="https://www.google.com/maps/dir/?api=1&origin='+name+'" target="MAPS" class="midbus"><i class="fas fa-bus"></i></a></div></td>'
+        +'<td><input class="form-control form-control-sm mb-2" type="text" name="midpointdates[]" value="'+date+'" readonly></td>'
         +'</tr>';
 }
-
 var midPoints = [];
 @foreach($midpoints as $midpoint)
     midPoints.push({
         id: {{$midpoint->city_id}},
         name: "{{$midpoint->city->name}}",
+        date: "{{$midpoint->date}}",
         x: {{$midpoint->city->y}},
         y: {{$midpoint->city->x}},
     });
-    $('#midpoints').append(makeMidpointTableRow({{$midpoint->city_id}}, "{{$midpoint->city->name}}"));
+    $('#midpoints').append(makeMidpointTableRow({{$midpoint->city_id}}, "{{$midpoint->city->name}}", "{{$midpoint->date}}"));
 @endforeach
 
 var mapReserve = makeMap('mapContainerReserve', mapInitCenter);

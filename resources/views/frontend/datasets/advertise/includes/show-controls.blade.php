@@ -234,10 +234,9 @@ $(function() {
 });
 
 function makeMidpointTableRow(id, name, date) {
-    // console.log(date);
     return '<tr id="midpoint-'+id+'">'
-        +'<td><input type="hidden" name="midpoints[]" value="'+id+'">'
-        +'<input class="form-control form-control-sm mb-2 pr-2" type="text" name="midpointnames[]" value="'+name+'" readonly></td>'
+        +'<td class="pr-2"><input type="hidden" name="midpoints[]" value="'+id+'">'
+        +'<input class="form-control form-control-sm mb-2" type="text" name="midpointnames[]" value="'+name+'" readonly></td>'
         +'<td><input class="form-control form-control-sm mb-2" type="text" name="midpointdates[]" value="'+date+'" readonly></td>'
         +'</tr>';
 }

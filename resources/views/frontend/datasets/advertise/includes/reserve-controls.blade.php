@@ -254,7 +254,7 @@ function makeMidpointTableRow(id, name, date) {
     return '<tr id="midpoint-'+id+'">'
         +'<td class="pr-2"><input type="hidden" name="midpoints[]" value="'+id+'">'
         +'<div class="midcity"><input class="form-control form-control-sm mb-2" type="text" name="midpointnames[]" value="'+name+'" readonly>'
-        +'<a href="https://www.google.com/maps/dir/?api=1&origin='+name+'" target="MAPS" class="midbus"><i class="fas fa-bus"></i></a></div></td>'
+        +'<a href="https://www.google.com/maps/dir/?api=1&origin='+name+'" target="MAPS" class="midbus" title="{{__('dashboard.driver.submit-ad.Transit Title')}}"><i class="fas fa-bus"></i></a></div></td>'
         +'<td><input class="form-control form-control-sm mb-2" type="text" name="midpointdates[]" value="'+date+'" readonly></td>'
         +'</tr>';
 }

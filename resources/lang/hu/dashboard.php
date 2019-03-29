@@ -44,6 +44,7 @@ return [
             'Submit Button'         => 'Hirdetés feladása',
             'When'                  => 'Mikor',
             '4 Passangers'          => '4. Utaslista',
+            'Transit Title'         => 'Útvonaltervezés innen tömegközlekedéssel',
         ],
 
         'advertises'    => [

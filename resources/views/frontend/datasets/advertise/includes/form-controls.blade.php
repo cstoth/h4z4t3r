@@ -543,22 +543,28 @@ $('#end_date').on('change', function(e) {
 });
 $('.date').on('change', function(e) {
     var id = e.target.id;
-    console.log("change: " + id);
     if (id.startsWith("midpointdate")) {
         $("#"+id).attr('data-changed', true);
         var idx = $("#"+id).attr('data-key');
+        console.log("change", id, idx);
         var currDate = formattedDate(new Date(e.target.value));
-        var prevDate = formattedDate(new Date(e.target.defaultValue));
-        for (var i = idx; i < travelTimes.length; i++) {
+        var prevDate = $('#start_date').val();
+        for (var i = idx + 1; i < travelTimes.length; i++) {
+            console.log("for", i);
             var input = $("input[data-key='"+i+"']");
             if (input) {
-                console.log(currDate);
-                console.log(travelTimes[i]);
+                console.log("currDate", currDate);
+                input.val(currDate);
+                // console.log(travelTimes[i]);
                 var newDate = formattedDate(addSecondsToDate(currDate, travelTimes[i]));
-                console.log(newDate);
-                input.val(newDate);
+                console.log("newDate", newDate);
+                if (i > 1) {
+                    prevDate = $("input[data-key='"+(i-1)+"']").val();
+                }
+                console.log("prevDate", prevDate);
                 var minDate = formattedDate(addSecondsToDate(prevDate, travelTimes[i]));
-                input.bootstrapMaterialDatePicker('setMinDate', minDate);
+                console.log("minDate", minDate);
+                //input.bootstrapMaterialDatePicker('setMinDate', minDate);
                 currDate = newDate;
             }
         }

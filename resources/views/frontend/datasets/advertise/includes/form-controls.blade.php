@@ -541,12 +541,20 @@ $('#end_date').on('change', function(e) {
     $('#start_date').bootstrapMaterialDatePicker('setMaxDate', date2);
     checkDates();
 });
-$('.date').on('change', function(e) {
+// $('.date').on('change', function(e) {
+$('input[name="midpointdates[]"]').on('change', function(e) {
+    console.log("midpointdates.onchange");
+
     var id = e.target.id;
-    if (id.startsWith("midpointdate")) {
-        $("#"+id).attr('data-changed', true);
-        var idx = $("#"+id).attr('data-key');
-        console.log("change", id, idx);
+    $("#"+id).attr('data-changed', true);
+    var idx = parseInt($("#"+id).attr('data-key'));
+    console.log("change", id, idx, idx+1);
+
+    var nextControl = $("input[data-key='"+(idx+1)+"']");
+    console.log(nextControl.length);
+
+    if (nextControl.length > 0) {
+        console.log("next");
         var currDate = formattedDate(new Date(e.target.value));
         var prevDate = $('#start_date').val();
         for (var i = idx + 1; i < travelTimes.length; i++) {
@@ -569,7 +577,6 @@ $('.date').on('change', function(e) {
             }
         }
         //TODO end_date
-
     }
 });
 

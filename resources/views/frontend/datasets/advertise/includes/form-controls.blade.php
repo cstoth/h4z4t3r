@@ -543,41 +543,36 @@ $('#end_date').on('change', function(e) {
 });
 // $('.date').on('change', function(e) {
 $('input[name="midpointdates[]"]').on('change', function(e) {
-    console.log("midpointdates.onchange");
+    // console.log("midpointdates.onchange");
 
     var id = e.target.id;
     $("#"+id).attr('data-changed', true);
     var idx = parseInt($("#"+id).attr('data-key'));
-    console.log("change", id, idx, idx+1);
+    var nextIdx = idx + 1;
+    console.log("change", id, idx, nextIdx);
 
-    var nextControl = $("input[data-key='"+(idx+1)+"']");
-    console.log(nextControl.length);
+    // var nextControl = $("input[data-key='"+nextIdx+"']");
+    // console.log(nextControl.length);
 
-    if (nextControl.length > 0) {
-        console.log("next");
-        var currDate = formattedDate(new Date(e.target.value));
-        var prevDate = $('#start_date').val();
-        for (var i = idx + 1; i < travelTimes.length; i++) {
+    // if (nextControl.length > 0) {
+        // console.log("next");
+        var prevDate = formattedDate(new Date(e.target.value));
+        for (var i = nextIdx; i <= travelTimes.length; i++) {
             console.log("for", i);
             var input = $("input[data-key='"+i+"']");
-            if (input) {
-                console.log("currDate", currDate);
-                input.val(currDate);
-                // console.log(travelTimes[i]);
-                var newDate = formattedDate(addSecondsToDate(currDate, travelTimes[i]));
-                console.log("newDate", newDate);
-                if (i > 1) {
-                    prevDate = $("input[data-key='"+(i-1)+"']").val();
-                }
+            if (input.length == 0) {
+                input = $('#end_date');
+            }
+            if (input.length > 0) {
                 console.log("prevDate", prevDate);
-                var minDate = formattedDate(addSecondsToDate(prevDate, travelTimes[i]));
-                console.log("minDate", minDate);
-                //input.bootstrapMaterialDatePicker('setMinDate', minDate);
-                currDate = newDate;
+                var newDate = formattedDate(addSecondsToDate(prevDate, travelTimes[i-1]));
+                console.log("newDate", newDate);
+                input.val(newDate);
+                input.bootstrapMaterialDatePicker('setMinDate', newDate);
+                prevDate = newDate;
             }
         }
-        //TODO end_date
-    }
+    // }
 });
 
 function initDates() {

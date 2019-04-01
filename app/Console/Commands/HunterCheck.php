@@ -40,9 +40,9 @@ class HunterCheck extends Command {
      * @return mixed
      */
     public function handle() {
-        \Log::info($this->signature . " started");
-        $this->check();
-        \Log::info($this->signature . " ended");
+        // \Log::info($this->signature . " started");
+        // $this->check();
+        // \Log::info($this->signature . " ended");
     }
 
     /**

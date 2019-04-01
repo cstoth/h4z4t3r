@@ -114,7 +114,7 @@
     <div class="col-md-6">
         <div class="form-row">
             <div class="col-md-8">
-                <img src="/img/frontend/map-marker-green.svg" />
+                <i class="fas fa-map-marker-alt" style="color:#91DC5A;"></i>
                 <label for="start_city">{{ __('dashboard.driver.submit-ad.Start Place') }}</label>
                 <input type="hidden" id="start_city_id" name="start_city_id" value="{{$advertise->start_city_id}}">
                 <input class="form-control" id="start_city" name="start_city" value="{{$advertise->start_city_label}}" type="text" readonly>
@@ -133,7 +133,7 @@
         <div class="form-row mt-2 mb-2">
             <div class="col">
                 @if (count($midpoints) > 0)
-                    <img src="/img/frontend/map-marker-blue.svg" />
+                    <i class="fas fa-map-marker-alt" style="color:#006DF0;"></i>
                     <label for="midpoints">Köztes megállóhelyek</label>
                 @endif
                 <table id="midpoints" class="col-12"><tr><th></th><th width="172px"></th></tr></table>
@@ -142,7 +142,7 @@
 
         <div class="form-row">
             <div class="col-md-8">
-                <img src="/img/frontend/map-marker-red.svg" />
+                <i class="fas fa-map-marker-alt" style="color:#D80027;"></i>
                 <label for="end_city">{{ __('dashboard.driver.submit-ad.Target Place') }}</label>
                 <input type="hidden" id="end_city_id" name="end_city_id" value="{{$advertise->end_city_id}}">
                 <input class="form-control" id="end_city" name="end_city" value="{{$advertise->end_city_label}}" type="text" readonly>

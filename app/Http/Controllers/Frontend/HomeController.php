@@ -42,7 +42,7 @@ class HomeController extends Controller {
                 'name' => null,
             ];
         }
-        return view('frontend.search')->withResults([])->withSearch($search);
+        return view('frontend.search')->withResults([])->withSearch($search)->withMessage(null);
     }
 
 

@@ -24,8 +24,6 @@
 
         <link rel="stylesheet" type="text/css" href="//js.api.here.com/v3/3.0/mapsjs-ui.css" />
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-        {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.4/r-2.2.2/sl-1.2.6/datatables.min.css"/> --}}
-        {{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css"> --}}
         {{ style('css/bootstrap-material-datetimepicker.css') }}
         {{ style('css/jquery-tagsinput.min.css') }}
 

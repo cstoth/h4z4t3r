@@ -82,7 +82,7 @@
         <!-- START -->
         <div class="form-row">
             <div class="col-md-8">
-                <img src="/img/frontend/map-marker-green.svg" />
+                <i class="fas fa-map-marker-alt" style="color:#91DC5A;"></i>
                 <label for="start_city">{{ __('dashboard.driver.submit-ad.Start Place') }}</label>
                 <input type="hidden" id="start_city_id" name="start_city_id" value="{{$advertise->start_city_id}}">
                 <input class="form-control typeahead typeahead-start-city" id="start_city" name="start_city" value="{{$advertise->start_city_label}}" placeholder="{{ __('dashboard.driver.submit-ad.Start Place') }}" type="text" autocomplete="off" required>
@@ -103,7 +103,7 @@
         <!-- MIDPOINTS -->
         <div class="form-row mt-2 mb-2">
             <div class="col">
-                <img src="/img/frontend/map-marker-blue.svg" />
+                <i class="fas fa-map-marker-alt" style="color:#006DF0;"></i>
                 <label for="midpoints">Köztes megállóhelyek</label>
                 <table id="midpoints" class="col-12"><tr data-key="0"><th></th><th width="142px"></th><th width="24px"></th></tr></table>
                 <a id="koztes-hely" class="disabled-link" href="#">{{ __('dashboard.driver.submit-ad.Add Midpoint') }}</a>
@@ -113,7 +113,7 @@
         <!-- END -->
         <div class="form-row">
             <div class="col-md-8">
-                <img src="/img/frontend/map-marker-red.svg" />
+                <i class="fas fa-map-marker-alt" style="color:#D80027;"></i>
                 <label for="end_city">{{ __('dashboard.driver.submit-ad.Target Place') }}</label>
                 <input type="hidden" id="end_city_id" name="end_city_id" value="{{$advertise->end_city_id}}">
                 <input class="form-control typeahead typeahead-end-city" id="end_city" name="end_city" value="{{$advertise->end_city_label}}" placeholder="{{ __('dashboard.driver.submit-ad.Target Place') }}" type="text" autocomplete="off" required>

@@ -11,7 +11,7 @@
         <title>@yield('title', app_name())</title>
         <meta name="description" content="@yield('meta_description', 'HazaTér')">
         <meta name="author" content="@yield('meta_author', 'InnoTeq Kft.')">
-        <meta name="php-version" content="{{phpversion()}}">
+        <!-- <meta name="php-version" content="{{phpversion()}}"> -->
 
         @yield('meta')
 

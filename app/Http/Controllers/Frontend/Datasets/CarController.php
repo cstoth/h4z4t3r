@@ -107,6 +107,7 @@ class CarController extends Controller {
      * @throws \App\Exceptions\GeneralException
      */
     public function update(CarUpdateRequest $request, Car $car) {
+        \Log::debug($request);
         $this->modelRepository->update(
             $car,
             $request->only(

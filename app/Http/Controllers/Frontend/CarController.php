@@ -71,4 +71,6 @@ class CarController extends Controller {
         return redirect()->route('frontend.user.driver.cars')->withFlashSuccess(__('alerts.backend.car.updated'));
     }
 
+    public function deleteImage($id) {
+    }
 }

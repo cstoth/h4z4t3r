@@ -1,17 +1,10 @@
-
-{{-- <div class="form-group row">
-    {{ html()->label(__('validation.attributes.backend.datasets.car.user_id'))
-        ->class('col-md-2 form-control-label')
-        ->for('user_id') }}
-
-    <div class="col-md-10">
-        {{ html()->text('user_id')
-            ->class('form-control')
-            ->placeholder(__('validation.attributes.backend.datasets.car.user_id'))
-            ->attribute('maxlength', 191)
-            ->required() }}
-    </div><!--col-->
-</div><!--form-group--> --}}
+@push('after-styles')
+    <style>
+        .input-group-text {
+            cursor: pointer;
+        }
+    </style>
+@endpush
 
 {{ html()->hidden('user_id', Auth::user()->id ) }}
 
@@ -117,9 +110,20 @@
         ->class('col-md-2 form-control-label')
         ->for('image') }}
 
-    <div class="col-md-6">
-        {{ html()->file('image')->class('form-control') }}
+    <div class="input-group col-md-6">
+        <label class="custom-file border">
+            {{ html()->file('image')->class('form-control custom-file-input') }}
+            <span class="custom-file-control pr-3" id="imageName" style="white-space: nowrap;">Nincs file kiválasztva</span>
+            <div class="input-group-append">
+                <span class="input-group-text" id="inputGroupFile">File kiválasztása</span>
+            </div>
+        </label>
     </div><!--col-->
+    @if($car->image)
+        <span>
+            <a class="text-danger" href="#" onclick="deleteImage(1);return false;" title="Kép törlése"><i class="fas fa-times"></i></a>
+        </span>
+    @endif
 </div><!--form-group-->
 
 <div class="form-group row">
@@ -127,7 +131,7 @@
     <div class="col-md-6">
         @if (isset($car))
             @if($car->image)
-                <img src="{{ $car->picture }}" class="car-image" />
+                <img id="carImage" src="{{ $car->picture }}" class="car-image" />
             @else
                 Nincs kép feltöltve!
             @endif
@@ -150,7 +154,7 @@
     <div class="col-md-6">
         @if (isset($car))
             @if($car->image2)
-                <img src="{{ $car->picture2 }}" class="car-image" />
+                <img id="carImage2" src="{{ $car->picture2 }}" class="car-image" />
             @else
                 Nincs kép feltöltve!
             @endif
@@ -211,3 +215,38 @@
         </label>
     </div><!--col-->
 </div><!--form-group-->
+
+@push('after-scripts')
+<script type="text/javascript">
+
+console.log("car-form-1");
+
+function deleteImage(id) {
+    if (id == 1) {
+        $("#image").val("");
+        $("#carImage").attr("src", "");
+        $('#imageName').html("Nincs file kiválasztva");
+    } else {
+        $("#image2").val("");
+        $("#carImage2").attr("src", "");
+        $('#imageName2').html("Nincs file kiválasztva");
+    }
+    return false;
+}
+
+$('#image').change(function(){
+  if (this.files && this.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        selectedImage = e.target.result;
+        $('#carImage').attr('src', selectedImage);
+    };
+    $('#imageName').html(this.files[0].name);
+    reader.readAsDataURL(this.files[0]);
+  }
+});
+
+console.log("car-form-2");
+
+</script>
+@endpush

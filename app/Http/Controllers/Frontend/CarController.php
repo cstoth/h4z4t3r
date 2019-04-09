@@ -7,34 +7,32 @@ use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
 use App\Models\Advertise;
 
-class CarController extends Controller
-{
+class CarController extends Controller {
 
-    public function list()
-    {
+    public function list() {
         return view('frontend.user.pages.driver.cars')->with([
             'cars' => Auth::user()->cars()->get(),
         ]);
     }
 
-    public function delete($id)
-    {
-        $cnt = Advertise::where('car_id', $id)->count();
+    public function delete($id) {
+        $cnt = Advertise::where('status', Advertise::ACTIVE)->where('car_id', $id)->count();
         if ($cnt > 0) {
             return redirect()->route('frontend.user.driver.cars')->withFlashDanger('A gépjármű nem törölhető, mert jelenleg aktív hirdetésben szerepel!');
         }
-        $model = Car::find($id);
-        if ($model) {
-            $model->delete();
+        $car = Car::find($id);
+        if ($car) {
+            $car->status = Car::DELETED;
+            $car->save();
+            return redirect()->route('frontend.user.driver.cars')->withFlashSuccess(__('alerts.backend.car.deleted'));
         }
-        return redirect()->route('frontend.user.driver.cars')->withFlashSuccess(__('alerts.backend.car.deleted'));
+        return redirect()->route('frontend.user.driver.cars')->withFlashDanger('A gépjármű nem található!');
     }
 
     /**
      *
      */
-    public function get($id)
-    {
+    public function get($id) {
         $model = Car::find($id);
         $model['user'] = $model->user->full_name;
         return $model;
@@ -43,8 +41,7 @@ class CarController extends Controller
     /**
      *
      */
-    public function set(CarUpdateRequest $request)
-    {
+    public function set(CarUpdateRequest $request) {
         $param = $request->data;
         $id = $param['id'];
 

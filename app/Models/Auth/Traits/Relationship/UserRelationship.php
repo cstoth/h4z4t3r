@@ -12,61 +12,53 @@ use App\Models\Messages;
 /**
  * Class UserRelationship.
  */
-trait UserRelationship
-{
+trait UserRelationship {
     /**
      * @return mixed
      */
-    public function providers()
-    {
+    public function providers() {
         return $this->hasMany(SocialAccount::class);
     }
 
     /**
      * @return mixed
      */
-    public function sessions()
-    {
+    public function sessions() {
         return $this->hasMany(Session::class);
     }
 
     /**
      * @return mixed
      */
-    public function passwordHistories()
-    {
+    public function passwordHistories() {
         return $this->hasMany(PasswordHistory::class);
     }
 
     /**
      *
      */
-    public function cars()
-    {
+    public function cars() {
         return $this->hasMany(Car::class);
     }
 
     /**
      *
      */
-    public function advertises()
-    {
+    public function advertises() {
         return $this->hasMany(Advertise::class);
     }
 
     /**
      *
      */
-    public function sendedMessages()
-    {
+    public function sendedMessages() {
         return $this->hasMany(Messages::class, 'from_user_id');
     }
 
     /**
      *
      */
-    public function messages()
-    {
+    public function messages() {
         return $this->hasMany(Messages::class, 'to_user_id');
     }
 }

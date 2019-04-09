@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Auth\User;
 use App\Helpers\Hazater;
+use App\Models\Advertise;
 
-class Car extends Model
-{
+class Car extends Model {
+    public const DELETED    = 0;
+    public const ACTIVE     = 1;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,6 +30,7 @@ class Car extends Model
         'cooler',
         'pet',
         'bag',
+        'status',
     ];
 
     /**
@@ -94,32 +98,35 @@ class Car extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     *
+     */
+    public function advertises() {
+        return $this->hasMany(Advertise::class);
     }
 
     /**
      * @return string
      */
-    public function getUserLabelAttribute()
-    {
+    public function getUserLabelAttribute() {
         return $this->user->full_name;
     }
 
     /**
      * @return string
      */
-    public function getNameLabelAttribute()
-    {
+    public function getNameLabelAttribute() {
         return $this->license;
     }
 
     /**
      * @return string
      */
-    public function getNameAttribute()
-    {
+    public function getNameAttribute() {
         return $this->license;
     }
 
@@ -134,24 +141,21 @@ class Car extends Model
     /**
      * @return string
      */
-    public function getShowButtonAttribute()
-    {
+    public function getShowButtonAttribute() {
         return '<a href="'.route('admin.datasets.car.show', $this).'" data-toggle="tooltip" data-placement="top" title="'.__('buttons.general.crud.view').'" class="btn btn-info"><i class="fas fa-eye"></i></a>';
     }
 
     /**
      * @return string
      */
-    public function getEditButtonAttribute()
-    {
+    public function getEditButtonAttribute() {
         return '<a href="'.route('admin.datasets.car.edit', $this).'" class="btn btn-success"><i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="'.__('buttons.general.crud.edit').'"></i></a>';
     }
 
     /**
      * @return string
      */
-    public function getDeleteButtonAttribute()
-    {
+    public function getDeleteButtonAttribute() {
         return '<a href="'.route('admin.datasets.car.destroy', $this).'"
 			 data-method="delete"
 			 data-trans-button-cancel="'.__('buttons.general.cancel').'"
@@ -163,8 +167,7 @@ class Car extends Model
     /**
      * @return string
      */
-    public function getActionButtonsAttribute()
-    {
+    public function getActionButtonsAttribute() {
         return '<div class="btn-group btn-group-sm" role="group" aria-label="'.__('labels.backend.access.users.user_actions').'">
 			  '.$this->show_button.'
 			  '.$this->edit_button.'
@@ -172,20 +175,10 @@ class Car extends Model
 			</div>';
     }
 
-
-
-
-
-
-
-
-
-
     /**
      * @return string
      */
-    public function getMyShowButtonAttribute()
-    {
+    public function getMyShowButtonAttribute() {
         return '<a href="'.route('frontend.datasets.car.show', $this).'"
             id="car-show-'.$this->id.'"
             data-key="'.$this->id.'"
@@ -198,8 +191,7 @@ class Car extends Model
     /**
      * @return string
      */
-    public function getMyEditButtonAttribute()
-    {
+    public function getMyEditButtonAttribute() {
         // href="'.route('frontend.datasets.car.edit', $this).'"
         return '<a href="'.route('frontend.datasets.car.edit', $this).'"
             id="car-edit-'.$this->id.'"
@@ -213,8 +205,7 @@ class Car extends Model
     /**
      * @return string
      */
-    public function getMyDeleteButtonAttribute()
-    {
+    public function getMyDeleteButtonAttribute() {
         if ($this->user_id == auth()->id()) {
             return '<a href="'.route('frontend.car.delete', $this).'"
                 data-key="'.$this->id.'"
@@ -231,8 +222,7 @@ class Car extends Model
     /**
      * @return string
      */
-    public function getMyActionButtonsAttribute()
-    {
+    public function getMyActionButtonsAttribute() {
         return '<div id="car-buttons" class="btn-group" role="group" aria-label="'.__('labels.backend.access.users.user_actions').'">
             '.$this->my_show_button.'
             '.$this->my_edit_button.'
@@ -240,14 +230,11 @@ class Car extends Model
 		</div>';
     }
 
-    public function getPictureAttribute()
-    {
+    public function getPictureAttribute() {
         return Hazater::makeUrl('storage/'.$this->image);
     }
 
-    public function getPicture2Attribute()
-    {
+    public function getPicture2Attribute() {
         return Hazater::makeUrl('storage/'.$this->image2);
     }
-
 }

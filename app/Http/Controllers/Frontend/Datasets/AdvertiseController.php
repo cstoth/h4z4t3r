@@ -342,20 +342,21 @@ class AdvertiseController extends Controller {
         $hunters = Hunter::where('user_id', Auth::id());
         $dates = Date::where('advertise_id', $advertise->id)->orderBy('date');
         $regular_options = $advertise->regular == null ? "unique" : "regular";
+        $cars = Auth::user()->cars()->where('status', Car::ACTIVE);
 
         return [
-            'tab' => $tab,
-            'user' => Auth::user(),
-            'advertise' => $advertise,
-            'cars' => Auth::user()->cars()->get(),
-            'advertises' => $advertises->get(),
-            'passangers' => $passangers->get(),
-            'templates' => $templates->get(),
-            'midpoints' => $midpoints->get(),
-            'hunter' => new Hunter(),
-            'hunters' => $hunters->get(),
-            'dates' => $dates->get(),
-            'regular_options' => $regular_options,
+            'tab'               => $tab,
+            'user'              => Auth::user(),
+            'advertise'         => $advertise,
+            'cars'              => $cars->get(),
+            'advertises'        => $advertises->get(),
+            'passangers'        => $passangers->get(),
+            'templates'         => $templates->get(),
+            'midpoints'         => $midpoints->get(),
+            'hunter'            => new Hunter(),
+            'hunters'           => $hunters->get(),
+            'dates'             => $dates->get(),
+            'regular_options'   => $regular_options,
         ];
     }
 

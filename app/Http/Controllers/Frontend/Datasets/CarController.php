@@ -13,8 +13,7 @@ use App\Http\Requests\Backend\Datasets\Car\CarUpdateRequest;
 /**
  * Class CarController.
  */
-class CarController extends Controller
-{
+class CarController extends Controller {
     /**
      * @var CarRepository
      */
@@ -23,8 +22,7 @@ class CarController extends Controller
     /**
      * @param CarRepository       $carRepository
      */
-    public function __construct(CarRepository $carRepository)
-    {
+    public function __construct(CarRepository $carRepository) {
         $this->modelRepository = $carRepository;
     }
 
@@ -33,8 +31,7 @@ class CarController extends Controller
      *
      * @return mixed
      */
-    public function index(CarManageRequest $request)
-    {
+    public function index(CarManageRequest $request) {
         return view('frontend.datasets.car.index')
             ->withCars($this->modelRepository
                 ->orderBy('id', 'asc')
@@ -47,8 +44,7 @@ class CarController extends Controller
      *
      * @return mixed
      */
-    public function create(CarManageRequest $request)
-    {
+    public function create(CarManageRequest $request) {
         return view('frontend.datasets.car.create');
     }
 
@@ -58,8 +54,7 @@ class CarController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function store(CarStoreRequest $request)
-    {
+    public function store(CarStoreRequest $request) {
         //dd($request);
         $this->modelRepository->create($request->only(
             'user_id',
@@ -90,8 +85,7 @@ class CarController extends Controller
      *
      * @return mixed
      */
-    public function show(CarManageRequest $request, Car $car)
-    {
+    public function show(CarManageRequest $request, Car $car) {
         return view('frontend.datasets.car.show')->withCar($car);
     }
 
@@ -101,8 +95,7 @@ class CarController extends Controller
      *
      * @return mixed
      */
-    public function edit(CarManageRequest $request, Car $car)
-    {
+    public function edit(CarManageRequest $request, Car $car) {
         return view('frontend.datasets.car.edit')->withCar($car);
     }
 
@@ -113,8 +106,7 @@ class CarController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function update(CarUpdateRequest $request, Car $car)
-    {
+    public function update(CarUpdateRequest $request, Car $car) {
         $this->modelRepository->update(
             $car,
             $request->only(
@@ -147,8 +139,7 @@ class CarController extends Controller
      * @return mixed
      * @throws \Exception
      */
-    public function destroy(CarManageRequest $request, Car $car)
-    {
+    public function destroy(CarManageRequest $request, Car $car) {
         $this->modelRepository->deleteById($car->id);
 
         // TODO event(new CarDeleted($car));
@@ -159,8 +150,7 @@ class CarController extends Controller
     /**
      *
      */
-    public function get($id)
-    {
+    public function get($id) {
         $model = Car::find($id);
         $model['user'] = $model->user->full_name;
         return $model;

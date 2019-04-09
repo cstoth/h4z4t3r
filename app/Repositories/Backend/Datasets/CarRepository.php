@@ -13,13 +13,11 @@ use App\Models\Advertise;
 /**
  * Class CarRepository.
  */
-class CarRepository extends BaseRepository
-{
+class CarRepository extends BaseRepository {
     /**
      * @return string
      */
-    public function model()
-    {
+    public function model() {
         return Car::class;
     }
 
@@ -29,8 +27,7 @@ class CarRepository extends BaseRepository
      * @return Car
      * @throws GeneralException
      */
-    public function create(array $data, $image = false, $image2 = false) : Car
-    {
+    public function create(array $data, $image = false, $image2 = false) : Car {
         // Make sure it doesn't already exist
         if ($this->exists($data['license'])) {
             throw new GeneralException($data['license'].' rendszámú gépjármű már létezik!');
@@ -76,8 +73,7 @@ class CarRepository extends BaseRepository
      * @return mixed
      * @throws GeneralException
      */
-    public function update(Car $model, array $data, $image = false, $image2 = false)
-    {
+    public function update(Car $model, array $data, $image = false, $image2 = false) {
         // If the name is changing make sure it doesn't already exist
         if ($model->license !== $data['license']) {
             if ($this->exists($data['license'])) {
@@ -135,8 +131,7 @@ class CarRepository extends BaseRepository
      *
      * @return bool
      */
-    protected function exists($license) : bool
-    {
+    protected function exists($license) : bool {
         return $this->model
                 ->where('license', strtoupper($license))
                 ->count() > 0;

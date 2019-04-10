@@ -38,7 +38,7 @@ trait UserRelationship {
      *
      */
     public function cars() {
-        return $this->hasMany(Car::class);
+        return $this->hasMany(Car::class)->where('status', Car::ACTIVE);
     }
 
     /**

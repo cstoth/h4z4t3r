@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
 use App\Models\Advertise;
+use Illuminate\Support\Facades\Storage;
+
 //use App\Events\Backend\Datasets\Car\CarCreated;
 //use App\Events\Backend\Datasets\Car\CarUpdated;
 
@@ -60,8 +62,18 @@ class CarRepository extends BaseRepository {
     }
 
     public function storeImage($image) {
+        // \Log::debug("storeImage " . $image);
         if ($image) {
             return $image->store('/cars', 'public');
+        }
+        return null;
+    }
+
+    public function deleteImage($filename) {
+        // \Log::debug("deleteImage " . $filename);
+        if ($filename) {
+            $filepath = public_path() . "/storage/" . $filename;
+            \File::delete($filepath);
         }
         return null;
     }
@@ -109,14 +121,21 @@ class CarRepository extends BaseRepository {
                 'pet'       => isset($data['pet']) && $data['pet'] == '1' ? 1 : 0,
                 'bag'       => isset($data['bag']) && $data['bag'] == '1' ? 1 : 0,
             ])) {
-                if ($image) {
-                    $model['image'] = $this->storeImage($image);
-                    $model->save();
+                if ($data['imageDeleted'] == "yes") {
+                    $model['image'] = $this->deleteImage($model['image']);
+                } else {
+                    if ($image) {
+                        $model['image'] = $this->storeImage($image);
+                    }
                 }
-                if ($image2) {
-                    $model['image2'] = $this->storeImage($image2);
-                    $model->save();
+                if ($data['imageDeleted2'] == "yes") {
+                    $model['image2'] = $this->deleteImage($model['image2']);
+                } else {
+                    if ($image2) {
+                        $model['image2'] = $this->storeImage($image2);
+                    }
                 }
+                $model->save();
 
                 // TODO event(new CarUpdated($model));
                 return $model;

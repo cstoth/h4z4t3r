@@ -107,7 +107,7 @@ class CarController extends Controller {
      * @throws \App\Exceptions\GeneralException
      */
     public function update(CarUpdateRequest $request, Car $car) {
-        \Log::debug($request);
+        // \Log::debug($request);
         $this->modelRepository->update(
             $car,
             $request->only(
@@ -123,7 +123,9 @@ class CarController extends Controller {
                 'smoke',
                 'cooler',
                 'pet',
-                'bag'
+                'bag',
+                'imageDeleted',
+                'imageDeleted2'
             ),
             $request->has('image') ? $request->file('image') : false,
             $request->has('image2') ? $request->file('image2') : false

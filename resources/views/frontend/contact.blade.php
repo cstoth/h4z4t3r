@@ -73,6 +73,15 @@
                             </div><!--form-group-->
                         </div><!--col-->
                     </div><!--row-->
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="checkbox" id="terms" name="terms" required="required">
+                                <label for="terms">Elfogadom a <a href="{{ route('frontend.terms') }}" target="_blank">felhasználási feltételeket!</a></label>
+                            </div><!--form-group-->
+                        </div><!--col-->
+                    </div><!--row-->
                 </div><!--card-body-->
 
                 <div class="card-footer">

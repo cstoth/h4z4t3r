@@ -145,7 +145,7 @@
 <div class="form-group row">
     <label for="image" class="col-md-2 form-control-label"></label>
     <div class="col-md-10">
-        <img id="carImage" src="{{ isset($car) ?$car->picture : Hazater::makeUrl('img/frontend/no-image.png') }}" class="car-image" />
+        <img id="carImage" src="{{ isset($car) ? $car->picture : App\Helpers\Hazater::makeUrl('img/frontend/no-image.png') }}" class="car-image" />
         <span>
             <a id="deleteImage" class="btn text-danger" href="#" onclick="deleteImage(1);return false;" title="Kép törlése"><i class="fas fa-times"></i></a>
         </span>
@@ -174,7 +174,7 @@
 <div class="form-group row">
     <label for="image" class="col-md-2 form-control-label"></label>
     <div class="col-md-10">
-        <img id="carImage2" src="{{ isset($car) ? $car->picture2 : Hazater::makeUrl('img/frontend/no-image.png') }}" class="car-image" />
+        <img id="carImage2" src="{{ isset($car) ? $car->picture2 : App\Helpers\Hazater::makeUrl('img/frontend/no-image.png') }}" class="car-image" />
         <span>
             <a id="deleteImage2" class="text-danger" href="#" onclick="deleteImage(2);return false;" title="Kép törlése"><i class="fas fa-times"></i></a>
         </span>
@@ -270,13 +270,13 @@
         $("#deleteImage" + postfix).css("width", "1em");
     }
 
-    @if($car->image)
+    @if(isset($car) && $car->image)
         showDeleteButton();
     @else
         showSelectButton();
     @endif
 
-    @if($car->image2)
+    @if(isset($car) && $car->image2)
         showDeleteButton(2);
     @else
         showSelectButton(2);

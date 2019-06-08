@@ -207,7 +207,7 @@
             <p class="text-justify">A <strong><i>HazaTér</i></strong> egy interaktív közösségi közlekedés-támogató rendszer. Célja, hogy a segítségével az Észak-Hegyháti térségben az egyéni és a közösségi közlekedés összehangolásával emeljük a Falubusz kihasználtságát, a szolgáltatás színvonalát, az utazási élményt, valamint az utazási költségek csökkentése mellett a környezeti károsanyag kibocsájtás csökkentését is elősegítsük.</p>
         </div>
         <div class="form-row pt-1 pb-1 flex-row welcome-panel text-info">
-            <p class="text-justify">A rendszer a HazaTér- közös utakon; EFOP-1.5.3-16-2017-00070  "Lépés-Váltás az Észak-Hegyháton”  projekt keretében került mergvalósításra.</p>
+            <p class="text-justify">A rendszer a HazaTér- közös utakon; EFOP-1.5.3-16-2017-00070  "Lépés-Váltás az Észak-Hegyháton”  projekt keretében került megvalósításra.</p>
         </div>
         <div class="form-row pt-1 pb-5 flex-row welcome-panel justify-content-center text-info">
             <h5 class="text-center">Kellemes utazást kívánunk!</h5>
